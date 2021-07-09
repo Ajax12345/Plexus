@@ -115,4 +115,65 @@ body{
     font-size: 16px;
     font-weight: 400;
     color: rgb(175, 175, 175);
+    margin-top: 5px;
+}
+.game-play-main{
+    height:100vh;
+    background-color:rgb(247, 249, 249);
+}
+.section-block{
+    background-color:white;
+    border-top:1px solid rgb(226, 226, 226);
+    border-bottom:1px solid rgb(226, 226, 226);
+    padding:13px;
+}
+.message-team-outer{
+    display:grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+}
+.team-messages-text{
+    font-family: 'Source Sans Pro', sans-serif;
+    color:rgb(40, 40, 40);
+    font-size:22px;
+    font-weight:700;
+}
+.side-hashtag-header{
+    font-weight:700;
+}
+.message-button-outer{
+    display: flex;
+    justify-content: flex-end;
+}
+.add-message{
+    background-color:rgb(29, 161, 242);
+    border-radius:30px;
+    color:white;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:17px;
+    font-weight:600;
+    text-align: center;
+    padding:14px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.add-message:hover{
+    cursor:pointer;
+    background-color:rgb(24, 142, 215);
+    transition:0.4s;
+}
+.message-main{
+    background-color:white;
+    border-bottom:1px solid rgb(226, 226, 226);
+    padding:13px;
+}
+.message-body{
+    display:grid;
+    grid-template-columns: 45px auto;
+    column-gap: 10px;
+}
+.message-poster-icon{
+    width:45px;
+    height:45px;
+    border-radius:50%;
 }
