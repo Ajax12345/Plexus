@@ -119,13 +119,18 @@ body{
 }
 .game-play-main{
     height:100vh;
+    background-color: white;
+}
+.game-feed-spacer{
     background-color:rgb(247, 249, 249);
 }
 .section-block{
     background-color:white;
     border-top:1px solid rgb(226, 226, 226);
     border-bottom:1px solid rgb(226, 226, 226);
-    padding:13px;
+    padding:12px;
+    padding-left:15px;
+    padding-left:15px;
 }
 .message-team-outer{
     display:grid;
@@ -165,15 +170,54 @@ body{
 .message-main{
     background-color:white;
     border-bottom:1px solid rgb(226, 226, 226);
-    padding:13px;
+    padding:15px;
 }
 .message-body{
     display:grid;
     grid-template-columns: 45px auto;
-    column-gap: 10px;
+    column-gap: 12px;
 }
 .message-poster-icon{
     width:45px;
     height:45px;
     border-radius:50%;
+}
+.message-about-poster{
+    display:grid;
+    grid-template-columns: repeat(4, min-content);
+    column-gap: 5px;
+    align-items: center;
+}
+.message-poster-name{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(40, 40, 40);
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.message-poster-handle{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(83, 100, 113);
+    font-size: 16px;
+    font-weight: 400;
+}
+.message-dot{
+    width:2px;
+    height:2px;
+    background-size: cover;
+    background-image:url(/static/img/black-circle.svg);
+}
+.message-post-datetime{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(83, 100, 113);
+    font-size: 16px;
+    font-weight: 400;
+    white-space: nowrap;
+}
+.message-body-content{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(40, 40, 40);
+    font-size: 16px;
+    font-weight: 400;
+    margin-top: 2px;
 }
