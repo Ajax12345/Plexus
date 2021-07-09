@@ -4,7 +4,7 @@ app = flask.Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def main():
-    return "<h1>coming soon</h1>"
+    return flask.render_template('game_window_v3.html')
 
 if __name__ == '__main__':
     app.debug = True

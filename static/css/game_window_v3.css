@@ -1,3 +1,47 @@
-h1{
-    color:red;
+/*
+font-family: 'Hind Siliguri', sans-serif;
+font-family: 'Noto Sans', sans-serif;
+font-family: 'Nunito', sans-serif;
+font-family: 'Rubik', sans-serif;
+font-family: 'Roboto', sans-serif;
+font-family: 'Source Sans Pro', sans-serif;
+*/
+body{
+    margin:0;
+    /*font-family: 'Roboto', sans-serif;*/
+    box-sizing: border-box;
+    /*background-color:#f7f8fa !important;*/
+    background-color:white;
+}
+.main{
+    height:100vh;
+    width:100%;
+    display:grid;
+    grid-template-columns: 30% 40% 30%;
+}
+.main-col-former{
+    border-right:1px solid rgb(226, 226, 226);
+}
+.about-player-wrapper{
+    float:right;
+    padding:80px;
+    padding-top:60px;
+}
+.side-bar-header{
+    color:rgb(40, 40, 40);
+    font-size:25px;
+    font-weight:700;
+    font-family: 'Source Sans Pro', sans-serif;
+
+}
+.test-text{
+    color:rgb(40, 40, 40);
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:20px;
+    font-weight:500;
+}
+.player-profile-main{
+    display:grid;
+    grid-template-columns: 30px auto;
+    column-gap: 10px;
 }
