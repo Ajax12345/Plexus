@@ -91,3 +91,28 @@ body{
     padding:80px;
     padding-top:60px;
 }
+.resources-box{
+    max-width:250px;
+    border:1px solid rgb(229, 229, 229);
+    border-radius:16px;
+    padding:10px;
+    padding-left:17px;
+    padding-right:17px;
+}
+.resource-item{
+    color:rgb(40, 40, 40);
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 700;
+    font-size:20px;
+}
+.resource-item:hover{
+    cursor:pointer;
+    color:rgb(27, 149, 224);
+    transition:0.1s;
+}
+.resource-item-desc{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(175, 175, 175);
+}
