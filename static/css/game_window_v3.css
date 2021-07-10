@@ -221,3 +221,46 @@ body{
     font-weight: 400;
     margin-top: 2px;
 }
+.message-action-footer{
+    display:grid;
+    grid-template-columns: 18px 15px 40px 15px 15px;
+    column-gap: 10px;
+    align-items: center;
+    margin-top:15px;
+}
+.like-message-icon{
+    width:18px;
+    height:18px;
+    background-image: url(/static/img/like_1.svg);
+    background-size:cover;
+}
+.message-like-count{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(83, 100, 113);
+    font-size: 15px;
+    font-weight: 400;
+}
+.message-reply-count{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(83, 100, 113);
+    font-size: 15px;
+    font-weight: 400;
+}
+.reply-message-icon{
+    width:18px;
+    height:18px;
+    background-image: url(/static/img/chat_1.svg);
+    background-size:cover;
+}
+.reply-to-text{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(83, 100, 113);
+    font-size: 16px;
+    font-weight: 400;
+    margin-top:4px;
+    margin-bottom:4px;
+}
+.at-handle{
+    color: rgb(27, 149, 224);
+    font-weight: 400;
+}
