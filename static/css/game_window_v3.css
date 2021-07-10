@@ -371,3 +371,29 @@ body{
     font-size: 17px;
     font-weight: 400;
 }
+.main-game-icon{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color:#7070da;
+}
+.reaction-poll-option{
+    border-radius:30px;
+    border:1px solid rgb(29, 161, 242);
+    color:  rgb(29, 161, 242);
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    text-align: center;
+    padding: 14px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-top:10px;
+}
+.reaction-poll-option:hover{
+    cursor:pointer;
+    transition:0.2s;
+    color:rgb(27, 149, 224);
+    border-color:rgb(29, 142, 213);
+    background-color:rgb(252, 252, 252);
+}
