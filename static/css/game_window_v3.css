@@ -24,7 +24,7 @@ body{
 }
 .about-player-wrapper{
     float:right;
-    padding:80px;
+    padding:50px;
     padding-top:60px;
 }
 .side-bar-header{
@@ -88,11 +88,11 @@ body{
     font-weight:400;
 }
 .resources-wrapper{
-    padding:80px;
+    padding:50px;
     padding-top:60px;
 }
 .resources-box{
-    max-width:250px;
+    max-width:323px;
     border:1px solid rgb(229, 229, 229);
     border-radius:16px;
     padding:10px;
@@ -122,6 +122,7 @@ body{
     background-color: white;
 }
 .game-feed-spacer{
+    height:20px;
     background-color:rgb(247, 249, 249);
 }
 .section-block{
@@ -263,4 +264,70 @@ body{
 .at-handle{
     color: rgb(27, 149, 224);
     font-weight: 400;
+}
+.header-section-text{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(40, 40, 40);
+    font-size: 22px;
+    font-weight: 700;
+}
+.section-block-top{
+    border-top:none;
+}
+.score-box{
+    max-width:323px;
+    border:1px solid rgb(229, 229, 229);
+    border-radius:16px;
+    /*
+    padding:10px;
+    padding-left:17px;
+    padding-right:17px;
+    */
+}
+.score-box-header{
+    padding:10px;
+    padding-left:17px;
+    padding-right:17px;
+    border-bottom:1px solid rgb(229, 229, 229);
+    display:grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+}
+.score-box-main{
+    padding:10px;
+    padding-left:17px;
+    padding-right:17px;
+}
+.score-text{
+    color: rgb(40, 40, 40);
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+}
+.current-round{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(40, 40, 40);
+    font-size: 16px;
+    font-weight: 400;
+    display: flex;
+    justify-content: flex-end;
+}
+.side-score-outer{
+    display:grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+}
+.side-score-name{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(40, 40, 40);
+    font-size: 18px;
+    font-weight: 400;
+}
+.side-score-value{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(40, 40, 40);
+    font-size: 17px;
+    font-weight: 700;
+    display: flex;
+    justify-content: flex-end;
 }
