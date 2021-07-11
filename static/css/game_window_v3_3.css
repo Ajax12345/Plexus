@@ -480,3 +480,19 @@ body{
     background-color:rgb(24, 142, 215);
     transition:0.4s;
 }
+.resource-wrapper{
+    display:grid;
+    grid-template-columns: repeat(3, min-content);
+    column-gap: 30px;
+}
+.resource-item{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(27, 149, 224);
+    font-weight: 400;
+    font-size:15px;
+    white-space: nowrap;
+}
+.resource-item:hover{
+    cursor:pointer;
+    text-decoration: underline;
+}   
