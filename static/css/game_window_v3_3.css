@@ -1,0 +1,402 @@
+/*
+font-family: 'Hind Siliguri', sans-serif;
+font-family: 'Noto Sans', sans-serif;
+font-family: 'Nunito', sans-serif;
+font-family: 'Rubik', sans-serif;
+font-family: 'Roboto', sans-serif;
+font-family: 'Source Sans Pro', sans-serif;
+*/
+body{
+    margin:0;
+    /*font-family: 'Roboto', sans-serif;*/
+    box-sizing: border-box;
+    /*background-color:#f7f8fa !important;*/
+    background-color:white;
+}
+.main{
+    height:100vh;
+    width:100%;
+    display:grid;
+    grid-template-columns: 30% 40% 30%;
+}
+.main-col-former{
+    border-right:1px solid rgb(226, 226, 226);
+}
+.about-player-wrapper{
+    float:right;
+    padding:50px;
+    padding-top:60px;
+}
+.about-wrapper-inner{
+    max-width: 323px;
+    border: 1px solid rgb(229, 229, 229);
+    border-radius: 16px;
+    padding: 10px;
+    padding-left: 17px;
+    padding-right: 17px;
+}
+.side-bar-header{
+    color:rgb(40, 40, 40);
+    font-size:25px;
+    font-weight:700;
+    font-family: 'Source Sans Pro', sans-serif;
+
+}
+.player-profile-main{
+    display:grid;
+    grid-template-columns: 50px auto;
+    column-gap: 15px;
+    align-items: center;
+}
+.player-profile-col{
+    display:flex;
+    align-items: center;
+}
+.avatar-img-about{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+}
+.user-name-about{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:18px;
+    font-weight:600;
+    color:rgb(101 101 101);
+}
+.user-handle-about{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:15px;
+    font-weight:400;
+    /*color:rgb(130, 177, 230);*/
+    color:rgb(27, 149, 224);
+}
+.team-about-large{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:20px;
+    font-weight:400;
+    color:rgb(27, 149, 224);
+}
+.team-marker1-color{
+    color:rgb(27, 149, 224);
+}
+.sidebar-underline{
+    height:1px;
+    background-color:rgb(229, 229, 229);
+}
+.how-to-play-desc{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:16px;
+    font-weight:400;
+    color:rgb(175, 175, 175);
+    line-height:1.4;
+    max-width:250px;
+}
+.side-hashtag{
+    color:rgb(27, 149, 224);
+    font-weight:400;
+}
+.resources-wrapper{
+    padding:50px;
+    padding-top:60px;
+}
+.resources-box{
+    max-width:323px;
+    border:1px solid rgb(229, 229, 229);
+    border-radius:16px;
+    padding:10px;
+    padding-left:17px;
+    padding-right:17px;
+}
+.resource-item{
+    color:rgb(40, 40, 40);
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 700;
+    font-size:20px;
+}
+.resource-item:hover{
+    cursor:pointer;
+    color:rgb(27, 149, 224);
+    transition:0.1s;
+}
+.resource-item-desc{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(175, 175, 175);
+    margin-top: 5px;
+}
+.game-play-main{
+    height:100vh;
+    background-color: white;
+    overflow-y:scroll;
+}
+.game-feed-spacer{
+    height:20px;
+    background-color:rgb(247, 249, 249);
+}
+.section-block{
+    background-color:white;
+    border-top:1px solid rgb(226, 226, 226);
+    border-bottom:1px solid rgb(226, 226, 226);
+    padding:12px;
+    padding-left:15px;
+    padding-left:15px;
+}
+.message-team-outer{
+    display:grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+}
+.team-messages-text{
+    font-family: 'Source Sans Pro', sans-serif;
+    color:rgb(40, 40, 40);
+    font-size:22px;
+    font-weight:700;
+}
+.side-hashtag-header{
+    font-weight:700;
+}
+.message-button-outer{
+    display: flex;
+    justify-content: flex-end;
+}
+.add-message{
+    background-color:rgb(29, 161, 242);
+    border-radius:30px;
+    color:white;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:17px;
+    font-weight:600;
+    text-align: center;
+    padding:14px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.add-message:hover{
+    cursor:pointer;
+    background-color:rgb(24, 142, 215);
+    transition:0.4s;
+}
+.message-main{
+    background-color:white;
+    border-bottom:1px solid rgb(226, 226, 226);
+    padding:15px;
+}
+.message-body{
+    display:grid;
+    grid-template-columns: 45px auto;
+    column-gap: 12px;
+}
+.message-poster-icon{
+    width:45px;
+    height:45px;
+    border-radius:50%;
+}
+.message-about-poster{
+    display:grid;
+    grid-template-columns: repeat(4, min-content);
+    column-gap: 5px;
+    align-items: center;
+}
+.message-poster-name{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(40, 40, 40);
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.message-poster-handle{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(83, 100, 113);
+    font-size: 16px;
+    font-weight: 400;
+}
+.message-dot{
+    width:2px;
+    height:2px;
+    background-size: cover;
+    background-image:url(/static/img/black-circle.svg);
+}
+.message-post-datetime{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(83, 100, 113);
+    font-size: 16px;
+    font-weight: 400;
+    white-space: nowrap;
+}
+.message-body-content{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(40, 40, 40);
+    font-size: 16px;
+    font-weight: 400;
+    margin-top: 2px;
+}
+.message-action-footer{
+    display:grid;
+    grid-template-columns: 18px 15px 40px 15px 15px;
+    column-gap: 10px;
+    align-items: center;
+    margin-top:15px;
+}
+.like-message-icon{
+    width:18px;
+    height:18px;
+    background-image: url(/static/img/like_1.svg);
+    background-size:cover;
+}
+.message-like-count{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(83, 100, 113);
+    font-size: 15px;
+    font-weight: 400;
+}
+.message-reply-count{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(83, 100, 113);
+    font-size: 15px;
+    font-weight: 400;
+}
+.reply-message-icon{
+    width:18px;
+    height:18px;
+    background-image: url(/static/img/chat_1.svg);
+    background-size:cover;
+}
+.reply-to-text{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(83, 100, 113);
+    font-size: 16px;
+    font-weight: 400;
+    margin-top:4px;
+    margin-bottom:4px;
+}
+.at-handle{
+    color: rgb(27, 149, 224);
+    font-weight: 400;
+}
+.header-section-text{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(40, 40, 40);
+    font-size: 22px;
+    font-weight: 700;
+}
+.section-block-top{
+    border-top:none;
+    top:0;
+    position:sticky;
+}
+.score-box{
+    max-width:323px;
+    border:1px solid rgb(229, 229, 229);
+    border-radius:16px;
+    /*
+    padding:10px;
+    padding-left:17px;
+    padding-right:17px;
+    */
+}
+.score-box-header{
+    padding:10px;
+    padding-left:17px;
+    padding-right:17px;
+    border-bottom:1px solid rgb(229, 229, 229);
+    display:grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+}
+.score-box-main{
+    padding:10px;
+    padding-left:17px;
+    padding-right:17px;
+}
+.score-text{
+    color: rgb(40, 40, 40);
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+}
+.current-round{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(40, 40, 40);
+    font-size: 16px;
+    font-weight: 400;
+    display: flex;
+    justify-content: flex-end;
+}
+.side-score-outer{
+    display:grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+}
+.side-score-name{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(40, 40, 40);
+    font-size: 18px;
+    font-weight: 400;
+}
+.side-score-value{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(40, 40, 40);
+    font-size: 17px;
+    font-weight: 700;
+    display: flex;
+    justify-content: flex-end;
+}
+.game-announcement{
+    background-color: white;
+    border-bottom: 1px solid rgb(226, 226, 226);
+    padding: 15px;
+}
+.game-announcement-about{
+    display: grid;
+    grid-template-columns: repeat(3, min-content);
+    column-gap: 5px;
+    align-items: center;
+}
+.game-announcement-poster{
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(83, 100, 113);
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.game-announcement-title{
+    color: rgb(40, 40, 40);
+    font-size: 25px;
+    font-weight: 700;
+    font-family: 'Source Sans Pro', sans-serif;
+    margin-top:10px;
+}
+.game-announcement-body{
+    margin-top:10px;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(40, 40, 40);
+    font-size: 17px;
+    font-weight: 400;
+}
+.main-game-icon{
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color:#7070da;
+}
+.reaction-poll-option{
+    border-radius:30px;
+    border:1px solid rgb(29, 161, 242);
+    color:  rgb(29, 161, 242);
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    text-align: center;
+    padding: 14px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    margin-top:10px;
+}
+.reaction-poll-option:hover{
+    cursor:pointer;
+    transition:0.2s;
+    color:rgb(27, 149, 224);
+    border-color:rgb(29, 142, 213);
+    background-color:rgb(252, 252, 252);
+}

@@ -1,0 +1,161 @@
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width">
+        <title>Game Window V3</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <!--first three fonts can be removed later-->
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri&family=Noto+Sans&family=Nunito&family=Rubik&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"> 
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src='/static/js/game_window_v3_3.js'></script>
+        <link rel='stylesheet' href='/static/css/game_window_v3_3.css'>
+    </head>
+    <body>
+        <div class='main'>
+            <div class='main-col main-col-former'>
+                <div class='about-player-wrapper'>
+                    <div class='side-bar-header'>About You</div>
+                    <div style='height:20px'></div>
+                    <div class='player-profile-main'>
+                        <div class='player-icon-outer'>
+                            <img class='avatar-img-about' src='https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon'>
+                        </div>
+                        <div class='player-name-outer'>
+                            <div class='user-name-about'>James Petullo</div>
+                            <div class='user-handle-about'>@james_petullo</div>
+                        </div>
+                    </div>
+                    <div style='height:50px'></div>
+                    <div class='side-bar-header'>Your Role</div>
+                    <div style='height:10px'></div>
+                    <div class='team-about-large'>#Protestor</div>
+                    <div style='height:50px'></div>
+                    <div class='side-bar-header'>How to Play</div>
+                    <div style='height:12px'></div>
+                    <div class='how-to-play-desc'>Your team's objective is to engage your adversary (<span class='side-hashtag'>#police</span>) by choosing a move from a set of possible tactics. In response to <span class='side-hashtag'>#police</span>'s moves, you must communicate with your teammates in choosing the best counter move. At the end of each round, points are awarded based on tactics deployed by each side.</div>
+                </div>
+            </div>
+            <div class='main-col main-col-former'>
+                <div class='game-play-main'>
+                    <div class='section-block section-block-top'>
+                        <div class='header-section-text'>Live Game Feed</div>
+                    </div>
+                    <div class='game-announcement'>
+                        <div class='game-announcement-about'>
+                            <div class='game-announcement-poster'>Game Announcement</div>
+                            <div class="message-dot"></div>
+                            <div class="message-post-datetime">LIVE</div>
+                        </div>
+                        <div class='game-announcement-title'>Protestors Win the First Round, Gaining 3 Points. Police Gain No Points.</div>
+                        <div class="game-announcement-body">In round 1, the Protestors reacted non-violently, while the police reacted violently. Protestors now lead, 3 - 0</div>
+                    </div>
+                    <div class='game-feed-spacer'></div>
+                    <div class='section-block'>
+                        <div class='message-team-outer'>
+                            <div class='message-team-prompt-outer'>
+                                <div class='team-messages-text'><span class="side-hashtag side-hashtag-header">#Protestor</span> messages</div>
+                            </div>
+                            <div class='message-button-outer'>
+                                <div class='add-message'>Message</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='message-container'>
+                        <div class='message-main'>
+                            <div class='message-body'>
+                                <div class='poster-icon-outer'>
+                                    <img class='message-poster-icon' src='https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon'>
+                                </div>
+                                <div class='main-message-body'>
+                                    <div class='message-about-poster'>
+                                        <div class='message-poster-name'>James Petullo</div>
+                                        <div class='message-poster-handle'>@james_petullo</div>
+                                        <div class='message-dot'></div>
+                                        <div class='message-post-datetime'>1 min</div>
+                                    </div>
+                                    <div class='message-body-content'>Based on my calculations and intuition, we should respond nonviolently to any action the <span class="side-hashtag">#police</span> might make</div>
+                                    <div class='message-action-footer'>
+                                        <div class='reply-message-outer'>
+                                            <div class='reply-message-icon'></div>
+                                        </div>
+                                        <div class='message-reply-count'>10</div>
+                                        <div></div>
+                                        <div class='like-message-outer'>
+                                            <div class='like-message-icon'></div>
+                                        </div>
+                                        <div class='message-like-count'>10</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='message-main'>
+                            <div class='message-body'>
+                                <div class='poster-icon-outer'>
+                                    <img class='message-poster-icon' src='https://www.gravatar.com/avatar/06f06764bab7744fb4841d213a44a820?d=identicon'>
+                                </div>
+                                <div class='main-message-body'>
+                                    <div class='message-about-poster'>
+                                        <div class='message-poster-name'>Joe Petullo</div>
+                                        <div class='message-poster-handle'>@joe_petullo</div>
+                                        <div class='message-dot'></div>
+                                        <div class='message-post-datetime'>1 min</div>
+                                    </div>
+                                    <div class='reply-to-text'>Replying to <span class='at-handle'>@james_petullo</span></div>
+                                    <div class='message-body-content'>Sounds good!</div>
+                                    <div class='message-action-footer'>
+                                        <div class='reply-message-outer'>
+                                            <div class='reply-message-icon'></div>
+                                        </div>
+                                        <div class='message-reply-count'>5</div>
+                                        <div></div>
+                                        <div class='like-message-outer'>
+                                            <div class='like-message-icon'></div>
+                                        </div>
+                                        <div class='message-like-count'>3</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='main-col'>
+                <div class='resources-wrapper'>
+                    <div class='score-box'> 
+                        <div class='score-box-header'>
+                            <div class='score-text'>Score</div>
+                            <div class='current-round'>Round 1 of 6</div>
+                        </div>
+                        <div class='score-box-main'>
+                            <div class='side-score-outer'>
+                                <div class='side-score-name'>Protestors</div>
+                                <div class='side-score-value'>3</div>
+                            </div>
+                            <div style='height:5px'></div>
+                            <div class='side-score-outer'>
+                                <div class='side-score-name'>Police</div>
+                                <div class='side-score-value'>0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style='height:40px'></div>
+                    <div class='resources-box'>
+                        <div class='resource-item'>Game Content</div>
+                        <div class='resource-item-desc'>View the background information about this game</div>
+                        <div style='height:20px'></div>
+                        <div class='resource-item'>Rules</div>
+                        <div class='resource-item-desc'>Learn how to play the game</div>
+                        <div style='height:20px'></div>
+                        <div class='resource-item'>About Instigator</div>
+                        <div class='resource-item-desc'>Find out what we are all about</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
