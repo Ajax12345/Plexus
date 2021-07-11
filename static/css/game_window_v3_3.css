@@ -17,13 +17,17 @@ body{
     height:100vh;
     width:100%;
     display:grid;
-    grid-template-columns: 30% 40% 30%;
+    grid-template-columns: 35% 40% 25%;
 }
 .main-col-former{
     border-right:1px solid rgb(226, 226, 226);
 }
-.about-player-wrapper{
+.instructor-controls-wrapper{
     float:right;
+    padding:50px;
+    padding-top:60px;
+}
+.side-view-wrapper{
     padding:50px;
     padding-top:60px;
 }
@@ -34,6 +38,10 @@ body{
     padding: 10px;
     padding-left: 17px;
     padding-right: 17px;
+}
+.main-col-gameplay{
+    /*border:5px solid rgb(226, 138, 138);*/
+    border:5px solid rgb(241 164 164);
 }
 .side-bar-header{
     color:rgb(40, 40, 40);
@@ -286,7 +294,7 @@ body{
     position:sticky;
 }
 .score-box{
-    max-width:323px;
+    width:370px;
     border:1px solid rgb(229, 229, 229);
     border-radius:16px;
     /*
@@ -399,4 +407,22 @@ body{
     color:rgb(27, 149, 224);
     border-color:rgb(29, 142, 213);
     background-color:rgb(252, 252, 252);
+}
+.observe-side{
+    background-color:rgb(29, 161, 242);
+    border-radius:30px;
+    color:white;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:17px;
+    font-weight:600;
+    text-align: center;
+    padding:14px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    width:190px;
+}
+.observe-side:hover{
+    cursor:pointer;
+    background-color:rgb(24, 142, 215);
+    transition:0.4s;
 }
