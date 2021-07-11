@@ -25,7 +25,12 @@
         .registry-level{
             display:grid;
             grid-template-columns: 40px auto;
-            column-gap: 5px;
+            column-gap: 10px;
+        }
+        .registry-level-last{
+            display:grid;
+            grid-template-columns: 40px min-content auto;
+            column-gap: 10px;
         }
         .title1{
             color:rgb(40, 40, 40);
@@ -44,6 +49,13 @@
             font-weight:600;
             font-family: 'Source Sans Pro', sans-serif;
             text-decoration: underline;
+            white-space: nowrap;
+        }
+        .page-desc-level{
+            color:rgb(40, 40, 40);
+            font-size:18px;
+            font-weight:600;
+            font-family: 'Source Sans Pro', sans-serif;
         }
     </style>
     <head>
@@ -71,12 +83,35 @@
                     <div class='registry-level'>
                         <div></div>
                         <div class='registry-level-col'>
-                            <div class='register-title title1'>Instructor Game Window</div>
+                            <div class='register-title title1'>Player Game Window</div>
                             <div style='height:20px'></div>
-                            <div class='registry-level'>
+                            <div class='registry-level registry-level-last'>
                                 <div></div>
                                 <div class='registry-level-col'>
-                                    <a href='/first-player-game-window' class='link-to-mockup'>Basic instructor game window layout</a>
+                                    <a href='/first-player-game-window' class='link-to-mockup'>Basic player game window layout</a>
+                                </div>
+                                <div>
+                                    <div class='page-desc-level'>(Between rounds)</div>
+                                </div>
+                            </div>
+                            <div style='height:20px'></div>
+                            <div class='registry-level registry-level-last'>
+                                <div></div>
+                                <div class='registry-level-col'>
+                                    <a href='/second-player-game-window' class='link-to-mockup'>Player game window with move prompt</a>
+                                </div>
+                                <div>
+                                    <div class='page-desc-level'></div>
+                                </div>
+                            </div>
+                            <div style='height:20px'></div>
+                            <div class='registry-level registry-level-last'>
+                                <div></div>
+                                <div class='registry-level-col'>
+                                    <a href='/third-player-game-window' class='link-to-mockup'>Player game window with instructor message</a>
+                                </div>
+                                <div>
+                                    <div class='page-desc-level'>("info bomb")</div>
                                 </div>
                             </div>
                         </div>
@@ -85,12 +120,12 @@
                     <div class='registry-level'>
                         <div></div>
                         <div class='registry-level-col'>
-                            <div class='register-title title1'>Player Game Window</div>
+                            <div class='register-title title1'>Instructor Game Window</div>
                             <div style='height:20px'></div>
                             <div class='registry-level'>
                                 <div></div>
                                 <div class='registry-level-col'>
-                                    <a href='/first-player-game-window' class='link-to-mockup'>Basic player game window layout</a>
+                                    <a href='/instructor-player-game-window' class='link-to-mockup'>Basic instructor game window layout</a>
                                 </div>
                             </div>
                         </div>
