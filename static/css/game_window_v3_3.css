@@ -308,9 +308,12 @@ body{
     padding-left:17px;
     padding-right:17px;
     border-bottom:1px solid rgb(229, 229, 229);
+}
+.score-display-outer{
     display:grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 6fr 1fr 3fr;
     align-items: center;
+    column-gap: 10px;
 }
 .score-box-main{
     padding:10px;
@@ -422,6 +425,57 @@ body{
     width:190px;
 }
 .observe-side:hover{
+    cursor:pointer;
+    background-color:rgb(24, 142, 215);
+    transition:0.4s;
+}
+.score-box-divider{
+    width:1px;
+    background-color:rgb(229, 229, 229);
+}
+.game-controls-outer{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    column-gap: 20px;;
+}
+.game-control-button{
+    background-color: rgb(29, 161, 242);
+    border-radius: 30px;
+    color: white;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    text-align: center;
+    padding: 14px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    display: inline-block;
+}
+.game-control-button:hover{
+    cursor:pointer;
+    background-color:rgb(24, 142, 215);
+    transition:0.4s;
+}
+.actor-listing-main{
+    display:grid;
+    grid-template-columns: auto min-content;
+    align-items: center;
+}
+.message-team{
+    background-color: rgb(29, 161, 242);
+    border-radius: 30px;
+    color: white;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    text-align: center;
+    padding: 14px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    display: flex;
+    justify-content: flex-end;
+}
+.message-team:hover{
     cursor:pointer;
     background-color:rgb(24, 142, 215);
     transition:0.4s;
