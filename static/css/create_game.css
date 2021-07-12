@@ -160,3 +160,14 @@ body{
     outline:none;
     border-color:rgb(211, 61, 211);
 }
+.next-step-button{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 600;
+    color:rgb(211, 61, 211);
+    font-size:20px;
+}
+.next-step-button:hover{
+    cursor:pointer;
+    transition:0.2s;
+    color:rgb(194, 56, 194);
+}
