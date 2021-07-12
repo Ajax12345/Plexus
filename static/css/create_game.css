@@ -4,9 +4,40 @@ body{
     background-color:white;
 }
 .header{
+    border-bottom:1px solid rgb(228, 228, 228);
+    padding-top:10px;
+    padding-bottom:10px;
+}
+.header-main{
     display:grid;
     grid-template-columns: auto auto;
     align-items: center;
-    padding:10px;
-    border-bottom:1px solid rgb(228, 228, 228);
+    width:90%;
+    margin: 0 auto;
+}
+.user-profile-display{
+    display:grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    column-gap: 10px;
+    justify-content: flex-end;
+}
+.welcome-user-text{
+    color:rgb(40, 40, 40);
+    font-size:15px;
+    font-weight:400;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+.logged-in-profile{
+    color:rgb(40, 40, 40);
+    font-weight:600;
+    text-decoration: none;
+}
+.logged-in-profile:hover{
+    text-decoration: underline;
+}
+.dashboard-avatar{
+    width:27px;
+    height:27px;
+    border-radius:50%;
 }
