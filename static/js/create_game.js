@@ -12,11 +12,8 @@ $(document).ready(function(){
             }
         }
     }
-    /*
+    $('.game-name-field').focus();
     setTimeout(function(){
         format_progress_bar();
     }, 500)
-    ^will need this
-    */
-    format_progress_bar();
 });
