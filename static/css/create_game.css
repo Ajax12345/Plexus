@@ -41,3 +41,51 @@ body{
     height:27px;
     border-radius:50%;
 }
+.main-wrapper{
+    width:70%;
+    margin: 0 auto;
+}
+.action-title{
+    color:rgb(40, 40, 40);
+    font-size:35px;
+    font-weight:600;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+.steps-main-outer{
+    display: grid;
+    grid-template-columns: 20% 80%;
+}
+.progress-main{
+    display:grid;
+    grid-template-columns: min-content min-content;
+    column-gap: 40px;
+    align-items: center;
+}
+.step-listing-col{
+    
+}
+.step-text{
+    color:rgb(40, 40, 40);
+    font-size:20px;
+    font-weight:400;
+    font-family: 'Source Sans Pro', sans-serif;
+    white-space: nowrap;
+    display: flex;
+    justify-content: flex-end;
+}
+.step-spacer{
+    height:50px;
+}
+.step-spacer-trailing{
+    height:25px;
+}
+.step-text-desc{
+    color:rgb(173 173 173);
+    font-size:16px;
+    font-weight:400;
+    font-family: 'Source Sans Pro', sans-serif;
+    white-space: nowrap;
+    display: flex;
+    justify-content: flex-end;
+    margin-top:5px;
+}
