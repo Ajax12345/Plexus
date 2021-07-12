@@ -6,6 +6,10 @@ app = flask.Flask(__name__)
 def main():
     return flask.render_template('demo_landing.html')
 
+@app.route('/create-game', methods=['GET'])
+def create_game():
+    return flask.render_template('create_game.html')
+
 @app.route('/first-player-game-window', methods=['GET'])
 def first_player_game_window():
     return flask.render_template('game_window_v3.html')
