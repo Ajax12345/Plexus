@@ -12,7 +12,6 @@ $(document).ready(function(){
             }
         }
     }
-    $('.game-name-field').focus();
     setTimeout(function(){
         format_progress_bar();
     }, 100)

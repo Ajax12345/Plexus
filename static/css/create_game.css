@@ -170,4 +170,5 @@ body{
     cursor:pointer;
     transition:0.2s;
     color:rgb(194, 56, 194);
+    text-decoration: underline;
 }
