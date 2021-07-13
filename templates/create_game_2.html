@@ -42,8 +42,8 @@
                             <div class='step-text-desc'>Name and rounds</div>
                         </div>
                         <div class='step-progress-col' id='step-progress-col2'>
-                            <div class='process-circle'>
-                                <div class='progress-step'>1</div>
+                            <div class='process-circle progress-circle-complete'>
+                                <div class='progress-complete-check'></div>
                             </div>
                         </div>
                         <div class='step-listing-col' data-sid='3' data-circle='false'>
@@ -57,7 +57,7 @@
                             <div class='step-text-desc'>Player resources</div>
                         </div>
                         <div class='step-progress-col' id='step-progress-col4'>
-                            <div class='process-circle progress-circle-not-completed'>
+                            <div class='process-circle'>
                                 <div class='progress-step'>2</div>
                             </div>
                         </div>
@@ -86,17 +86,17 @@
                 </div>
                 <div class='main-entry-col'>
                     <div class='field-wrapper'>
-                        <div class='step-header'>Game name</div>
+                        <div class='step-header'>Choose content</div>
                         <div style='height:10px'></div>
+                        <div class='step-description'>Content provides background information and further resources for your game players</div>
                         <input type='text' class='game-name-field'>
                         <div style='height:80px'></div>
-                        <div class='step-header'>Number of rounds</div>
-                        <div style='height:10px'></div>
-                        <div class='step-description'>Every round, each actor will move. Sequential play will occur until the round limit is reached</div>
-                        <div style='height:20px'></div>
-                        <input type='number' class='round-number-field' value='6'>
-                        <div style='height:80px'></div>
-                        <div class='next-step-button' data-tolink='/create-game-3'>Next</div>
+                        
+                        <div class='progress-controls'>
+                            <div class='previous-step-button step-progress-button' data-tolink='/create-game'>Prev</div>
+                            <div class='progress-control-dividor'></div>
+                            <div class='next-step-button step-progress-button' data-tolink='/create-game-3'>Next</div>
+                        </div>
                     </div>
                 </div>
             </div>

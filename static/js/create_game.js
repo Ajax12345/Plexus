@@ -16,7 +16,7 @@ $(document).ready(function(){
     setTimeout(function(){
         format_progress_bar();
     }, 100)
-    $('body').on('click', '.next-step-button', function(){
+    $('body').on('click', '.step-progress-button', function(){
         window.location.replace($(this).data('tolink'))
     });
 });
