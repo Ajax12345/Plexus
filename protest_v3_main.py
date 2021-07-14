@@ -6,6 +6,14 @@ app = flask.Flask(__name__)
 def main():
     return flask.render_template('demo_landing.html')
 
+@app.route('/dashboard', methods=['GET'])
+def dashboard():
+    return flask.render_template('dashboard.html')
+
+@app.route('/dashboard-onboard', methods=['GET'])
+def dashboard_onboard():
+    return flask.render_template('dashboard_onboard.html')
+
 @app.route('/create-game', methods=['GET'])
 def create_game():
     return flask.render_template('create_game.html')
