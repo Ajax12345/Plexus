@@ -269,8 +269,26 @@ body{
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 16px;
     color:rgb(62 103 224);
+    white-space: nowrap;
 }
 .see-more-desc:hover{
     cursor:pointer;
     text-decoration: underline;
+}
+.matrix-actor-header{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 15px;
+    color: #a9a9a9;
+}
+.matrix-actor-outer{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 16px;
+    color:rgb(74 74 74);
+}
+.matrix-actor{
+    color: rgb(27, 149, 224);
+    font-weight: 400;
+}
+.step-progress-button{
+    white-space: nowrap;
 }
