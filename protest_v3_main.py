@@ -14,6 +14,10 @@ def create_game():
 def create_game_2():
     return flask.render_template('create_game_2.html')
 
+@app.route('/create-game-3', methods=['GET'])
+def create_game_3():
+    return flask.render_template('create_game_3.html')
+
 @app.route('/first-player-game-window', methods=['GET'])
 def first_player_game_window():
     return flask.render_template('game_window_v3.html')

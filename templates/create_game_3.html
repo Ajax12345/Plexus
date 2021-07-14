@@ -1,0 +1,129 @@
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width">
+        <title>Create Game</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <!--first three fonts can be removed later-->
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src='/static/js/create_game_3.js'></script>
+        <link rel='stylesheet' href='/static/css/create_game.css'>
+    </head>
+    <body>
+        <div class='header'>
+            <div class='header-main'>
+                <div></div>
+                <div>
+                    <div class='user-profile-display'>
+                        <img src='https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon' class='dashboard-avatar'>
+                        <div class='welcome-user-text'><a href='/profile' class='logged-in-profile'>James Petullo</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style='height:50px'></div>
+        <div class='main-wrapper'>
+            <div class='action-title'>Create Game</div>
+            <div style='height:40px'></div>
+            <div class='steps-main-outer'>
+                <div class='steps-progression-col'>
+                    <div class='progress-main'>
+                        <div class='step-listing-col' data-sid='1' data-circle='false'>
+                            <div class='step-spacer step-spacer-trailing'></div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col1'>
+                            <div class='progress-bar'></div>
+                        </div>
+                        <div class='step-listing-col' data-sid='2' data-circle='true'>
+                            <div class='step-text'>Basic</div>
+                            <div class='step-text-desc'>Name and rounds</div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col2'>
+                            <div class='process-circle progress-circle-complete'>
+                                <div class='progress-complete-check'></div>
+                            </div>
+                        </div>
+                        <div class='step-listing-col' data-sid='3' data-circle='false'>
+                            <div class='step-spacer'></div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col3'>
+                            <div class='progress-bar'></div>
+                        </div>
+                        <div class='step-listing-col' data-sid='4' data-circle='true'>
+                            <div class='step-text'>Add Content</div>
+                            <div class='step-text-desc'>Player resources</div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col4'>
+                            <div class='process-circle progress-circle-complete'>
+                                <div class='progress-complete-check'></div>
+                            </div>
+                        </div>
+                        <div class='step-listing-col' data-sid='5' data-circle='false'>
+                            <div class='step-spacer'></div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col5'>
+                            <div class='progress-bar'></div>
+                        </div>
+                        <div class='step-listing-col' data-sid='6' data-circle='true'>
+                            <div class='step-text'>Add Matrix</div>
+                            <div class='step-text-desc'>Actors and payoffs</div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col6'>
+                            <div class='process-circle'>
+                                <div class='progress-step'>3</div>
+                            </div>
+                        </div>
+                        <div class='step-listing-col' data-sid='7' data-circle='false'>
+                            <div class='step-spacer step-spacer-trailing'></div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col7'>
+                            <div class='progress-bar'></div>
+                        </div>
+                    </div>
+                </div>
+                <div></div>
+                <div class='main-entry-col'>
+                    <div class='field-wrapper'>
+                        <div class='step-header'>Choose content</div>
+                        <div style='height:10px'></div>
+                        <div class='step-description'>Content provides background information and further resources for your game players</div>
+                        <div style='height:30px'></div>
+                        <div class='content-type-prompt'>Add existing content or <span class='create-new-content'>create new</span></div>
+                        <div style='height:20px'></div>
+                        <div class='user-own-content'>
+                            <div class='content-col'>
+                                <div class='content-card' data-card='1' id='content-card1'>
+                                    <div class='content-title'>Protest Game Content</div>
+                                    <div style='height:10px'></div>
+                                    <div class='content-description' id='content-description1'>This content provides context for a standard game between protestors and police. In particular, we highlight Arab Spring and address how the 2011 Middle Eastern protests serve as a classic example of how protestors can adopt strategies that best serve their cause. Our content slides contain an overview of Arab Spring, a background on the "18 days of Tarir", and basic gameplay instructions.</div>
+                                    <div style='height:10px'></div>
+                                    <div class='add-content-to-game'>Add to game</div>
+                                </div>
+                            </div>
+                            <div class='content-col'>
+                                <div class='content-card' data-card='2' id='content-card2'>
+                                    <div class='content-title'>Prisoner's Delimma Content</div>
+                                    <div style='height:10px'></div>
+                                    <div class='content-description' id='content-description2'>Some stuff.</div>
+                                    <div style='height:10px'></div>
+                                    <div class='add-content-to-game'>Add to game</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style='height:80px'></div>
+                        
+                        <div class='progress-controls'>
+                            <div class='previous-step-button step-progress-button' data-tolink='/create-game-2'>Prev</div>
+                            <div class='progress-control-dividor'></div>
+                            <div class='next-step-button step-progress-button' data-tolink='/create-game-3'>Create game</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style='height:200px'></div>
+    </body>
+</html>
