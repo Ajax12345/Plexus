@@ -12,8 +12,34 @@ $(document).ready(function(){
             }
         }
     }
+    function display_content_cards(){
+        for (var i of document.querySelectorAll('.content-card')){
+            var _h = parseInt($(i).css('height').match('\\d+'));
+            var _desc_path = `#content-card${$(i).data('card')} > .content-description`
+            if (_h < 150){
+                $(`<div style='height:${150-_h}px'></div>`).insertAfter(_desc_path);
+            }
+            else if (_h > 150){
+                var cid = $(i).data('card');
+                var _desc = $(_desc_path).text();
+                var last_d = null;
+                for (var i = 0; i < _desc.length; i++){
+                    var t_ld = _desc.substring(0, i)+'...';
+                    $(_desc_path).html(`${t_ld}(<span class='see-more-desc'>see more</span>)`);
+                    if (parseInt($(`#content-card${cid}`).css('height').match('\\d+')) > 150){
+                        break;
+                    }
+                    last_d = t_ld;
+                }
+                //var a_h = 150 - (_h - parseInt($(_desc_path).css('height').match('\\d+')));
+                //$(_desc_path).css('max-height', `${a_h}px`);
+
+            }
+        }
+    }
     setTimeout(function(){
         format_progress_bar();
+        display_content_cards();
     }, 100)
     $('body').on('click', '.step-progress-button', function(){
         window.location.replace($(this).data('tolink'))
