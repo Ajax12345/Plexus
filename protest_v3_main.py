@@ -8,6 +8,10 @@ def main():
 
 @app.route('/dashboard', methods=['GET'])
 def dashboard():
+    return flask.redirect('/dashboard/games')
+
+@app.route('/dashboard/games', methods=['GET'])
+def dashboard_games():
     return flask.render_template('dashboard.html')
 
 @app.route('/dashboard-onboard', methods=['GET'])

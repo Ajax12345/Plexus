@@ -191,3 +191,20 @@ body{
     color: #d61f1f;
     background-color: rgb(255 220 220);
 }
+.dashboard-menu-text{
+    font-size:16px;
+    font-weight:400;
+    font-family: 'Source Sans Pro', sans-serif;
+    color:rgb(130, 130, 130);
+    white-space: nowrap;
+}
+.nav-bar-col-selected .dashboard-menu-text:hover{
+    text-decoration: none !important;
+}
+.dashboard-menu-text:hover{
+    cursor:pointer;
+    text-decoration: underline;
+}
+.nav-bar-col-selected:hover{
+    cursor:pointer;
+}
