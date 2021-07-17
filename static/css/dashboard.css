@@ -179,3 +179,15 @@ body{
     height:1px;
     background-color:rgb(226 226 226);
 }
+.game-status-finished{
+    background-color: rgb(215 255 215);
+    color: #0b900b;
+}
+.game-status-players-waiting{
+    background-color: rgb(251 249 192);
+    color: rgb(181 161 58);
+}
+.game-status-in-progress{
+    color: #d61f1f;
+    background-color: rgb(255 220 220);
+}
