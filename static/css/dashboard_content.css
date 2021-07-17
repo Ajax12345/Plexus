@@ -208,3 +208,10 @@ body{
 .nav-bar-col-selected:hover{
     cursor:pointer;
 }
+.about-content{
+    line-height:1.3;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight:400;
+    color:rgb(159, 159, 159);
+    font-size:18px;
+}
