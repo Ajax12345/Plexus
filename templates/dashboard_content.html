@@ -1,0 +1,131 @@
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width">
+        <title>Dashboard</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src='/static/js/dashboard.js'></script>
+        <link rel='stylesheet' href='/static/css/dashboard.css'>
+    </head>
+    <body>
+        <div class='header'>
+            <div class='header-main'>
+                <div></div>
+                <div>
+                    <div class='user-profile-display'>
+                        <img src='https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon' class='dashboard-avatar'>
+                        <div class='welcome-user-text'><a href='/profile' class='logged-in-profile'>James Petullo</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style='height:50px'></div>
+        <!--
+        <div class='dashboard-main'>
+            <div class='side-col'>
+                <div class='dashboard-nav-block dashboard-nav-chosen'>
+                    <div class='dashboard-nav-bar'></div>
+                    <div class='dashboard-block-text'>Games</div>
+                </div>
+                <div style='height:25px'></div>
+                <div class='dashboard-nav-block'>
+                    <div class='dashboard-nav-bar'></div>
+                    <div class='dashboard-block-text'>Content</div>
+                </div>
+                <div style='height:25px'></div>
+                <div class='dashboard-nav-block'>
+                    <div class='dashboard-nav-bar'></div>
+                    <div class='dashboard-block-text'>Matrices</div>
+                </div>
+            </div>
+            <div class='main-col'>
+
+            </div>
+        </div>
+        -->
+        <div class='dashboard-main'>
+            <div style='height:50px'></div>
+            <div class='nav-bar-outer'>
+                <div class='nav-bar-col'>
+                    <a href='/dashboard/games' style='text-decoration: none;'>
+                        <div class='dashboard-menu-text'>Games</div>
+                    </a>
+                </div>
+                <div class='nav-bar-col nav-bar-col-selected'>
+                    <div class='dashboard-menu-text'>Content</div>
+                </div>
+                <div class='nav-bar-col'>
+                    <a href='/dashboard/matrices' style='text-decoration: none;'>
+                        <div class='dashboard-menu-text'>Matrices</div>
+                    </a>
+                </div>
+            </div>
+            <div style='height:30px'></div>
+            <div class='main-header'>
+                <div class='main-header-col'>
+                    <div class='dashboard-toggle-header'>My Games</div>
+                </div>
+                <div class='main-header-col'>
+                    <a href='/create-game' style='text-decoration:none;'>
+                        <div class='create-entity'>Create game</div>
+                    </a>
+                </div>
+            </div>
+            <div style='height:40px'></div>
+            <div class='game-row-divider'></div>
+            <div class='game-row'>
+                <div class='game-col game-col-td'>
+                    <div class='game-name'>My first protest game</div>
+                </div>
+                <div class='game-col game-col-td'>
+                    <div class='game-status-pill'>Not started yet</div>
+                </div>
+                <div class='game-col game-col-td'>
+                    <div class='view-game-text'>view</div>
+                </div>
+            </div>
+            <div class='game-row-divider'></div>
+            <div class='game-row'>
+                <div class='game-col game-col-td'>
+                    <div class='game-name'>Another game</div>
+                </div>
+                <div class='game-col game-col-td'>
+                    <div class='game-status-pill game-status-finished'>Finished</div>
+                </div>
+                <div class='game-col game-col-td'>
+                    <div class='view-game-text'>view</div>
+                </div>
+            </div>
+            <div class='game-row-divider'></div>
+            <div class='game-row'>
+                <div class='game-col game-col-td'>
+                    <div class='game-name'>Test Game</div>
+                </div>
+                <div class='game-col game-col-td'>
+                    <div class='game-status-pill game-status-players-waiting'>3 Players waiting</div>
+                </div>
+                <div class='game-col game-col-td'>
+                    <div class='view-game-text'>view</div>
+                </div>
+            </div>
+            <div class='game-row-divider'></div>
+            <div class='game-row'>
+                <div class='game-col game-col-td'>
+                    <div class='game-name'>Test Game1</div>
+                </div>
+                <div class='game-col game-col-td'>
+                    <div class='game-status-pill game-status-in-progress'>In progress</div>
+                </div>
+                <div class='game-col game-col-td'>
+                    <div class='view-game-text'>view</div>
+                </div>
+            </div>
+            <div class='game-row-divider'></div>
+        </div>
+        <div style='height:100px'></div>
+    </body>
+</html>

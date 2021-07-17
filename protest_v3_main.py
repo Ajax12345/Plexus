@@ -14,6 +14,10 @@ def dashboard():
 def dashboard_games():
     return flask.render_template('dashboard.html')
 
+@app.route('/dashboard/content', methods=['GET'])
+def dashboard_content():
+    return flask.render_template('dashboard_content.html')
+
 @app.route('/dashboard-onboard', methods=['GET'])
 def dashboard_onboard():
     return flask.render_template('dashboard_onboard.html')
