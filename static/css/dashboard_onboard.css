@@ -41,3 +41,47 @@ body{
     height:27px;
     border-radius:50%;
 }
+.welcome-main{
+    width:50%;
+    margin:0 auto;
+    text-align: center;
+}
+.welcome-text{
+    color:rgb(40, 40, 40);
+    font-size:35px;
+    font-weight:700;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+.basic-instructions{
+    color:rgb(40, 40, 40);
+    font-size:24px;
+    font-weight:600;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+.basic-help{
+    color:rgb(171, 171, 171);
+    font-size:17px;
+    font-weight:400;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+.help-nav-link{
+    color:rgb(211, 61, 211);
+}
+.create-game{
+    font-size:21px;
+    font-weight:600;
+    font-family: 'Source Sans Pro', sans-serif;
+    color:white;
+    display:inline-block;
+    padding:10px;
+    border-radius:5px;
+    background-color:rgb(211, 61, 211);
+    padding-left:13px;
+    padding-right:13px;
+}
+.create-game:hover{
+    cursor:pointer;
+    transition:0.2s;
+    background-color:rgb(203, 55, 203);
+    transform: scale(1.06);
+}
