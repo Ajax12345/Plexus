@@ -183,11 +183,11 @@ body{
     background-color: rgb(215 255 215);
     color: #0b900b;
 }
-.game-status-players-waiting{
+.game-status-in-progress{
     background-color: rgb(251 249 192);
     color: rgb(181 161 58);
 }
-.game-status-in-progress{
+.game-status-players-waiting{
     color: #d61f1f;
     background-color: rgb(255 220 220);
 }
