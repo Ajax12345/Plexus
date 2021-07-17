@@ -57,7 +57,7 @@ body{
     background-color:white;
 }
 .dashboard-block-text{
-    font-size:17px;
+    font-size:18px;
     font-weight:400;
     font-family: 'Source Sans Pro', sans-serif;
     color:rgb(130, 130, 130);
@@ -72,11 +72,12 @@ body{
     background-color:rgb(211, 61, 211) !important;
 }
 .nav-bar-outer{
-    width:80%;
-    margin: 0 auto;
-    display:grid;
-    grid-template-columns: 33% 33% 33%;
+    display: grid;
+    grid-template-columns: repeat(3, min-content);
     align-items: center;
+    text-align: center;
+    column-gap: 40px;
+    justify-content: center;
 
 }
 .nav-bar-col{
@@ -84,12 +85,15 @@ body{
     padding:2px;
 }
 .nav-bar-col-selected{
-    background-color:rgb(225, 225, 225);
+    background-color:rgb(230 230 230);
     padding:10px;
     border-radius:10px;
+    padding-left:15px;
+    padding-right:15px;
 }
 .nav-bar-col-selected div{
     color:rgb(40, 40, 40) !important;
     font-weight:600;
+    font-size:20px;
 
 }
