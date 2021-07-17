@@ -126,3 +126,32 @@ body{
     background-color:rgb(203, 55, 203);
     transform: scale(1.06);
 }
+.all-games{
+    display: grid;
+    grid-template-columns: 4fr 2fr 0.5fr;
+
+}
+.game-col-h-text{
+    font-family: 'Source Sans Pro', sans-serif;
+    color:rgb(189, 189, 189);
+    font-size:17px;
+}
+.game-col-header{
+    padding:4px;
+    padding-bottom:10px;
+    padding-top:10px;
+    border-bottom:1px solid rgb(226 226 226);
+}
+.game-col-td{
+    align-items: center;
+    padding:4px;
+    padding-bottom:18px;
+    padding-top:18px;
+    border-bottom:1px solid rgb(226 226 226);
+}
+.game-name{
+    color: rgb(62 62 62);
+    font-size: 20px;
+    font-weight: 600;
+    font-family: 'Source Sans Pro', sans-serif;
+}
