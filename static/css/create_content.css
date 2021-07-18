@@ -301,8 +301,8 @@ body{
     width:60%;
 }
 .back-to-game-creation{
-    display: grid;
-    grid-template-columns: min-content auto;
+    display: inline-grid;
+    grid-template-columns: min-content min-content;
     column-gap: 10px;
     align-items: center;
 }
@@ -323,4 +323,5 @@ body{
     color:#434343;
     font-size:16px;
     font-weight: 600;
+    white-space: nowrap;
 }
