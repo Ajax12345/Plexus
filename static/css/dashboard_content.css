@@ -280,3 +280,24 @@ body{
     cursor: pointer;
     text-decoration: underline;
 }
+.feature-in-store{
+    display: grid;
+    grid-template-columns: min-content min-content;
+    column-gap: 5px;
+    align-items: center;
+    justify-content: flex-end;
+}
+.featured-icon{
+    width:20px;
+    height:20px;
+    background-size:cover;
+    background-image:url(/static/img/featured-icon.svg);
+}
+.featured-text{
+    /* color: rgb(40, 40, 40); */
+    color: rgb(74 74 74);
+    font-size: 16px;
+    font-weight: 400;
+    font-family: 'Source Sans Pro', sans-serif;
+    white-space: nowrap;
+}
