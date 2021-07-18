@@ -26,6 +26,7 @@ def dashboard_matrices():
 def dashboard_onboard():
     return flask.render_template('dashboard_onboard.html')
 
+#TODO: convert /create-<resource> to /create/<resource>
 @app.route('/create-game', methods=['GET'])
 def create_game():
     return flask.render_template('create_game.html')
@@ -37,6 +38,10 @@ def create_game_2():
 @app.route('/create-game-3', methods=['GET'])
 def create_game_3():
     return flask.render_template('create_game_3.html')
+
+@app.route('/create-content', methods=['GET'])
+def create_content():
+    return flask.render_template('create_content_1.html')
 
 @app.route('/first-player-game-window', methods=['GET'])
 def first_player_game_window():
