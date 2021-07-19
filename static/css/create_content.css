@@ -127,7 +127,7 @@ body{
     font-weight:400;
     font-family: 'Source Sans Pro', sans-serif;
 }
-.game-name-field{
+.content-title-field{
     width:75%;
     border:none;
     border-bottom:2px solid rgb(213, 213, 213);
@@ -135,7 +135,7 @@ body{
     font-family: 'Source Sans Pro', sans-serif;
     font-size:20px;
 }
-.game-name-field:focus{
+.content-title-field:focus{
     outline:none;
     border-color:rgb(211, 61, 211);
 }
@@ -324,4 +324,30 @@ body{
     font-size:16px;
     font-weight: 600;
     white-space: nowrap;
+}
+.content-textarea{
+    border:1px solid rgb(213, 213, 213);
+    border-radius:8px;
+}
+.content-input-area{
+    height:150px;
+    max-height: 175px;
+    overflow: scroll;
+    padding:10px;
+    padding-left:20px;
+    padding-right:20px;
+}
+.content-input-footer{
+    padding:10px;
+    padding-left:20px;
+    padding-right:20px;
+    border-top:1px solid rgb(213, 213, 213);
+    display: grid;
+    grid-template-columns: auto;
+}
+.attach-link{
+    width:16px;
+    height:16px;
+    background-size:cover;
+    background-image: url(/static/img/clip.svg);
 }

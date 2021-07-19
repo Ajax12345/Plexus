@@ -12,7 +12,7 @@ $(document).ready(function(){
             }
         }
     }
-    //$('.game-name-field').focus();
+    $('.content-title-field').focus();
     setTimeout(function(){
         format_progress_bar();
     }, 100)
