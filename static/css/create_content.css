@@ -328,14 +328,22 @@ body{
 .content-textarea{
     border:1px solid rgb(213, 213, 213);
     border-radius:8px;
+    width:85%;
 }
 .content-input-area{
-    height:150px;
-    max-height: 175px;
+    height:100px;
+    max-height: 125px;
     overflow: scroll;
-    padding:10px;
+    padding:15px;
     padding-left:20px;
     padding-right:20px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:18px;
+    font-weight:400;
+    color:rgb(155, 155, 155);
+}
+.content-input-area:focus{
+    outline: none;
 }
 .content-input-footer{
     padding:10px;
@@ -350,4 +358,10 @@ body{
     height:16px;
     background-size:cover;
     background-image: url(/static/img/clip.svg);
+}
+.content-input-placeholder{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:18px;
+    font-weight:400;
+    color:rgb(177, 177, 177);
 }

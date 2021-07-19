@@ -16,4 +16,15 @@ $(document).ready(function(){
     setTimeout(function(){
         format_progress_bar();
     }, 100)
+    $('body').on('focus', '.content-input-area', function(){
+        if ($('.content-input-placeholder').text().length > 0){
+           $('.content-input-placeholder').html('');
+        }
+    });
+    $('body').on('blur', '.content-input-area', function(){
+        if ($('.content-input-area').text().replace(/^\s+|\s+$/, '').length === 0){
+            $('.content-input-placeholder').text('Describe the outlay of this content...');
+        }
+    
+    });
 });
