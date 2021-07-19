@@ -55,6 +55,15 @@ $(document).ready(function(){
     });
     $('body').on('click', '.attach-link-focus', function(){
         $(this).removeClass('attach-link-focus');
-        alert(selected_link_piece.text);
+        $('.modal').css('display', 'block');
+        $('.text-to-display-field').val(selected_link_piece.text);
+        $('.link-to-display-field').val('');
+        $('.link-to-display-field').focus();
+    });
+    $('body').on('click', '.cancel-link-to', function(){
+        $('.modal').css('display', 'none');
+    });
+    $('body').on('click', '.add-link-to', function(){
+        $('.modal').css('display', 'none');
     });
 });
