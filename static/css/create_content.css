@@ -357,16 +357,16 @@ body{
     grid-template-columns: auto;
 }
 .attach-link{
-    width:15px;
-    height:15px;
+    width:16px;
+    height:16px;
     background-size:cover;
-    background-image: url(/static/img/clip.svg);
+    background-image: url(/static/img/link-content.svg);
 }
 .attach-link-focus{
     background-size:cover;
-    background-image:url(/static/img/clip-focus.svg);
+    background-image:url(/static/img/link-content-focus.svg);
     transition:0.3s;
-    transform:scale(1.3);
+    transform:scale(1.2);
 }
 .attach-link-focus:hover{
     cursor:pointer;
@@ -386,5 +386,5 @@ body{
     z-index:100;
     opacity:0.6;
     background-color:black;
-    display:none;
+    display:block;
 }
