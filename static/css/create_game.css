@@ -123,7 +123,7 @@ body{
 }
 .step-header{
     color:rgb(40, 40, 40);
-    font-size:25px;
+    font-size:23px;
     font-weight:400;
     font-family: 'Source Sans Pro', sans-serif;
 }
@@ -141,7 +141,7 @@ body{
 }
 .step-description{
     color: rgb(173, 173, 173);
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     font-family: 'Source Sans Pro', sans-serif;
     line-height:1.3;
