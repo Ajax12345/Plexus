@@ -28,5 +28,33 @@ $(document).ready(function(){
             $('.content-input-placeholder').text('Describe the outlay of this content...');
         }
     });
-    
+    var selected_link_piece = null;
+    var mouse_down = false;
+    var mouse_move = false;
+    $('body').on('mousedown', '.content-textarea', function(){
+        mouse_down = true;
+    });
+    $('body').on('mousemove', '.content-textarea', function(){
+        if (mouse_down){
+            mouse_move = true;
+        }
+    });
+    $('body').on('mouseup', '.content-textarea', function(){
+        if (mouse_down && mouse_move){
+            if (window.getSelection) {  // all browsers, except IE before version 9
+                var range = window.getSelection ();
+                var r = range.toString();
+                if (r.replace(/^\s+|\s+$/, '').length > 0){
+                    selected_link_piece = {text:r};
+                    $('.attach-link').addClass('attach-link-focus')
+                }
+            }
+            mouse_down = false; 
+            mouse_move = false;
+        }
+    });
+    $('body').on('click', '.attach-link-focus', function(){
+        $(this).removeClass('attach-link-focus');
+        alert(selected_link_piece.text);
+    });
 });
