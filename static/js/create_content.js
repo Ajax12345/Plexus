@@ -16,6 +16,8 @@ $(document).ready(function(){
     setTimeout(function(){
         format_progress_bar();
     }, 100)
+    //$('.attach-link').addClass('attach-link-focus')
+    //$('.attach-link').removeClass('attach-link-focus')
     $('body').on('focus', '.content-input-area', function(){
         if ($('.content-input-placeholder').text().length > 0){
            $('.content-input-placeholder').html('');
@@ -25,6 +27,6 @@ $(document).ready(function(){
         if ($('.content-input-area').text().replace(/^\s+|\s+$/, '').length === 0){
             $('.content-input-placeholder').text('Describe the outlay of this content...');
         }
-    
     });
+    
 });
