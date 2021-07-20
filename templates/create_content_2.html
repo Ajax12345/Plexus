@@ -1,0 +1,129 @@
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width">
+        <title>Create Content 1</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src='/static/js/create_content_2.js'></script>
+        <link rel='stylesheet' href='/static/css/create_content.css'>
+    </head>
+    <body>
+        <div class='header'>
+            <div class='header-main'>
+                <div></div>
+                <div>
+                    <div class='user-profile-display'>
+                        <img src='https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon' class='dashboard-avatar'>
+                        <div class='welcome-user-text'><a href='/profile' class='logged-in-profile'>James Petullo</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style='height:50px'></div>
+        <div class='main-wrapper'>
+            <div class='action-title'>Create Content</div>
+            <div style='height:10px'></div>
+            <div class="about-content">
+                Content are slides of text, links, and images that players of your games can access and reference throughout play.
+            </div>
+            <div style='height:10px'></div>
+            <div class='back-to-game-creation'>
+                <div class='back-to-create-icon'></div>
+                <div class='back-to-create-text'>Back to game creation</div>
+            </div>
+            <div style='height:40px'></div>
+            <div class='steps-main-outer'>
+                <div class='steps-progression-col'>
+                    <div class='progress-main'>
+                        <div class='step-listing-col' data-sid='1' data-circle='false'>
+                            <div class='step-spacer step-spacer-trailing'></div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col1'>
+                            <div class='progress-bar'></div>
+                        </div>
+                        <div class='step-listing-col' data-sid='2' data-circle='true'>
+                            <div class='step-text'>Basic</div>
+                            <div class='step-text-desc'>Name and description</div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col2'>
+                            <div class='process-circle progress-circle-complete'>
+                                <div class='progress-complete-check'></div>
+                            </div>
+                        </div>
+                        <div class='step-listing-col' data-sid='3' data-circle='false'>
+                            <div class='step-spacer'></div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col3'>
+                            <div class='progress-bar'></div>
+                        </div>
+                        <div class='step-listing-col' data-sid='4' data-circle='true'>
+                            <div class='step-text'>Add Slides</div>
+                            <div class='step-text-desc'>Content blocks</div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col4'>
+                            <div class='process-circle'>
+                                <div class='progress-step'>2</div>
+                            </div>
+                        </div>
+                        
+                        <div class='step-listing-col' data-sid='7' data-circle='false'>
+                            <div class='step-spacer step-spacer-trailing'></div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col7'>
+                            <div class='progress-bar'></div>
+                        </div>
+                    </div>
+                </div>
+                <div></div>
+                <div class='main-entry-col'>
+                    <div class='field-wrapper'>
+                        <div class='step-header'>Content name</div>
+                        <div style='height:15px'></div>
+                        <input type='text' class='content-title-field'>
+                        <div style='height:50px'></div>
+                        <div class='step-header'>Content description (optional)</div>
+                        <div style='height:20px'></div>
+                        <!--
+                        <div class='step-description'>Every round, each actor will move. Sequential play will occur until the round limit is reached</div>
+                        -->
+                        <div class='content-textarea'>
+                            <div class='content-input-area' contenteditable="true" id='content-input-area1'>
+                                <div class='content-input-placeholder'>Describe the outlay of this content...</div>
+                            </div>
+                            <div class='content-input-footer'>
+                                <div class='attach-link'></div>
+                            </div>
+                        </div>
+                        <div style='height:40px'></div>
+                        <div class='next-step-button step-progress-button' data-tolink='/create-game-2'>Next</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style='height:100px'></div>
+        <div class='modal'>
+            <div style='height:150px'></div>
+            <div class='create-link-outer'>
+                <div class='create-link-header'>Insert or Edit Link</div>
+                <div style='height:30px'></div>
+                <div class='link-field-header'>Text to display</div>
+                <div style='height:15px'></div>
+                <input type='text' class='link-to-box text-to-display-field' data-fid='text-to-display-error' readonly>
+                <div class='link-text-error-field' id='text-to-display-error'></div>
+                <div style='height:20px'></div>
+                <div class='link-field-header'>Link to</div>
+                <div style='height:15px'></div>
+                <input type='text' class='link-to-box link-to-display-field' data-fid='link-to-display-error'>
+                <div class='link-text-error-field' id='link-to-display-error'></div>
+                <div style='height:30px'></div>
+                <div class='create-link-footer'>
+                    <div class='cancel-link-to'>Cancel</div>
+                    <div class='add-link-to'>Insert link</div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
