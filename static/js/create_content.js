@@ -43,13 +43,38 @@ $(document).ready(function(){
     $('body').on('input', '.content-input-area', function(){
         content_block.text = $(this).text();
     });
+    function deep_count(node){
+        if (node.nodeType === 3){
+            return node.length;
+        }
+        var _c = 0;
+        for (var i of node.childNodes){
+            _c += deep_count(i);
+        }
+        return _c;
+    }
+    function get_full_text_offset(node){
+        var c_node = node.previousSibling;
+        var c = 0;
+        while (c_node != null){
+            c += deep_count(c_node);
+            c_node = c_node.previousSibling;
+        }
+        return c;
+    }
     $('body').on('mouseup', '.content-textarea', function(){
         if (mouse_down && mouse_move){
             if (window.getSelection) {
                 var range = window.getSelection();
                 var r = range.toString();
                 if (r.replace(/^\s+|\s+$/, '').length > 0){
-                    selected_link_piece = {text:r, start:range.anchorOffset, end:range.focusOffset, link:null};
+                    var new_r = range.getRangeAt(0)
+                    var offset_count = get_full_text_offset(new_r.startContainer)
+                    console.log('all offset stuff here')
+                    console.log(offset_count)
+                    selected_link_piece = {text:r, start:offset_count+new_r.startOffset, end:offset_count+new_r.endOffset, link:null};
+                    console.log(selected_link_piece)
+                    
                     $('.attach-link').addClass('attach-link-focus')
                 }
             }
@@ -60,8 +85,6 @@ $(document).ready(function(){
     $('body').on('click', '.attach-link-focus', function(){
         $(this).removeClass('attach-link-focus');
         $('.modal').css('display', 'block');
-        console.log(`selected_link_piece below`)
-        console.log(selected_link_piece)
         $('.text-to-display-field').val(selected_link_piece.text);
         $('.link-to-display-field').val('');
         $('.link-to-display-field').focus();
@@ -74,15 +97,15 @@ $(document).ready(function(){
         var t_text = $('.text-to-display-field').val();
         var t_link = $('.link-to-display-field').val();
         if (t_text.length === 0){
-            $("#text-to-display-error").html('Cannot be leftempty');
+            $("#text-to-display-error").html('Cannot be left empty');
         }
         if (t_link.length === 0){
             $("#link-to-display-error").html('Cannot be left empty');
         }
         if (t_text.length && t_link.length){
             content_block.links.push({...selected_link_piece, text:t_text, link:t_link});
+            add_link_content_block(1, content_block)
             selected_link_piece = null;
-
             $('.modal').css('display', 'none');
         } 
     });
@@ -90,6 +113,15 @@ $(document).ready(function(){
         $(`#${$(this).data('fid')}`).html('');
     }); 
     function add_link_content_block(id, payload){
-        
+        var last_index = 0;
+        var build_up_text = `<div class='content-input-placeholder'></div>`;
+        for (var {text:t_text, link:l_link, start:_start, end:_end} of payload.links){
+            build_up_text += payload.text.substring(last_index, _start);
+            last_index = _end;
+            build_up_text += `<a href='${l_link}' class='content-block-link'>${t_text}</a>`;
+
+        }
+        build_up_text += payload.text.substring(last_index)
+        $(`#content-input-area${id}`).html(build_up_text);
     }
 });
