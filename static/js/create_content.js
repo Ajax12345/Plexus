@@ -40,9 +40,6 @@ $(document).ready(function(){
             mouse_move = true;
         }
     });
-    $('body').on('input', '.content-input-area', function(){
-        content_block.text = $(this).text();
-    });
     function deep_count(node){
         if (node.nodeType === 3){
             return node.length;
@@ -53,6 +50,9 @@ $(document).ready(function(){
         }
         return _c;
     }
+    $('body').on('input', '.content-input-area', function(){
+        content_block.text = $(this).text();
+    });
     function get_full_text_offset(node){
         var c_node = node.previousSibling;
         var c = 0;
@@ -72,7 +72,7 @@ $(document).ready(function(){
                     var offset_count = get_full_text_offset(new_r.startContainer)
                     console.log('all offset stuff here')
                     console.log(offset_count)
-                    selected_link_piece = {text:r, start:offset_count+new_r.startOffset, end:offset_count+new_r.endOffset, link:null};
+                    selected_link_piece = {start:offset_count+new_r.startOffset, end:offset_count+new_r.endOffset, link:null};
                     console.log(selected_link_piece)
                     
                     $('.attach-link').addClass('attach-link-focus')
@@ -85,7 +85,7 @@ $(document).ready(function(){
     $('body').on('click', '.attach-link-focus', function(){
         $(this).removeClass('attach-link-focus');
         $('.modal').css('display', 'block');
-        $('.text-to-display-field').val(selected_link_piece.text);
+        $('.text-to-display-field').val(content_block.text.substring(selected_link_piece.start, selected_link_piece.end));
         $('.link-to-display-field').val('');
         $('.link-to-display-field').focus();
     });
@@ -94,16 +94,12 @@ $(document).ready(function(){
         $('.modal').css('display', 'none');
     });
     $('body').on('click', '.add-link-to', function(){
-        var t_text = $('.text-to-display-field').val();
         var t_link = $('.link-to-display-field').val();
-        if (t_text.length === 0){
-            $("#text-to-display-error").html('Cannot be left empty');
-        }
         if (t_link.length === 0){
             $("#link-to-display-error").html('Cannot be left empty');
         }
-        if (t_text.length && t_link.length){
-            content_block.links.push({...selected_link_piece, text:t_text, link:t_link});
+        if (t_link.length){
+            content_block.links.push({...selected_link_piece, link:t_link, lid:(content_block.links.length === 0 ? 1 : Math.max(content_block.links.map(x => x.lid))+1)});
             content_block.links.sort(function(a, b){
                 if (a.end < b.start){
                     return -1
@@ -122,22 +118,69 @@ $(document).ready(function(){
         $(`#${$(this).data('fid')}`).html('');
     }); 
     function add_link_content_block(id, payload){
+        console.log('payload test in here')
+        console.log(JSON.stringify(payload))
         var last_index = 0;
         var build_up_text = `<div class='content-input-placeholder'></div>`;
-        for (var {text:t_text, link:l_link, start:_start, end:_end} of payload.links){
+        for (var {link:l_link, start:_start, end:_end, lid:_lid} of payload.links){
             build_up_text += payload.text.substring(last_index, _start);
             last_index = _end;
-            build_up_text += `<a href='${l_link}' class='content-block-link'>${t_text}</a>`;
+            build_up_text += `<a href='${l_link}' class='content-block-link' id='content-block-link${_lid}' data-lid='${_lid}'>${payload.text.substring(_start, _end)}</a>`;
 
         }
         build_up_text += payload.text.substring(last_index)
         $(`#content-input-area${id}`).html(build_up_text);
     }
-    var keydown_offset = null;
-    $('body').on('mousedown', '.content-input-area', function(){
-        keydown_offset = window.getSelection().getRangeAt(0).startOffset;
-    });
-    $('body').on('keydown', '.content-input-area', function(){
-        
+    function increment_link_siblings(node, factor = 1){
+        var s_node = node.nextSibling;
+        while (s_node != null){
+            if (s_node.nodeType != 3 && $(s_node).hasClass('content-block-link')){
+                for (var j of content_block.links){
+                    if (j.lid === parseInt($(s_node).data('lid'))){
+                        j.start += factor;
+                        j.end += factor;
+                    }
+                }
+            }
+            s_node = s_node.nextSibling;
+        }
+    }
+    $('body').on('keydown', '.content-input-area', function(e){
+        var r = window.getSelection().getRangeAt(0);
+        //startContainer
+        //startOffset
+        if (e.keyCode === 8){
+            //range = [r.startOffset - 2, r.startOffset-1];
+            if ($(r.startContainer.parentNode).hasClass('content-input-area')){
+                increment_link_siblings(r.startContainer, -1)
+            }
+            else{
+                increment_link_siblings(r.startContainer.parentNode, -1);
+                for (var j of content_block.links){
+                    if (j.lid === parseInt($(r.startContainer.parentNode).data('lid'))){
+                        j.end--;
+                    }
+                }
+                content_block.links = content_block.links.filter(x => x.start < x.end);
+            }
+        }
+        else if (/[a-zA-Z0-9-_ ]/.test(String.fromCharCode(e.keyCode))){
+            if ($(r.startContainer.parentNode).hasClass('content-input-area')){
+                increment_link_siblings(r.startContainer)
+            }
+            else{
+                increment_link_siblings(r.startContainer.parentNode)
+                for (var j of content_block.links){
+                    if (j.lid === parseInt($(r.startContainer.parentNode).data('lid'))){
+                        j.end++;
+                    }
+                }
+                
+            }   
+            //add_link_content_block(1, content_block)
+            //range = [r.startOffset-1, r.startOffset];
+        }
+        console.log('content block after incrementation detection')
+        console.log(JSON.stringify(content_block))
     });
 });
