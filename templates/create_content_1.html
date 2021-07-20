@@ -90,7 +90,7 @@
                         <div class='step-description'>Every round, each actor will move. Sequential play will occur until the round limit is reached</div>
                         -->
                         <div class='content-textarea'>
-                            <div class='content-input-area' contenteditable="true">
+                            <div class='content-input-area' contenteditable="true" id='content-input-area1'>
                                 <div class='content-input-placeholder'>Describe the outlay of this content...</div>
                             </div>
                             <div class='content-input-footer'>
@@ -111,11 +111,13 @@
                 <div style='height:30px'></div>
                 <div class='link-field-header'>Text to display</div>
                 <div style='height:15px'></div>
-                <input type='text' class='link-to-box text-to-display-field'>
+                <input type='text' class='link-to-box text-to-display-field' data-fid='text-to-display-error'>
+                <div class='link-text-error-field' id='text-to-display-error'></div>
                 <div style='height:20px'></div>
                 <div class='link-field-header'>Link to</div>
                 <div style='height:15px'></div>
-                <input type='text' class='link-to-box link-to-display-field'>
+                <input type='text' class='link-to-box link-to-display-field' data-fid='link-to-display-error'>
+                <div class='link-text-error-field' id='link-to-display-error'></div>
                 <div style='height:30px'></div>
                 <div class='create-link-footer'>
                     <div class='cancel-link-to'>Cancel</div>

@@ -29,6 +29,7 @@ $(document).ready(function(){
         }
     });
     var selected_link_piece = null;
+    var content_block = {text:'', links:[]};
     var mouse_down = false;
     var mouse_move = false;
     $('body').on('mousedown', '.content-textarea', function(){
@@ -39,13 +40,16 @@ $(document).ready(function(){
             mouse_move = true;
         }
     });
+    $('body').on('input', '.content-input-area', function(){
+        content_block.text = $(this).text();
+    });
     $('body').on('mouseup', '.content-textarea', function(){
         if (mouse_down && mouse_move){
-            if (window.getSelection) {  // all browsers, except IE before version 9
-                var range = window.getSelection ();
+            if (window.getSelection) {
+                var range = window.getSelection();
                 var r = range.toString();
                 if (r.replace(/^\s+|\s+$/, '').length > 0){
-                    selected_link_piece = {text:r};
+                    selected_link_piece = {text:r, start:range.anchorOffset, end:range.focusOffset, link:null};
                     $('.attach-link').addClass('attach-link-focus')
                 }
             }
@@ -56,14 +60,36 @@ $(document).ready(function(){
     $('body').on('click', '.attach-link-focus', function(){
         $(this).removeClass('attach-link-focus');
         $('.modal').css('display', 'block');
+        console.log(`selected_link_piece below`)
+        console.log(selected_link_piece)
         $('.text-to-display-field').val(selected_link_piece.text);
         $('.link-to-display-field').val('');
         $('.link-to-display-field').focus();
     });
     $('body').on('click', '.cancel-link-to', function(){
+        selected_link_piece = null;
         $('.modal').css('display', 'none');
     });
     $('body').on('click', '.add-link-to', function(){
-        $('.modal').css('display', 'none');
+        var t_text = $('.text-to-display-field').val();
+        var t_link = $('.link-to-display-field').val();
+        if (t_text.length === 0){
+            $("#text-to-display-error").html('Cannot be leftempty');
+        }
+        if (t_link.length === 0){
+            $("#link-to-display-error").html('Cannot be left empty');
+        }
+        if (t_text.length && t_link.length){
+            content_block.links.push({...selected_link_piece, text:t_text, link:t_link});
+            selected_link_piece = null;
+
+            $('.modal').css('display', 'none');
+        } 
     });
+    $('body').on('input', '.link-to-box', function(){
+        $(`#${$(this).data('fid')}`).html('');
+    }); 
+    function add_link_content_block(id, payload){
+        
+    }
 });

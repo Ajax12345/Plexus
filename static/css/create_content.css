@@ -458,3 +458,9 @@ body{
     cursor:pointer;
     background-color:rgb(203, 55, 203);
 }
+.link-text-error-field{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:15px;
+    font-weight:400;
+    color:rgb(252, 58, 58);
+}
