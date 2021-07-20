@@ -104,6 +104,15 @@ $(document).ready(function(){
         }
         if (t_text.length && t_link.length){
             content_block.links.push({...selected_link_piece, text:t_text, link:t_link});
+            content_block.links.sort(function(a, b){
+                if (a.end < b.start){
+                    return -1
+                }
+                if (a.start > b.end){
+                    return 1
+                }
+                return 0;
+            });
             add_link_content_block(1, content_block)
             selected_link_piece = null;
             $('.modal').css('display', 'none');
