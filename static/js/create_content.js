@@ -133,4 +133,11 @@ $(document).ready(function(){
         build_up_text += payload.text.substring(last_index)
         $(`#content-input-area${id}`).html(build_up_text);
     }
+    var keydown_offset = null;
+    $('body').on('mousedown', '.content-input-area', function(){
+        keydown_offset = window.getSelection().getRangeAt(0).startOffset;
+    });
+    $('body').on('keydown', '.content-input-area', function(){
+        
+    });
 });
