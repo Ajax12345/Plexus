@@ -199,10 +199,28 @@ $(document).ready(function(){
             }
             $('.content-input-placeholder').text('Describe the outlay of this content...');
             content_block = {text:'', title:'', links:[]};
+            
             if (content_queue.length === 1){
-                $('div[data-sid="7"].step-listing-col > .step-spacer').removeClass('step-spacer-trailing')
-                $("#step-progress-col7 .progress-bar").css('height', '50px')
+                $('div[data-sid="7"].step-listing-col > .step-spacer').addClass('step-spacer-slide-display')
+                $("#step-progress-col7 .progress-bar").css('height', '20px')
             }
+            var nid = 7+content_queue.length;
+            $('.progress-main').append(`<div class="step-listing-col" data-sid="${nid}" data-circle="true">
+                <div class='slide-title-progress'>${content_queue[content_queue.length-1].title}</div>
+            </div>`);
+            $('.progress-main').append(`<div class="step-progress-col" id="step-progress-col${nid}">
+                <div class='slide-dot-display'></div>
+            </div>`);
+            var nh = (parseInt($(`div[data-sid="${nid}"].step-listing-col`).css('height').match('\\d+')) - parseInt($(`#step-progress-col${nid} > .slide-dot-display`).css('height').match('\\d+')))/2;
+            $(`<div class='progress-bar' style='height:${nh}px'></div>`).insertBefore(`#step-progress-col${nid} > .slide-dot-display`)
+            $(`<div class='progress-bar' style='height:${nh}px'></div>`).insertAfter(`#step-progress-col${nid} > .slide-dot-display`)
+            $('.progress-main').append(`<div class="step-listing-col" data-circle="true">
+                <div class="step-spacer step-spacer-trailing step-spacer-slide-display"></div>
+            </div>`);
+            $('.progress-main').append(`<div class="step-progress-col">
+                <div class="progress-bar" style="height: 20px;"></div>
+            </div>`);
+
         }
     });
 });
