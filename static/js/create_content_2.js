@@ -28,8 +28,11 @@ $(document).ready(function(){
             $('.content-input-placeholder').text('Describe the outlay of this content...');
         }
     });
+    $('body').on('input', '.content-title-field', function(){
+        content_block.title = $(this).val();
+    }); 
     var selected_link_piece = null;
-    var content_block = {text:'', links:[]};
+    var content_block = {text:'', title:'', links:[]};
     var mouse_down = false;
     var mouse_move = false;
     $('body').on('mousedown', '.content-textarea', function(){
@@ -182,5 +185,24 @@ $(document).ready(function(){
         }
         console.log('content block after incrementation detection')
         console.log(JSON.stringify(content_block))
+    });
+    var content_queue = [];
+    $('body').on('click', '.add-slide-button', function(){
+        if (content_block.title.length > 0 && content_block.text.length > 0){
+            content_queue.push(JSON.parse(JSON.stringify(content_block)));
+            $('.content-title-field').val('');
+            var _c_b = document.querySelector('#content-input-area1');
+            for (var i of _c_b.childNodes){
+                if (i.nodeType === 3 || !$(i).hasClass('content-input-placeholder')){
+                    _c_b.removeChild(i);
+                }
+            }
+            $('.content-input-placeholder').text('Describe the outlay of this content...');
+            content_block = {text:'', title:'', links:[]};
+            if (content_queue.length === 1){
+                $('div[data-sid="7"].step-listing-col > .step-spacer').removeClass('step-spacer-trailing')
+                $("#step-progress-col7 .progress-bar").css('height', '50px')
+            }
+        }
     });
 });

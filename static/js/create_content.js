@@ -28,8 +28,11 @@ $(document).ready(function(){
             $('.content-input-placeholder').text('Describe the outlay of this content...');
         }
     });
+    $('body').on('input', '.content-title-field', function(){
+        content_block.title = $(this).val();
+    }); 
     var selected_link_piece = null;
-    var content_block = {text:'', links:[]};
+    var content_block = {text:'', title:'', links:[]};
     var mouse_down = false;
     var mouse_move = false;
     $('body').on('mousedown', '.content-textarea', function(){
