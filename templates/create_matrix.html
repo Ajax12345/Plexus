@@ -1,0 +1,158 @@
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width">
+        <title>Create Matrix</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src='/static/js/create_matrix.js'></script>
+        <link rel='stylesheet' href='/static/css/create_matrix.css'>
+    </head>
+    <body>
+        <div class='header'>
+            <div class='header-main'>
+                <div></div>
+                <div>
+                    <div class='user-profile-display'>
+                        <img src='https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon' class='dashboard-avatar'>
+                        <div class='welcome-user-text'><a href='/profile' class='logged-in-profile'>James Petullo</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style='height:50px'></div>
+        <div class='main-wrapper'>
+            <div class='action-title'>Create Matrix</div>
+            <div style='height:10px'></div>
+            <div class="about-content">
+                The matrix specify the actors, reactions, and payouts that power your game.
+            </div>
+            <div style='height:10px'></div>
+            <div class='back-to-game-creation'>
+                <div class='back-to-create-icon'></div>
+                <div class='back-to-create-text'>Back to game creation</div>
+            </div>
+            <div style='height:40px'></div>
+            <div class='steps-main-outer'>
+                <div class='steps-progression-col'>
+                    <div class='progress-main'>
+                        <div class='step-listing-col' data-sid='1' data-circle='false'>
+                            <div class='step-spacer step-spacer-trailing'></div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col1'>
+                            <div class='progress-bar'></div>
+                        </div>
+                        <div class='step-listing-col' data-sid='2' data-circle='true'>
+                            <div class='step-text'>Basic</div>
+                            <div class='step-text-desc'>Name and description</div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col2'>
+                            <div class='process-circle'>
+                                <div class='progress-step'>1</div>
+                            </div>
+                        </div>
+                        <div class='step-listing-col' data-sid='3' data-circle='false'>
+                            <div class='step-spacer'></div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col3'>
+                            <div class='progress-bar'></div>
+                        </div>
+                        <div class='step-listing-col' data-sid='4' data-circle='true'>
+                            <div class='step-text'>Add Actors</div>
+                            <div class='step-text-desc'>Create the opposing sides</div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col4'>
+                            <div class='process-circle progress-circle-not-completed'>
+                                <div class='progress-step'>2</div>
+                            </div>
+                        </div>
+                        <div class='step-listing-col' data-sid='5' data-circle='false'>
+                            <div class='step-spacer'></div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col5'>
+                            <div class='progress-bar'></div>
+                        </div>
+                        <div class='step-listing-col' data-sid='6' data-circle='true'>
+                            <div class='step-text'>Add Reactions</div>
+                            <div class='step-text-desc'>The moves each side can play</div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col6'>
+                            <div class='process-circle progress-circle-not-completed'>
+                                <div class='progress-step'>3</div>
+                            </div>
+                        </div>
+                        <div class='step-listing-col' data-sid='7' data-circle='false'>
+                            <div class='step-spacer'></div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col7'>
+                            <div class='progress-bar'></div>
+                        </div>
+                        <div class='step-listing-col' data-sid='8' data-circle='true'>
+                            <div class='step-text'>Add Payouts</div>
+                            <div class='step-text-desc'>Points awarded per move</div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col8'>
+                            <div class='process-circle progress-circle-not-completed'>
+                                <div class='progress-step'>4</div>
+                            </div>
+                        </div>
+                        <div class='step-listing-col' data-sid='9' data-circle='false'>
+                            <div class='step-spacer step-spacer-trailing'></div>
+                        </div>
+                        <div class='step-progress-col' id='step-progress-col9'>
+                            <div class='progress-bar'></div>
+                        </div>
+                    </div>
+                </div>
+                <div></div>
+                <div class='main-entry-col'>
+                    <div class='field-wrapper'>
+                        <div class='step-header'>Matrix name</div>
+                        <div style='height:15px'></div>
+                        <input type='text' class='content-title-field'>
+                        <div style='height:50px'></div>
+                        <div class='step-header'>Matrix description (optional)</div>
+                        <div style='height:20px'></div>
+                        <!--
+                        <div class='step-description'>Every round, each actor will move. Sequential play will occur until the round limit is reached</div>
+                        -->
+                        <div class='content-textarea'>
+                            <div class='content-input-area' contenteditable="true" id='content-input-area1'>
+                                <div class='content-input-placeholder'>Describe this matrix...</div>
+                            </div>
+                            <div class='content-input-footer'>
+                                <div class='attach-link'></div>
+                            </div>
+                        </div>
+                        <div style='height:40px'></div>
+                        <div class='next-step-button step-progress-button' data-tolink='/create-game-2'>Next</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style='height:100px'></div>
+        <div class='modal'>
+            <div style='height:150px'></div>
+            <div class='create-link-outer'>
+                <div class='create-link-header'>Insert or Edit Link</div>
+                <div style='height:30px'></div>
+                <div class='link-field-header'>Text to display</div>
+                <div style='height:15px'></div>
+                <input type='text' class='link-to-box text-to-display-field' data-fid='text-to-display-error' readonly>
+                <div class='link-text-error-field' id='text-to-display-error'></div>
+                <div style='height:20px'></div>
+                <div class='link-field-header'>Link to</div>
+                <div style='height:15px'></div>
+                <input type='text' class='link-to-box link-to-display-field' data-fid='link-to-display-error'>
+                <div class='link-text-error-field' id='link-to-display-error'></div>
+                <div style='height:30px'></div>
+                <div class='create-link-footer'>
+                    <div class='cancel-link-to'>Cancel</div>
+                    <div class='add-link-to'>Insert link</div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
