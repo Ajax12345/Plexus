@@ -186,4 +186,10 @@ $(document).ready(function(){
         console.log('content block after incrementation detection')
         console.log(JSON.stringify(content_block))
     });
+    $('body').on('click', '.radio-box', function(){
+        if (!$(this).hasClass('radio-box-selected')){
+            $('.radio-box-selected').removeClass('radio-box-selected')
+            $(this).addClass('radio-box-selected')
+        }
+    });
 });
