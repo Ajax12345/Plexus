@@ -12,7 +12,7 @@ $(document).ready(function(){
             }
         }
     }
-    $('.content-title-field').focus();
+    $('.matrix-title-field').focus();
     setTimeout(function(){
         format_progress_bar();
     }, 100)

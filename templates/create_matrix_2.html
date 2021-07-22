@@ -2,7 +2,7 @@
     <head>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width">
-        <title>Create Matrix</title>
+        <title>Create Matrix 2</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@
             <div class='action-title'>Create Matrix</div>
             <div style='height:10px'></div>
             <div class="about-content">
-                The matrix specify the actors, reactions, and payouts that power your game.
+                The matrix specifies the actors, reactions, and payouts that power your game.
             </div>
             <div style='height:10px'></div>
             <div class='back-to-game-creation'>
@@ -49,8 +49,8 @@
                             <div class='step-text-desc'>Name and description</div>
                         </div>
                         <div class='step-progress-col' id='step-progress-col2'>
-                            <div class='process-circle'>
-                                <div class='progress-step'>1</div>
+                            <div class='process-circle progress-circle-complete'>
+                                <div class='progress-complete-check'></div>
                             </div>
                         </div>
                         <div class='step-listing-col' data-sid='3' data-circle='false'>
@@ -64,7 +64,7 @@
                             <div class='step-text-desc'>Create the opposing sides</div>
                         </div>
                         <div class='step-progress-col' id='step-progress-col4'>
-                            <div class='process-circle progress-circle-not-completed'>
+                            <div class='process-circle'>
                                 <div class='progress-step'>2</div>
                             </div>
                         </div>
@@ -109,22 +109,27 @@
                 <div></div>
                 <div class='main-entry-col'>
                     <div class='field-wrapper'>
-                        <div class='step-header'>Matrix name</div>
-                        <div style='height:15px'></div>
-                        <input type='text' class='matrix-title-field'>
+                        <div class="step-header step-main">Add actors</div>
+                        <div style="height:10px"></div>
+                        <div class="step-description">The actors are the two sides that will face off in the game.</div>
+                        <div style="height:30px"></div>
+                        <div class='add-actors-outer'>
+                            <div class='actor-title-prompt'>Actor 1</div>
+                            <div></div>
+                            <div class='actor-title-prompt'>Actor 2</div>
+                            <input type='text' class='actor-name-field'>
+                            <div class='actor-title-prompt' style='font-size:20px'>vs.</div>
+                            <input type='text' class='actor-name-field'>
+                        </div>
                         <div style='height:50px'></div>
-                        <div class='step-header'>Matrix description (optional)</div>
-                        <div style='height:20px'></div>
-                        <!--
-                        <div class='step-description'>Every round, each actor will move. Sequential play will occur until the round limit is reached</div>
-                        -->
-                        <div class='content-textarea'>
-                            <div class='content-input-area' contenteditable="true" id='content-input-area1'>
-                                <div class='content-input-placeholder'>Describe this matrix...</div>
-                            </div>
-                            <div class='content-input-footer'>
-                                <div class='attach-link'></div>
-                            </div>
+                        <div class='actor-move-prompt'>Which actor moves first?</div>
+                        <div style="height:30px"></div>
+                        <div class='first-move-selection'>
+                            <div class='radio-box'></div>
+                            <div class='actor-name'>Protestors</div>
+                            <div></div>
+                            <div class='radio-box'></div>
+                            <div class='actor-name'>Police</div>
                         </div>
                         <div style='height:40px'></div>
                         <div class='next-step-button step-progress-button' data-tolink='/create-matrix-2'>Next</div>
