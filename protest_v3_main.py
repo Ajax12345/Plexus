@@ -55,6 +55,10 @@ def create_matrix():
 def create_matrix_2():
     return flask.render_template('create_matrix_2.html')
 
+@app.route('/create-matrix-3', methods=['GET'])
+def create_matrix_3():
+    return flask.render_template('create_matrix_3.html')
+
 @app.route('/first-player-game-window', methods=['GET'])
 def first_player_game_window():
     return flask.render_template('game_window_v3.html')
