@@ -586,3 +586,48 @@ body{
     background-color:white;
     margin: 0 auto;
 }
+.actor-add-reactions-prompt{
+    color:rgb(40, 40, 40);
+    font-size:19px;
+    font-weight:400;
+    font-family: 'Source Sans Pro', sans-serif;
+    white-space: nowrap;
+}
+.actor-hashtag{
+    color: rgb(27, 149, 224);
+    font-weight: 600;
+}
+.next-step-wrapper{
+    display: grid;
+    grid-template-columns: min-content min-content;
+    column-gap: 10px;
+}
+.next-step-sequence{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 600;
+    color: rgb(211, 61, 211);
+    font-size: 20px;
+}
+.next-step-current{
+    color:darkgrey !important;
+}
+.add-reaction-field{
+    width: 250px;
+    border: 1px solid rgb(213, 213, 213);
+    padding: 8px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 16px;
+    border-radius: 8px;
+    color: rgb(40, 40, 40);
+}
+.add-reaction-field:focus{
+    outline:none;
+    border-color:rgb(211, 61, 211);
+}
+.add-reactions{
+    display: grid;
+    grid-template-columns: min-content min-content;
+    align-items: center;
+    column-gap: 10px;
+    row-gap: 20px;
+}   
