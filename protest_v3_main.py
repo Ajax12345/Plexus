@@ -63,6 +63,10 @@ def create_matrix_3():
 def first_player_game_window():
     return flask.render_template('game_window_v3.html')
 
+@app.route('/fourth-player-game-window', methods=['GET'])
+def fourth_player_game_window():
+    return flask.render_template('game_window_v3_4.html')
+
 @app.route('/second-player-game-window', methods=['GET'])
 def second_player_game_window():
     return flask.render_template('game_window_v3_1.html')

@@ -26,6 +26,7 @@ body{
     float:right;
     padding:50px;
     padding-top:60px;
+    width:250px;
 }
 .about-wrapper-inner{
     max-width: 323px;
@@ -139,7 +140,7 @@ body{
     border-top:1px solid rgb(226, 226, 226);
     border-bottom:1px solid rgb(226, 226, 226);
     padding:12px;
-    padding-left:15px;
+    padding-right:15px;
     padding-left:15px;
 }
 .message-team-outer{
@@ -399,4 +400,11 @@ body{
     color:rgb(27, 149, 224);
     border-color:rgb(29, 142, 213);
     background-color:rgb(252, 252, 252);
+}
+.what-you-need-to-know{
+    margin-top: 10px;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(40, 40, 40);
+    font-size: 17px;
+    font-weight: 400;
 }
