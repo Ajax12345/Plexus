@@ -83,6 +83,10 @@ def third_player_game_window():
 def instructor_player_game_window():
     return flask.render_template('game_window_v3_3.html')
 
+@app.route('/game/testgame', methods=['GET'])
+def game_dashboard():
+    return flask.render_template('game_dashboard.html')
+
 @app.after_request
 def add_header(r):
     """
