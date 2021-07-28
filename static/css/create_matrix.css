@@ -715,7 +715,7 @@ body{
     display:grid;
     grid-template-columns: min-content min-content min-content;
     column-gap: 7px;
-    row-gap: 6px;
+    row-gap: 8px;
     align-items: center;
 }
 .award-payouts-text{
