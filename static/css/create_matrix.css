@@ -674,6 +674,7 @@ body{
     color: rgb(40, 40, 40);
     font-weight: 400;
     padding-left: 8px;
+    padding-right: 8px;
     padding-top: 5px;
     background-color: #f3f3f3;
     padding-bottom: 5px;
@@ -688,4 +689,53 @@ body{
 }
 .remove-reaction:hover{
     cursor:pointer;
+}
+.side-move-description{
+    color: rgb(40, 40, 40);
+    font-size: 18px;
+    font-weight: 400;
+    font-family: 'Source Sans Pro', sans-serif;
+    /* white-space: nowrap; */
+    line-height: 1.8;
+}
+.reaction-pill{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 16px;
+    border-radius: 8px;
+    color: rgb(40, 40, 40);
+    font-weight: 400;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 5px;
+    background-color: #f3f3f3;
+    padding-bottom: 5px;
+    font-weight: 600;
+}
+.award-points-outer{
+    display:grid;
+    grid-template-columns: min-content min-content min-content;
+    column-gap: 15px;
+    row-gap: 6px;
+    align-items: center;
+}
+.award-payouts-text{
+    color: rgb(40, 40, 40);
+    font-size: 18px;
+    font-weight: 400;
+    font-family: 'Source Sans Pro', sans-serif;
+    white-space: nowrap;
+}
+.payoff-point-field{
+    width: 250px;
+    border: 1px solid rgb(213, 213, 213);
+    padding: 6px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 16px;
+    border-radius: 8px;
+    color: rgb(40, 40, 40);
+    width:50px;
+}
+.payoff-point-field:focus{
+    outline: none;
+    border-color: rgb(211, 61, 211);
 }

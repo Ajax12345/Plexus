@@ -79,8 +79,8 @@
                             <div class='step-text-desc'>The moves each side can play</div>
                         </div>
                         <div class='step-progress-col' id='step-progress-col6'>
-                            <div class='process-circle'>
-                                <div class='progress-step'>3</div>
+                            <div class='process-circle progress-circle-complete'>
+                                <div class='progress-complete-check'></div>
                             </div>
                         </div>
                         <div class='step-listing-col' data-sid='7' data-circle='false'>
@@ -94,7 +94,7 @@
                             <div class='step-text-desc'>Points awarded per move</div>
                         </div>
                         <div class='step-progress-col' id='step-progress-col8'>
-                            <div class='process-circle progress-circle-not-completed'>
+                            <div class='process-circle'>
                                 <div class='progress-step'>4</div>
                             </div>
                         </div>
@@ -109,18 +109,19 @@
                 <div></div>
                 <div class='main-entry-col'>
                     <div class='field-wrapper'>
-                        <div class="step-header step-main">Add reactions</div>
+                        <div class="step-header step-main">Add payoffs</div>
                         <div style="height:10px"></div>
-                        <div class="step-description">Reactions are the possible moves that an actors can make in the game.</div>
+                        <div class="step-description">Payoffs are the points that are added to the total score of each side for a given pair of reactions.</div>
                         <div style="height:30px"></div>
-                        <div class='actor-add-reactions-prompt'>Add reactions for <span class='actor-hashtag'>#Protestors</span>:</div>
-                        <div style='height:20px'></div>
-                        <div class='add-reactions'>
-
-                        </div>
-                        <div class='add-reaction-outer'>
-                            <input type='text' class='add-reaction-field' placeholder='i.e "non-violent"'>
-                            <div class='add-reaction'>Add</div>
+                        <div class='side-move-description'>When the <span class="actor-hashtag">#Police</span> reaction is <span class='reaction-pill'>Violent</span> and the <span class="actor-hashtag">#Protestors</span> reaction is <span class='reaction-pill'>Violent</span>:</div>
+                        <div style='height:20px'></div> 
+                        <div class='award-points-outer'>
+                            <div class='award-payouts-text'>Award</div>
+                            <input type='number' class='payoff-point-field' value='0' data-fid='1'>
+                            <div class='award-payouts-text'><span id='award-points-point-text1'>points</span> to <span class="actor-hashtag">#Police</span></div>
+                            <div class='award-payouts-text'>Award</div>
+                            <input type='number' class='payoff-point-field' value='0' data-fid='2'>
+                            <div class='award-payouts-text'><span id='award-points-point-text2'>points</span> to <span class="actor-hashtag">#Protestors</span></div>
                         </div>
                         <div style='height:80px'></div>
                         <div class='next-step-outer'>
