@@ -192,4 +192,30 @@ $(document).ready(function(){
             $(this).addClass('radio-box-selected')
         }
     });
+    var reactions = [];
+    function add_reaction(){
+        var _reaction = $('.add-reaction-field').val();
+        if (_reaction.length > 0){
+            var _r_id = (reactions.length > 0 ? Math.max(...reactions) : 0)+1;
+            reactions.push(_r_id)
+            $('.add-reaction-outer').append(`
+                <div class='reaction-entry' data-rid='${_r_id}'>${_reaction}</div>
+                <div class='remove-reaction' data-rid='${_r_id}'></div>
+            `);
+            $('.add-reaction-field').val('');
+        }
+    }
+    $('body').on('click', '.add-reaction', function(){
+        add_reaction();
+    });
+    $('body').on('click', '.remove-reaction', function(){
+        var _rid = $(this).data('rid');
+        reactions = reactions.filter(x => x != parseInt(_rid));
+        $(`div[data-rid="${_rid}"]`).remove()
+    });
+    $('body').on('keypress', '.add-reaction-field', function(e){
+        if (e.keyCode === 13){
+            add_reaction();
+        }
+    });
 });
