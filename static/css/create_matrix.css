@@ -714,7 +714,7 @@ body{
 .award-points-outer{
     display:grid;
     grid-template-columns: min-content min-content min-content;
-    column-gap: 15px;
+    column-gap: 7px;
     row-gap: 6px;
     align-items: center;
 }
@@ -734,6 +734,8 @@ body{
     border-radius: 8px;
     color: rgb(40, 40, 40);
     width:50px;
+    padding-top: 4px;
+    padding-bottom: 4px;
 }
 .payoff-point-field:focus{
     outline: none;
