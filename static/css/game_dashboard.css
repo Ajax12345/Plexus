@@ -299,3 +299,62 @@ body{
 .blank-entry .nav-text{
     visibility: hidden;
 }
+.game-settings-outer{
+    display: grid;
+    grid-template-columns: auto auto;
+    row-gap: 60px;
+    align-items: center;
+    width:80%;
+    margin:0 auto;
+    column-gap:35%;
+}
+.game-setting-entry{
+    color: rgb(40, 40, 40);
+    font-size: 18px;
+    font-weight: 600;
+    font-family: 'Source Sans Pro', sans-serif;
+    white-space: nowrap;
+}
+.game-setting-entry-outer{
+    display: grid;
+    grid-template-columns: min-content min-content;
+    column-gap: 10px;
+    align-items: center;
+}
+.game-setting-field{
+    border: 1px solid rgb(213, 213, 213);
+    /* border-bottom: 2px solid rgb(213, 213, 213); */
+    padding: 8px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 17px;
+    border-radius: 8px;
+    color: rgb(40, 40, 40);
+}
+.game-setting-field:focus{
+    outline: none;
+    border-color: rgb(211, 61, 211);
+}
+.game-setting-field-disabled{
+    border:none;
+}
+.game-setting-field-disabled:focus{
+    border-color: white !important;
+}
+.game-component-link{
+    color: rgb(27, 149, 224);
+    font-size: 17px;
+    font-weight: 400;
+    font-family: 'Source Sans Pro', sans-serif;
+    white-space: nowrap;
+}
+.game-component-link:hover{
+    cursor:pointer;
+    text-decoration: underline;
+}
+.game-component-outer{
+    display: grid;
+    grid-template-columns: min-content min-content;
+    align-items: center;
+    column-gap: 6px;
+    margin-left:8px;
+}
