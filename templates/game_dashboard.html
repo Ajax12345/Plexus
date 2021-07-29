@@ -72,15 +72,24 @@
             <div style='height:20px'></div>
             <div class='game-row-divider'></div>
             <div style='height:20px'></div>
+            <div class='make-edits'>
+                <div class='edit-entry-outer entry-control-edit'>
+                    <div class='edit-entries'>
+                        <div>Edit</div>
+                        <div class='edit-entry'></div>
+                    </div>
+                </div>
+                <div class='edit-entry-outer'>
+                    <div class='cancel-edit'>Cancel</div>
+                </div>
+            </div>
+            <div style='height:20px'></div>
             <div class='game-settings-outer'>
                 <div class='game-setting-entry'>Game name</div>
-                <div class='game-setting-entry-outer'>
-                    <input type='text' value='Protest game' class='game-setting-field game-setting-field-disabled' readonly>
-                </div>
+                <input type='text' value='Protest game' class='game-setting-field game-setting-field-disabled' data-fid='1' readonly>
                 <div class='game-setting-entry'>Number of rounds</div>
-                <div class='game-setting-entry-outer'>
-                    <input type='number' value='6' class='game-setting-field game-setting-field-disabled' readonly>
-                </div>
+                <input type='number' value='6' class='game-setting-field game-setting-field-disabled' data-fid='2' readonly>
+                
                 <div class='game-setting-entry'>Payoff matrix</div>
                 <div class='game-component-outer'>
                     <div class='game-component-link'>Protest Game Matrix</div>

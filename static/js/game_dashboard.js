@@ -52,4 +52,38 @@ $(document).ready(function(){
             $('.about-block-tooltip').remove();
         }
     }, ".tooltip-info"); 
+    $('body').on('click', '.edit-entries', function(){
+        $('.entry-control-edit').html(`<div class='save-edits save-edits-disabled'>Save</div>`);
+        $('.cancel-edit').css('display', 'block')
+        $('.game-setting-field').each(function(){
+            $(this).removeClass('game-setting-field-disabled')
+            $(this).attr('readonly', false)
+        });
+    });
+    $('body').on('click', '.cancel-edit', function(){
+        $('.entry-control-edit').html(`
+            <div class='edit-entries'>
+                <div>Edit</div>
+                <div class='edit-entry'></div>
+            </div>
+        `);
+        $('.cancel-edit').css('display', 'none')
+        $('.game-setting-field').each(function(){
+            $(this).addClass('game-setting-field-disabled')
+            $(this).attr('readonly', true)
+        });
+    });
+    function edit_game_name(ref, val){
+        $('.save-edits').removeClass('save-edits-disabled')
+    }
+    function edit_game_rounds(ref, val){
+        if (parseInt(val) < 1){
+            $(ref).val('1')
+        }
+        $('.save-edits').removeClass('save-edits-disabled')
+    }
+    var _edit_id_bindings = {1:edit_game_name, 2:edit_game_rounds}
+    $('body').on('input', '.game-setting-field', function(){
+        _edit_id_bindings[parseInt($(this).data('fid'))](this, $(this).val())
+    });
 });

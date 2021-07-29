@@ -19,4 +19,9 @@ $(document).ready(function(){
     $('body').on('click', '.step-progress-button', function(){
         window.location.replace($(this).data('tolink'))
     });
+    $('body').on('input', '.round-number-field', function(){
+        if (parseInt($(this).val()) < 1){
+            $(this).val('1')
+        }
+    });
 });
