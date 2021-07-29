@@ -433,9 +433,12 @@ body{
 }
 .save-edits-disabled{
     opacity: 0.5;
+    background-color: rgb(211, 61, 211) !important;
 }
 .save-edits:hover{
     cursor:pointer;
+    background-color: rgb(195, 47, 195);
+    transition: 0.2s;
 }
 .save-edits-disabled:hover{
     cursor:default !important;
