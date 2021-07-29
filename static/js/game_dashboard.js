@@ -36,4 +36,20 @@ $(document).ready(function(){
             $(this).addClass('nav-entry-selected');
         }
     });
+    $(document).on({
+        mouseenter: function () {
+            
+            var t = this.offsetTop;
+            var l = this.offsetLeft;
+            var h = parseInt($(this).css('height').match('\\d+'));
+            $('body').append(`<div class='about-block-tooltip'>${$(this).data('tooltip')}</div>`);
+            var h1 = parseInt($('.about-block-tooltip').css('height').match('\\d+'));
+            $('.about-block-tooltip').css('top', t-(h1-h)/2);
+            $('.about-block-tooltip').css('left', l+25);
+                
+        },
+        mouseleave: function () {
+            $('.about-block-tooltip').remove();
+        }
+    }, ".tooltip-info"); 
 });
