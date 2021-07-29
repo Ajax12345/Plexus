@@ -213,7 +213,7 @@ body{
 }
 .player-access-link-outer{
     display: grid;
-    grid-template-columns: min-content min-content min-content min-content;
+    grid-template-columns: min-content min-content min-content;
     column-gap: 7px;
     align-items: center;
 }
@@ -259,4 +259,5 @@ body{
     background-color: rgb(39 38 38);
     white-space: nowrap;
     margin-left: 5px;
+    position: absolute;
 }
