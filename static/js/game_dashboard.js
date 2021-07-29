@@ -28,4 +28,12 @@ $(document).ready(function(){
             $('.copy-game-tooltip').remove();
         }
     }, ".copy-game-link"); 
+    $('body').on('click', '.nav-entry', function(){
+        if (!$(this).hasClass('nav-entry-selected')){
+            $('.nav-entry').each(function(){
+                $(this).removeClass('nav-entry-selected');
+            });
+            $(this).addClass('nav-entry-selected');
+        }
+    });
 });

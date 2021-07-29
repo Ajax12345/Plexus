@@ -261,3 +261,41 @@ body{
     margin-left: 5px;
     position: absolute;
 }
+.nav-header{
+    display: grid;
+    grid-template-columns: min-content min-content min-content auto;
+}
+.nav-text{
+    font-size: 16px;
+    font-weight: 400;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(130, 130, 130);
+    white-space: nowrap;
+    padding-left:17px;
+    padding-right: 17px;
+}
+.entry-chosen-bar{
+    height:3px;
+    background-color:rgb(211, 61, 211);
+    visibility: hidden;
+}
+.nav-entry-underscore{
+    height: 1px;
+    background-color: rgb(226 226 226);
+}
+.nav-entry-selected .nav-entry-underscore-selected{
+    background-color:rgb(211, 61, 211);
+}
+.nav-entry-selected .entry-chosen-bar{
+    visibility: visible;
+}
+.nav-entry:hover{
+    cursor:pointer;
+}
+.nav-entry:hover .nav-text{
+    color: rgb(103, 103, 103);
+    transition: 0.2s;
+}
+.blank-entry .nav-text{
+    visibility: hidden;
+}
