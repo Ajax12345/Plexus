@@ -283,8 +283,8 @@ body{
     height: 1px;
     background-color: rgb(226 226 226);
 }
-.nav-entry-selected .nav-entry-underscore-selected{
-    background-color:rgb(211, 61, 211);
+.nav-entry-selected .nav-entry-underscore{
+    background-color:rgb(211, 61, 211) !important;
 }
 .nav-entry-selected .entry-chosen-bar{
     visibility: visible;

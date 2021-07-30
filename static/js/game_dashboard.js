@@ -74,17 +74,19 @@ $(document).ready(function(){
         });
     });
     $('body').on('click', '.save-edits', function(){
-        $('.entry-control-edit').html(`
-            <div class='edit-entries'>
-                <div>Edit</div>
-                <div class='edit-entry'></div>
-            </div>
-        `);
-        $('.cancel-edit').css('display', 'none')
-        $('.game-setting-field').each(function(){
-            $(this).addClass('game-setting-field-disabled')
-            $(this).attr('readonly', true)
-        });
+        if (!$(this).hasClass('save-edits-disabled')){
+            $('.entry-control-edit').html(`
+                <div class='edit-entries'>
+                    <div>Edit</div>
+                    <div class='edit-entry'></div>
+                </div>
+            `);
+            $('.cancel-edit').css('display', 'none')
+            $('.game-setting-field').each(function(){
+                $(this).addClass('game-setting-field-disabled')
+                $(this).attr('readonly', true)
+            });
+        }
     });
     function edit_game_name(ref, val){
         $('.save-edits').removeClass('save-edits-disabled')

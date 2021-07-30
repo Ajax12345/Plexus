@@ -87,6 +87,10 @@ def instructor_player_game_window():
 def game_dashboard():
     return flask.render_template('game_dashboard.html')
 
+@app.route('/game1/testgame', methods=['GET'])
+def game_dashboard1():
+    return flask.render_template('game_dashboard_1.html')
+
 @app.after_request
 def add_header(r):
     """
