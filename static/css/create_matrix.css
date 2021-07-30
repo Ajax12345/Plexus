@@ -717,6 +717,7 @@ body{
     column-gap: 7px;
     row-gap: 8px;
     align-items: center;
+    margin-left:40px;
 }
 .award-payouts-text{
     color: rgb(40, 40, 40);

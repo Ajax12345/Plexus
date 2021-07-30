@@ -91,6 +91,10 @@ def game_dashboard():
 def game_dashboard1():
     return flask.render_template('game_dashboard_1.html')
 
+@app.route('/game2/testgame', methods=['GET'])
+def game_dashboard2():
+    return flask.render_template('game_dashboard_2.html')
+
 @app.after_request
 def add_header(r):
     """
