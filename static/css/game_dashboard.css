@@ -42,7 +42,7 @@ body{
     border-radius:50%;
 }
 .dashboard-main{
-    width:55%;
+    width:45%;
     margin:0 auto;
 }
 .dashboard-nav-block{
@@ -499,7 +499,7 @@ body{
     font-family: 'Source Sans Pro', sans-serif;
 }
 .player-table-role{
-    font-size: 16px;
+    font-size: 15px;
     font-family: 'Source Sans Pro', sans-serif;
     color: rgb(27, 149, 224);
     font-weight: 600;
@@ -547,6 +547,57 @@ body{
 }
 .result-span-underscore{
     border-bottom:1px solid rgb(226 226 226);
-    width:calc(100% - 5px);
+    width:calc(100% - 10px);
     margin-top:10px;
+}
+.round-results{
+    display: grid;
+    grid-template-columns: 10% 25% 25% 15% 25%;
+    align-items: center;
+    border-bottom:1px solid rgb(226 226 226);
+}
+.round-result-col{
+    padding:10px;
+    /*border-bottom:1px solid rgb(226 226 226);*/
+}
+.round-result-header{
+    color: rgb(155, 155, 155);
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Source Sans Pro', sans-serif;
+    white-space: nowrap;
+}
+.round-num{
+    color: rgb(40, 40, 40);
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+.round-side-col{
+
+}
+.reaction-entry {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 14px;
+    border-radius: 8px;
+    color: rgb(40, 40, 40);
+    font-weight: 400;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 5px;
+    background-color: #f3f3f3;
+    padding-bottom: 5px;
+    display: inline-block;
+}
+.payoff-value{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 15px;
+    color: rgb(40, 40, 40);
+    font-weight: 600;
+}
+.round-score{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 15px;
+    color: rgb(40, 40, 40);
+    font-weight: 600;
 }
