@@ -6,7 +6,7 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src='/static/js/matrix_dashboard.js'></script>
         <link rel='stylesheet' href='/static/css/matrix_dashboard.css'>
     </head>
@@ -36,23 +36,23 @@
                 <div class='edit-section-outer'>
                     <div class='section-edit-name'>Basic</div>
                     <div class="make-edits">
-                        <div class="edit-entry-outer entry-control-edit">
-                            <div class="edit-entries">
+                        <div class="edit-entry-outer entry-control-edit" id='entry-control-edit1'>
+                            <div class="edit-entries" data-fid='1'>
                                 <div>Edit</div>
                                 <div class="edit-entry"></div>
                             </div>
                         </div>
                         <div class="edit-entry-outer">
-                            <div class="cancel-edit" style="display: none;">Cancel</div>
+                            <div class="cancel-edit" data-fid='1' id='cancel-edit1'>Cancel</div>
                         </div>
                     </div>
                 </div>
                 <div></div>
                 <div class="game-setting-entry">Name</div>
-                <input type="text" value="Protest game matrix" class="game-setting-field game-setting-field-disabled" data-fid="1" readonly="">
+                <input type="text" value="Protest game matrix" class="game-setting-field game-setting-field-disabled input-entry-field" data-fid="1" readonly="">
                 <div class="game-setting-entry">Description</div>
-                <div class="content-textarea">
-                    <div class="content-input-area" contenteditable="true" id="content-input-area1">asdfasfdsadffsad<div class="content-input-placeholder"></div>
+                <div class="content-textarea content-textarea-disabled input-entry-field" data-fid='1'>
+                    <div class="content-input-area" contenteditable="true" id="content-input-area1" data-fid='1'>asdfasfdsadffsad<div class="content-input-placeholder"></div>
                     </div>
                     <div class="content-input-footer">
                         <div class="attach-link"></div>

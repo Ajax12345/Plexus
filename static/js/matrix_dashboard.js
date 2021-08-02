@@ -1,4 +1,10 @@
 $(document).ready(function(){
+    function disable_contentarea_fields(){
+        for (var i of document.querySelectorAll('.content-textarea-disabled')){
+            $(i.querySelector('.content-input-area')).attr('contenteditable', false);
+        }
+    }
+    disable_contentarea_fields()
     $('body').on('focus', '.content-input-area', function(){
         if ($('.content-input-placeholder').text().length > 0){
            $('.content-input-placeholder').html('');
@@ -166,5 +172,63 @@ $(document).ready(function(){
         }
         console.log('content block after incrementation detection')
         console.log(JSON.stringify(content_block))
+    });
+    $('body').on('input', ".input-entry-field", function(){
+        $(`#save-edits${$(this).data('fid')}`).removeClass('save-edits-disabled')
+    });
+    $('body').on('click', '.edit-entries', function(){
+        var _fid=$(this).data('fid');
+        $(`#entry-control-edit${_fid}`).html(`<div class='save-edits save-edits-disabled' data-fid="${_fid}" id='save-edits${_fid}'>Save</div>`);
+        $(`.cancel-edit[data-fid="${_fid}"]`).css('visibility', 'visible')
+        for (var i of document.querySelectorAll(`.input-entry-field[data-fid="${_fid}"]`)){
+            if ($(i).hasClass('game-setting-field')){
+                $(i).removeClass('game-setting-field-disabled')
+                $(i).attr('readonly', false)
+            }
+            else{
+                $(i).removeClass('content-textarea-disabled')
+                $(i.querySelector('.content-input-area')).attr('contenteditable', true);
+            }
+        }
+    });
+    $('body').on('click', '.cancel-edit', function(){
+        $(`#entry-control-edit${$(this).data('fid')}`).html(`
+            <div class='edit-entries' data-fid='${$(this).data('fid')}'>
+                <div>Edit</div>
+                <div class='edit-entry'></div>
+            </div>
+        `);
+        $(`#cancel-edit${$(this).data('fid')}`).css('visibility', 'hidden')
+        for (var i of document.querySelectorAll(`.input-entry-field[data-fid="${$(this).data('fid')}"]`)){
+            if ($(i).hasClass('game-setting-field')){
+                $(i).addClass('game-setting-field-disabled')
+                $(i).attr('readonly', true)
+            }
+            else{
+                $(i).addClass('content-textarea-disabled')
+                $(i.querySelector('.content-input-area')).attr('contenteditable', false);
+            }
+        }
+    });
+    $('body').on('click', '.save-edits', function(){
+        if (!$(this).hasClass('save-edits-disabled')){
+            $(`#entry-control-edit${$(this).data('fid')}`).html(`
+                <div class='edit-entries' data-fid='${$(this).data('fid')}'>
+                    <div>Edit</div>
+                    <div class='edit-entry'></div>
+                </div>
+            `);
+            $(`#cancel-edit${$(this).data('fid')}`).css('visibility', 'hidden')
+            for (var i of document.querySelectorAll(`.input-entry-field[data-fid="${$(this).data('fid')}"]`)){
+                if ($(i).hasClass('game-setting-field')){
+                    $(i).addClass('game-setting-field-disabled')
+                    $(i).attr('readonly', true)
+                }
+                else{
+                    $(i).addClass('content-textarea-disabled')
+                    $(i.querySelector('.content-input-area')).attr('contenteditable', false);
+                }
+            }
+        }
     });
 });
