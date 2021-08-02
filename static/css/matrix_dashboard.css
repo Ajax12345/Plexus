@@ -1,0 +1,109 @@
+body{
+    margin:0;
+    box-sizing: border-box;
+    background-color:white;
+}
+.header{
+    border-bottom:1px solid rgb(228, 228, 228);
+    padding-top:10px;
+    padding-bottom:10px;
+}
+.header-main{
+    display:grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    width:90%;
+    margin: 0 auto;
+}
+.user-profile-display{
+    display:grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    column-gap: 10px;
+    justify-content: flex-end;
+}
+.welcome-user-text{
+    color:rgb(40, 40, 40);
+    font-size:15px;
+    font-weight:400;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+.logged-in-profile{
+    color:rgb(40, 40, 40);
+    font-weight:600;
+    text-decoration: none;
+}
+.logged-in-profile:hover{
+    text-decoration: underline;
+}
+.dashboard-avatar{
+    width:27px;
+    height:27px;
+    border-radius:50%;
+}
+.dashboard-main{
+    width:45%;
+    margin:0 auto;
+}
+.dashboard-nav-block{
+    display:grid;
+    grid-template-columns: min-content min-content;
+    column-gap: 10px;
+    align-items: center;
+}
+.dashboard-nav-bar{
+    height:22px;
+    width:3px;
+    background-color:white;
+}
+.dashboard-block-text{
+    font-size:16px;
+    font-weight:400;
+    font-family: 'Source Sans Pro', sans-serif;
+    color:rgb(130, 130, 130);
+    white-space: nowrap;
+}
+.dashboard-nav-chosen .dashboard-block-text{
+    color:rgb(211, 61, 211) !important;
+    font-weight: 600;
+    font-size:20px;
+}
+.dashboard-nav-chosen .dashboard-nav-bar{
+    background-color:rgb(211, 61, 211) !important;
+}
+.nav-bar-outer{
+    display: grid;
+    grid-template-columns: repeat(3, min-content);
+    align-items: center;
+    text-align: center;
+    column-gap: 40px;
+
+}
+.nav-bar-col{
+    text-align: center;
+    padding:2px;
+}
+.nav-bar-col-selected{
+    background-color:rgb(230 230 230);
+    padding:10px;
+    border-radius:10px;
+    padding-left:15px;
+    padding-right:15px;
+}
+.nav-bar-col-selected div{
+    color:rgb(40, 40, 40) !important;
+    font-weight:600;
+    font-size:18px;
+
+}
+.nav-entry-underscore {
+    height: 1px;
+    background-color: rgb(226 226 226);
+}
+.dashboard-toggle-header{
+    color:rgb(40, 40, 40);
+    font-size:35px;
+    font-weight:700;
+    font-family: 'Source Sans Pro', sans-serif;
+    white-space: nowrap;
+}
