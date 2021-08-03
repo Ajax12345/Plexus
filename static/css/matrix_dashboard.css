@@ -425,3 +425,45 @@ body{
 .content-block-link{
     color:rgb(62 103 224);
 }
+.underscore-block{
+    height:1px;
+    background-color:rgb(226 226 226);
+}
+.actor-entry{
+    font-size: 17px;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(27, 149, 224);
+    font-weight: 600;
+}
+.edit-reactions-entry{
+    color: rgb(49 49 49);
+    font-size: 17px;
+    font-weight: 600;
+    font-family: 'Source Sans Pro', sans-serif;
+    white-space: nowrap;
+    margin-top: 8px;
+    text-decoration: underline;
+}
+.edit-reactions-entry:hover{
+    cursor:pointer;
+    text-decoration: underline;
+}
+.edit-payoffs{
+    font-size: 17px;
+    font-weight: 600;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgb(211, 61, 211);
+    padding-left: 13px;
+    padding-right: 13px;
+    white-space: nowrap;
+    display: inline-block;
+
+}
+.edit-payoffs:hover{
+    cursor:pointer;
+    transition: 0.2s;
+    background-color: rgb(203, 55, 203);
+}
