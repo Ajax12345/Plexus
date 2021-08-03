@@ -294,7 +294,7 @@ body{
     background-color:rgb(25 25 25 / 68%);
     display:none;
 }
-.create-link-outer{
+.modal-body{
     width:350px;
     border-radius:10px;
     background-color:white;
@@ -302,7 +302,7 @@ body{
     margin:0 auto;
     z-index:110;
 }
-.create-link-header{
+.modal-body-title{
     font-family: 'Source Sans Pro', sans-serif;
     color:rgb(40, 40, 40);
     font-size:19px;
@@ -329,19 +329,19 @@ body{
     outline:none;
     border:1px solid rgb(211, 61, 211);
 }
-.create-link-footer{
+.modal-footer{
     width:100%;
     display:grid;
     grid-template-columns: auto min-content;
     align-items: center;
 }
-.cancel-link-to{
+.cancel-modal{
     font-family: 'Source Sans Pro', sans-serif;
     color:rgb(164, 164, 164);
     font-weight:400;
     font-size:20px;
 }
-.cancel-link-to:hover{
+.cancel-modal:hover{
     cursor:pointer;
 }
 .footer-col{
@@ -466,4 +466,7 @@ body{
     cursor:pointer;
     transition: 0.2s;
     background-color: rgb(203, 55, 203);
+}
+.modal-side-reaction-edit{
+    color: rgb(27, 149, 224);
 }

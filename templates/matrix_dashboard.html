@@ -87,9 +87,9 @@
                 </div>
                 <div></div>
                 <div class="actor-entry">#Protestors</div>
-                <div class='edit-reactions-entry'>Edit 2 reactions</div>
+                <div class='edit-reactions-entry' data-name='Protestors'>Edit 2 reactions</div>
                 <div class="actor-entry">#Police</div>
-                <div class='edit-reactions-entry'>Edit 2 reactions</div>
+                <div class='edit-reactions-entry' data-name='Police'>Edit 2 reactions</div>
             </div>
             <div style='height:40px'></div>
             <div class='edit-section-outer'>
@@ -106,10 +106,10 @@
             
         </div>
         <div style='height:100px'></div>
-        <div class='modal'>
+        <div class='modal' id='insert-content-link'>
             <div style='height:150px'></div>
-            <div class='create-link-outer'>
-                <div class='create-link-header'>Insert or Edit Link</div>
+            <div class='modal-body'>
+                <div class='modal-body-title'>Insert or Edit Link</div>
                 <div style='height:30px'></div>
                 <div class='link-field-header'>Text to display</div>
                 <div style='height:15px'></div>
@@ -121,9 +121,30 @@
                 <input type='text' class='link-to-box link-to-display-field' data-fid='link-to-display-error'>
                 <div class='link-text-error-field' id='link-to-display-error'></div>
                 <div style='height:30px'></div>
-                <div class='create-link-footer'>
-                    <div class='cancel-link-to'>Cancel</div>
+                <div class='modal-footer'>
+                    <div class='cancel-modal cancel-link-to'>Cancel</div>
                     <div class='add-link-to'>Insert link</div>
+                </div>
+            </div>
+        </div>
+        <div class='modal' id='edit-side-reactions'>
+            <div style='height:150px'></div>
+            <div class='modal-body'>
+                <div class='modal-body-title'>Edit reactions for <span class='modal-side-reaction-edit'></span></div>
+                <div style='height:30px'></div>
+                <div class='link-field-header'>Text to display</div>
+                <div style='height:15px'></div>
+                <input type='text' class='link-to-box text-to-display-field' data-fid='text-to-display-error' readonly>
+                <div class='link-text-error-field' id='text-to-display-error'></div>
+                <div style='height:20px'></div>
+                <div class='link-field-header'>Link to</div>
+                <div style='height:15px'></div>
+                <input type='text' class='link-to-box link-to-display-field' data-fid='link-to-display-error'>
+                <div class='link-text-error-field' id='link-to-display-error'></div>
+                <div style='height:30px'></div>
+                <div class='modal-footer'>
+                    <div class='cancel-modal cancel-edit-reactions'>Cancel</div>
+                    <div class='add-link-to'>Save</div>
                 </div>
             </div>
         </div>
