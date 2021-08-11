@@ -231,7 +231,7 @@ $(document).ready(function(){
             }
         }
     });
-    $('body').on('click', '.edit-reactions-entry', function(){
+    $('body').on('click', '.edit-reactions-icon', function(){
         $('.modal-side-reaction-edit').html(`#${$(this).data('name')}`);
         $("#edit-side-reactions").css('display', 'block');
     });

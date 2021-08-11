@@ -440,15 +440,9 @@ body{
 .edit-reactions-entry{
     color: rgb(49 49 49);
     font-size: 17px;
-    font-weight: 600;
     font-family: 'Source Sans Pro', sans-serif;
     white-space: nowrap;
     margin-top: 8px;
-    text-decoration: underline;
-}
-.edit-reactions-entry:hover{
-    cursor:pointer;
-    text-decoration: underline;
 }
 .edit-payoffs{
     font-size: 17px;
@@ -471,4 +465,20 @@ body{
 }
 .modal-side-reaction-edit{
     color: rgb(27, 149, 224);
+}
+.edit-reactions-outer{
+    display: grid;
+    grid-template-columns: min-content min-content;
+    column-gap: 10px;
+    align-items: center;
+}
+.edit-reactions-icon{
+    width:13px;
+    height:13px;
+    background-size: cover;
+    background-image: url(/static/img/pen.svg);
+    margin-top: 8px;
+}
+.edit-reactions-icon:hover{
+    cursor:pointer;
 }
