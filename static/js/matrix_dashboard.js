@@ -238,4 +238,7 @@ $(document).ready(function(){
     $('body').on('click', '.cancel-edit-reactions', function(){
         $("#edit-side-reactions").css('display', 'none');
     });
-});
+    $('body').on('click', ".edit-entries-payoffs", function(){
+        alert("in here")
+    });
+}); 
