@@ -505,3 +505,73 @@ body{
     transition:0.2s;
     box-shadow: 0px 1px 2px 2px rgb(204 204 204 / 20%);
 }
+.add-reaction-field{
+    border: 1px solid rgb(213, 213, 213);
+    padding: 8px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 16px;
+    border-radius: 8px;
+    color: rgb(40, 40, 40);
+}
+.add-reaction-field:focus{
+    outline:none;
+    border-color:rgb(211, 61, 211);
+}
+.add-reactions{
+    display: grid;
+    grid-template-columns: auto min-content;
+    align-items: center;
+    column-gap: 10px;
+    row-gap: 20px;
+
+}   
+.add-reaction-outer{
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto min-content;
+    column-gap: 10px;
+    align-items: center;
+    row-gap: 7px;
+}
+.add-reaction{
+    border: 1px solid rgb(211, 61, 211);
+    padding: 8px;
+    padding-left:12px;
+    padding-right: 12px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 16px;
+    border-radius: 5px;
+    color:white;
+    font-weight: 600;
+    background-color: rgb(211, 61, 211);
+    width:37px;
+    text-align: center;
+}
+.add-reaction:hover{
+    background-color:rgb(203, 55, 203);
+    cursor: pointer;
+    transition: 0.2s;
+}
+.reaction-entry{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 17px;
+    border-radius: 8px;
+    color: rgb(40, 40, 40);
+    font-weight: 400;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 5px;
+    background-color: #f3f3f3;
+    padding-bottom: 5px;
+}
+.remove-reaction{
+    width:15px;
+    height:15px;
+    background-size: cover;
+    background-image: url(/static/img/close.svg);
+    /*margin-left:5px;*/
+    margin:0 auto;
+}
+.remove-reaction:hover{
+    cursor:pointer;
+}

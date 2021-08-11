@@ -79,11 +79,11 @@ $(document).ready(function(){
         $('.link-to-display-field').val('');
         $('.link-to-display-field').focus();
     });
-    $('body').on('click', '.cancel-link-to', function(){
+    $('#insert-content-link').on('click', '.cancel-link-to', function(){
         selected_link_piece = null;
         $('#insert-content-link').css('display', 'none');
     });
-    $('body').on('click', '.add-link-to', function(){
+    $('#insert-content-link').on('click', '.add-link-to', function(){
         var t_link = $('.link-to-display-field').val();
         if (t_link.length === 0){
             $("#link-to-display-error").html('Cannot be left empty');
@@ -240,5 +240,37 @@ $(document).ready(function(){
     });
     $('body').on('click', ".edit-entries-payoffs", function(){
         alert("in here")
+    });
+    var reactions = [];
+    function add_reaction(){
+        var _reaction = $('.add-reaction-field').val();
+        if (_reaction.length > 0){
+            var _r_id = (reactions.length > 0 ? Math.max(...reactions) : 0)+1;
+            reactions.push(_r_id)
+            $('.add-reaction-outer').append(`
+                <div class='reaction-entry' data-rid='${_r_id}'>${_reaction}</div>
+                <div class='remove-reaction' data-rid='${_r_id}'></div>
+            `);
+            $('.add-reaction-field').val('');
+        }
+    }
+    $('body').on('click', '.add-reaction', function(){
+        add_reaction();
+    });
+    $('body').on('click', '.remove-reaction', function(){
+        var _rid = $(this).data('rid');
+        reactions = reactions.filter(x => x != parseInt(_rid));
+        $(`div[data-rid="${_rid}"]`).remove()
+    });
+    $('body').on('keypress', '.add-reaction-field', function(e){
+        if (e.keyCode === 13){
+            add_reaction();
+        }
+    });
+    $('#edit-side-reactions').on('click', '.cancel-link-to', function(){
+        $('#edit-side-reactions').css('display', 'none');
+    });
+    $('#edit-side-reactions').on('click', '.add-link-to', function(){
+        $('#edit-side-reactions').css('display', 'none');
     });
 }); 
