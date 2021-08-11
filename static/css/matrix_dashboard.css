@@ -391,6 +391,8 @@ body{
     font-weight:400;
     /*color:rgb(155, 155, 155);*/
     color:rgb(40, 40, 40);
+    width:220px !important;
+    overflow-wrap: break-word;
 }
 .content-input-area:focus{
     outline: none;
