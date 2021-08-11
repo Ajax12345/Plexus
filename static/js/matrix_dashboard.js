@@ -235,11 +235,11 @@ $(document).ready(function(){
         $('.modal-side-reaction-edit').html(`#${$(this).data('name')}`);
         $("#edit-side-reactions").css('display', 'block');
     });
-    $('body').on('click', '.cancel-edit-reactions', function(){
+    $('#edit-side-reactions').on('click', '.cancel-edit-reactions', function(){
         $("#edit-side-reactions").css('display', 'none');
     });
     $('body').on('click', ".edit-entries-payoffs", function(){
-        alert("in here")
+        $("#edit-side-payoffs").css('display', 'block')
     });
     var reactions = [];
     function add_reaction(){
@@ -272,5 +272,8 @@ $(document).ready(function(){
     });
     $('#edit-side-reactions').on('click', '.add-link-to', function(){
         $('#edit-side-reactions').css('display', 'none');
+    });
+    $('#edit-side-payoffs').on('click', '.cancel-modal', function(){
+        $('#edit-side-payoffs').css('display', 'none');
     });
 }); 
