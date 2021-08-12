@@ -1,0 +1,107 @@
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width">
+        <title>Content Dashboard 1</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src='/static/js/content_dashboard.js'></script>
+        <link rel='stylesheet' href='/static/css/content_dashboard.css'>
+    </head>
+    <body>
+        <div class='header'>
+            <div class='header-main'>
+                <div></div>
+                <div>
+                    <div class='user-profile-display'>
+                        <img src='https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon' class='dashboard-avatar'>
+                        <div class='welcome-user-text'><a href='/profile' class='logged-in-profile'>James Petullo</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style='height:50px'></div>
+        <div class='dashboard-main'>
+            <div style='height:50px'></div>
+            <div class='dashboard-name-header'>
+                <div class='dashboard-toggle-header'>Protest Game Content</div>
+                <div class='game-use-count'>Used in 10 games</div>
+            </div>
+            <div style='height:15px'></div>
+            <div class='nav-entry-underscore'></div>
+            <div style='height:30px'></div>
+            <div class='game-settings-outer'>
+                <div class='edit-section-outer'>
+                    <div class='section-edit-name'>Basic</div>
+                    <div class="make-edits">
+                        <div class="edit-entry-outer entry-control-edit" id='entry-control-edit1'>
+                            <div class="edit-entries" data-fid='1'>
+                                <div>Edit</div>
+                                <div class="edit-entry"></div>
+                            </div>
+                        </div>
+                        <div class="edit-entry-outer">
+                            <div class="cancel-edit" data-fid='1' id='cancel-edit1'>Cancel</div>
+                        </div>
+                    </div>
+                </div>
+                <div></div>
+                <div class="game-setting-entry">Name</div>
+                <input type="text" value="Protest game matrix" class="game-setting-field game-setting-field-disabled input-entry-field" data-fid="1" readonly="">
+                <div class="game-setting-entry">Description</div>
+                <div class="content-textarea content-textarea-disabled input-entry-field" data-fid='1'>
+                    <div class="content-input-area" contenteditable="true" id="content-input-area1" data-fid='1'>asdfasfdsadffsad<div class="content-input-placeholder"></div>
+                    </div>
+                    <div class="content-input-footer">
+                        <div class="attach-link"></div>
+                    </div>
+                </div>
+               
+            </div>
+            <div style='height:40px'></div>
+            
+            
+            
+        </div>
+        <div style='height:100px'></div>
+        <div class='modal' id='insert-content-link'>
+            <div style='height:150px'></div>
+            <div class='modal-body'>
+                <div class='modal-body-title'>Insert or Edit Link</div>
+                <div style='height:30px'></div>
+                <div class='link-field-header'>Text to display</div>
+                <div style='height:15px'></div>
+                <input type='text' class='link-to-box text-to-display-field' data-fid='text-to-display-error' readonly>
+                <div class='link-text-error-field' id='text-to-display-error'></div>
+                <div style='height:20px'></div>
+                <div class='link-field-header'>Link to</div>
+                <div style='height:15px'></div>
+                <input type='text' class='link-to-box link-to-display-field' data-fid='link-to-display-error'>
+                <div class='link-text-error-field' id='link-to-display-error'></div>
+                <div style='height:30px'></div>
+                <div class='modal-footer'>
+                    <div class='cancel-modal cancel-link-to'>Cancel</div>
+                    <div class='add-link-to'>Insert link</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class='modal' id='add-new-content-block'>
+            <div style='height:150px'></div>
+            <div class='modal-body modal-body-large'>
+                <div class='modal-body-title'>Add New Content Slide</div>
+                <div style='height:10px'></div>
+                <div class="step-description">Content are slides of text, links, and images that players of your games can access and reference throughout play.</div>
+                <div style='height:30px'></div>
+                
+                <div style='height:50px'></div>
+                <div class='modal-footer'>
+                    <div class='cancel-modal'>Cancel</div>
+                    <div class='add-link-to'>Save</div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

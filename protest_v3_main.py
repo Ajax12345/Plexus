@@ -99,6 +99,10 @@ def game_dashboard2():
 def matrix_dashboard():
     return flask.render_template('matrix_dashboard.html')
 
+@app.route('/content/testcontent', methods=['GET'])
+def content_dashboard():
+    return flask.render_template('content_dashboard.html')
+
 @app.after_request
 def add_header(r):
     """
