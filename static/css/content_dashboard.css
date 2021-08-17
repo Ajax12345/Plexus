@@ -211,6 +211,9 @@ body{
     column-gap: 10px;
     align-items: center;
 }
+.make-edits-content{
+    grid-template-columns: min-content min-content min-content;
+}
 .edit-entries{
     display: grid;
     grid-template-columns: min-content min-content;
@@ -283,6 +286,26 @@ body{
     transition:0.2s;
     box-shadow: 0px 1px 2px 2px rgb(204 204 204 / 20%);
     */
+}
+.delete-slide{
+    font-size: 16px;
+    font-weight: 400;
+    font-family: 'Source Sans Pro', sans-serif;
+    color:#f14545;
+    padding: 4px;
+    border-radius: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+    white-space: nowrap;
+    border: 1px solid #f14545;
+    box-shadow: 0px 1px 2px 1px rgb(204 204 204 / 20%);
+    visibility: hidden;
+}
+.delete-slide:hover{
+    cursor:pointer;
+    color:white;
+    background-color:#f14545;
+    transition:0.2s;
 }
 .modal{
     position: fixed;

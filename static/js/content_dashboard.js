@@ -180,6 +180,7 @@ $(document).ready(function(){
         var _fid=$(this).data('fid');
         $(`#entry-control-edit${_fid}`).html(`<div class='save-edits save-edits-disabled' data-fid="${_fid}" id='save-edits${_fid}'>Save</div>`);
         $(`.cancel-edit[data-fid="${_fid}"]`).css('visibility', 'visible')
+        $(`.delete-slide[data-fid="${_fid}"]`).css('visibility', 'visible')
         for (var i of document.querySelectorAll(`.input-entry-field[data-fid="${_fid}"]`)){
             if ($(i).hasClass('game-setting-field')){
                 $(i).removeClass('game-setting-field-disabled')
@@ -199,6 +200,7 @@ $(document).ready(function(){
             </div>
         `);
         $(`#cancel-edit${$(this).data('fid')}`).css('visibility', 'hidden')
+        $(`#delete-slide${$(this).data('fid')}`).css('visibility', 'hidden')
         for (var i of document.querySelectorAll(`.input-entry-field[data-fid="${$(this).data('fid')}"]`)){
             if ($(i).hasClass('game-setting-field')){
                 $(i).addClass('game-setting-field-disabled')
