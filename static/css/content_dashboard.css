@@ -440,3 +440,7 @@ body{
     color: rgb(27, 149, 224);
     font-weight: 600;
 }
+.section-divider{
+    height:1px;
+    background-color:rgb(226 226 226);
+}
