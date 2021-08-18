@@ -233,4 +233,12 @@ $(document).ready(function(){
             }
         }
     });
+    $('body').on('click', '.delete-slide', function(){
+        $(`[data-content="${$(this).data('fid')}"]`).remove();
+        var c = 1;
+        for (var i of document.querySelectorAll('.content-slide-name')){
+            $(i).text(`Slide ${c}`);
+            c++;
+        }
+    });
 });
