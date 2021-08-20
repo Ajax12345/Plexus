@@ -601,3 +601,59 @@ body{
     color: rgb(40, 40, 40);
     font-weight: 600;
 }
+.game-play-date-outer{
+    display: grid;
+    grid-template-columns: min-content min-content;
+    column-gap: 15px;
+    align-items: center;
+}
+.game-play-date-desc{
+    color: rgb(62 62 62);
+    font-size: 17px;
+    font-weight: 400;
+    font-family: 'Source Sans Pro', sans-serif;
+    white-space: nowrap;
+}
+.game-date-selector{
+    display: inline-grid;
+    grid-template-columns: min-content min-content;
+    column-gap:25px;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #424242;
+    padding: 4px;
+    border-radius: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+    border: 1px solid #e2e2e2;
+    box-shadow: 0px 1px 2px 1px rgb(204 204 204 / 20%);
+}
+.game-date-selector:hover{
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0px 1px 2px 2px rgb(204 204 204 / 20%);
+
+}
+.game-date-text-display{
+    white-space: nowrap;
+}
+.arrow-toggle-up-icon{
+    background-size: cover;
+    background-image: url(/static/img/arrow-toggle-up-1.svg);
+    width:7px;
+    height:7px;
+}
+.arrow-toggle-down-icon{
+    justify-content: flex-end;
+}
+.arrow-toggle-down-icon{
+    background-size: cover;
+    background-image: url(/static/img/arrow-toggle-down-1.svg);
+    width:7px;
+    height:7px;
+}
+.outer-dropdown-container{
+    
+}
