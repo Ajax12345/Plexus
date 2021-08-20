@@ -101,5 +101,28 @@ $(document).ready(function(){
     $('body').on('input', '.game-setting-field', function(){
         _edit_id_bindings[parseInt($(this).data('fid'))](this, $(this).val())
     });
-    
+    $('body').on('click', '.game-date-selector', function(){
+        $(".dropdown-outer").css('width', $('.all-game-play-dates').css('width'))
+        if ($('.dropdown-outer').hasClass('dropdown-outer-toggled')){
+            $('.dropdown-outer').removeClass('dropdown-outer-toggled')
+        }
+        else{
+            $('.dropdown-outer').addClass('dropdown-outer-toggled')
+        }
+    });
+    function close_dropdown(elem){
+        var flag = false;
+        while (elem != null){
+            if (['game-date-selector', 'dropdown-outer'].some(function(x){return $(elem).hasClass(x)})){
+                flag = true;
+            }
+            elem = elem.parentNode;
+        }
+        if (!flag){
+            $('.dropdown-outer').removeClass('dropdown-outer-toggled')
+        }
+    }
+    $('body').on('click', function(e){
+        close_dropdown(e.target)
+    });
 });

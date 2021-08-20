@@ -655,5 +655,39 @@ body{
     height:7px;
 }
 .outer-dropdown-container{
-    
+    position: relative;
+}
+.all-game-play-dates{
+    display: inline-block;
+}
+.dropdown-outer{
+    position: absolute;
+    top:0;
+    display: none;
+    box-shadow: 0 7px 14px 0 rgb(60 66 87 / 8%), 0 3px 6px 0 rgb(0 0 0 / 12%);
+    background-color:white;
+    border-radius:5px;
+}
+.dropdown-outer-toggled{
+    display: block;
+}
+.dropdown-option{
+    padding:10px;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #5d5d5d;
+}
+.dropdown-option-top{
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+.dropdown-option-bottom{
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+.dropdown-option:hover{
+    cursor:pointer;
+    transition:0.2s;
+    background-color:rgb(240, 239, 239);
 }
