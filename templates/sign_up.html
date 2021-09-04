@@ -7,15 +7,25 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src='/static/js/sign_up.js'></script>
+        <script src='/static/js/sign_in.js'></script>
         <link rel='stylesheet' href='/static/css/sign_up.css'>
     </head>
     <body>
         <div style='height:100px'></div>
         <div class='access-outer'>
-            <div class='access-action-title'>Sign Up</div>
+            <div class='access-action-title'>Sign In</div>
             <div style='height:10px'></div>
-            <div class='alt-action-prompt'>Already have an account? <a href='/SignIn' class='alt-access-link' style='color:rgb(211, 61, 211);'>Sign in</a></div>
+            <div class='alt-action-prompt'>Don't have an account? <a href='/SignUp' class='alt-access-link' style='color:rgb(211, 61, 211);'>Sign up</a></div>
+            <div style='height:15px'></div>
+            <div class='first-last-outer'>
+                <input type='text' class='entry-field entry-name-1' placeholder='First name'>
+                <input type='text' class='entry-field entry-name-2' placeholder='Last name'>
+            </div>
+            <div style='height:12px'></div>
+            <input type='email' class='entry-field' placeholder='Email'>
+            <div style='height:12px'></div>
+            <input type='password' class='entry-field' placeholder='Password'>
+            <div style='height:12px'></div>
         </div>
     </body>
 </html>

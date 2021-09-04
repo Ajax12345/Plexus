@@ -41,26 +41,31 @@ body{
     display: grid;
     grid-template-columns: auto auto;
     column-gap: 3px;
-    align-items: center;
 }
 .entry-field{
     width:100%;
-    padding:9px;
+    padding:10px;
     padding-left:13px;
     padding-right:13px;
     background-color:rgb(243 243 243);
     color:rgb(40, 40, 40);
-    border:none;
+    border:1px solid rgb(243 243 243);
     font-family: 'Source Sans Pro', sans-serif !important;
     font-size:16px;
+    border-radius:9px;
+}
+.entry-field:focus{
+    background-color:white;
+    box-shadow: 0px 0px 2px 1px rgb(204 204 204 / 20%);
+    border:1px solid rgb(239, 239, 239);
 }
 .entry-name-1{
-    border-top-left-radius: 7px;
-    border-bottom-left-radius: 7px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 .entry-name-2{
-    border-top-right-radius: 7px;
-    border-bottom-right-radius: 7px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 }
 .entry-field:focus{
     outline:none;
