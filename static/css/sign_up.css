@@ -6,14 +6,16 @@ body{
     /*color:rgb(211, 61, 211)*/
 }
 .access-outer{
-    width:30%;
+    width:23%;
     margin:0 auto;
     border-radius:15px;
     border:1px solid rgb(228, 228, 228);
     padding:15px;
+    padding-left:30px;
+    padding-right:30px;
 }
 .access-action-title{
-    font-size:35px;
+    font-size:33px;
     font-weight:700;
     font-family: 'Source Sans Pro', sans-serif;
     color:rgb(40, 40, 40);
@@ -34,4 +36,36 @@ body{
 }
 .alt-access-link:hover{
     text-decoration: underline !important;
+}
+.first-last-outer{
+    display: grid;
+    grid-template-columns: auto auto;
+    column-gap: 3px;
+    align-items: center;
+}
+.entry-field{
+    width:100%;
+    padding:9px;
+    padding-left:13px;
+    padding-right:13px;
+    background-color:rgb(243 243 243);
+    color:rgb(40, 40, 40);
+    border:none;
+    font-family: 'Source Sans Pro', sans-serif !important;
+    font-size:16px;
+}
+.entry-name-1{
+    border-top-left-radius: 7px;
+    border-bottom-left-radius: 7px;
+}
+.entry-name-2{
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+.entry-field:focus{
+    outline:none;
+}
+.entry-field::placeholder{
+    color:rgb(142, 141, 141);
+    font-style: italic;
 }
