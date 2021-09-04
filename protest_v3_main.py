@@ -103,6 +103,14 @@ def matrix_dashboard():
 def content_dashboard():
     return flask.render_template('content_dashboard.html')
 
+@app.route('/SignUp', methods=['GET'])
+def sign_up():
+    return flask.render_template('sign_up.html')
+
+@app.route('/SignIn', methods=['GET'])
+def sign_in():
+    return flask.render_template('sign_in.html')
+
 @app.after_request
 def add_header(r):
     """

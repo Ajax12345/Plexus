@@ -1,0 +1,37 @@
+body{
+    margin:0;
+    box-sizing: border-box;
+    background-color:white;
+    /*font-family: 'Source Sans Pro', sans-serif;*/
+    /*color:rgb(211, 61, 211)*/
+}
+.access-outer{
+    width:30%;
+    margin:0 auto;
+    border-radius:15px;
+    border:1px solid rgb(228, 228, 228);
+    padding:15px;
+}
+.access-action-title{
+    font-size:35px;
+    font-weight:700;
+    font-family: 'Source Sans Pro', sans-serif;
+    color:rgb(40, 40, 40);
+    text-align: center;
+}
+.alt-action-prompt{
+    font-size:18px;
+    font-weight:400;
+    font-family: 'Source Sans Pro', sans-serif;
+    color:rgb(173 173 173);
+    text-align: center;
+}
+.alt-access-link{
+    font-weight:bold;
+    color:rgb(211, 61, 211);
+    text-decoration: none;
+    
+}
+.alt-access-link:hover{
+    text-decoration: underline !important;
+}
