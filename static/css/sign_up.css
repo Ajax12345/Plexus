@@ -13,6 +13,7 @@ body{
     padding:15px;
     padding-left:30px;
     padding-right:30px;
+    padding-bottom: 30px;
 }
 .access-action-title{
     font-size:33px;
@@ -73,4 +74,37 @@ body{
 .entry-field::placeholder{
     color:rgb(142, 141, 141);
     font-style: italic;
+}
+.sign-up{
+    display: grid;
+    grid-template-columns: repeat(3, 33%);
+    align-items: center;
+    background-color:rgb(211, 61, 211);
+    border-radius:9px;
+    padding:10px;
+
+}
+.sign-up-prompt{
+    text-align: center;
+    color:white;
+    font-family: 'Source Sans Pro', sans-serif !important;
+    font-size:18px;
+}
+.sign-up:not(.sign-up-disabled):hover{
+    cursor:pointer;
+    transition:0.2s;
+    transform:scale(1.05)
+}
+.sign-up-disabled{
+    opacity:0.5;
+}
+.next-step-col{
+    display: flex;
+    justify-content: flex-end;
+}
+.arrow-proceed{
+    width:20px;
+    height:20px;
+    background-size:cover;
+    background-image:url(/static/img/right-arrow-signup1.svg);
 }
