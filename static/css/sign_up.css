@@ -109,3 +109,27 @@ body{
     background-size:cover;
     background-image:url(/static/img/right-arrow-signup1.svg);
 }
+.circle-animate{
+    display: inline-grid;
+    margin:0 auto;
+    grid-template-columns: repeat(3, 12px);
+    column-gap: 5px;
+    align-items: center;
+}
+.circle-animate-l{
+    width:10px;
+    height:10px;
+    background-color: white;
+    border-radius: 50%;
+    transition:0.5s;
+}
+.circle-animate div:nth-of-type(2){
+    margin:0 auto;
+}
+.offset-c-l{
+    display: flex;
+    justify-content: flex-end;
+}
+.circle-obj-l{
+    transform:scale(1.35);
+}
