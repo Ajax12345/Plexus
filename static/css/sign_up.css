@@ -31,7 +31,7 @@ body{
 }
 .alt-access-link{
     font-weight:bold;
-    color:rgb(211, 61, 211);
+    color:rgb(222 77 222);
     text-decoration: none;
     
 }
@@ -79,7 +79,8 @@ body{
     display: grid;
     grid-template-columns: repeat(3, 33%);
     align-items: center;
-    background-color:rgb(211, 61, 211);
+    /*background-color:rgb(211, 61, 211);*/
+    background-color:rgb(222 77 222);
     border-radius:9px;
     padding:10px;
 
@@ -93,7 +94,7 @@ body{
 .sign-up:not(.sign-up-disabled):hover{
     cursor:pointer;
     transition:0.2s;
-    transform:scale(1.05)
+    transform:scale(1.03)
 }
 .sign-up-disabled{
     opacity:0.5;
