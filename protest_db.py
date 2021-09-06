@@ -10,7 +10,7 @@ class DbClient:
         conv = conversions.copy()
         conv[FIELD_TYPE.DECIMAL] = float
         conv[FIELD_TYPE.NEWDECIMAL] = float
-        self.connection = pymysql.connect(host=self.host, user=self.user, password=self.password, database=self.database, conv = conv, cursorclass=pymysql.cursors.SSCursor if not getattr(self, 'as_dict', False) else pymysql.cursors.DictCursor)
+        self.connection = pymysql.connect(host=self.host, user=self.user, password=self.password, database=self.database, conv = conv, cursorclass=pymysql.cursors.SSCursor if not self.__dict__.get('as_dict', False) else pymysql.cursors.DictCursor)
         self.cursor = self.connection.cursor()
         return self
 

@@ -1,14 +1,25 @@
 import flask, protest_users, json
+import typing, functools, random, string
 
 app = flask.Flask(__name__)
+app.secret_key = ''.join(random.choice(string.ascii_letters+string.digits+string.punctuation) for _ in range(30))
+
+def is_loggedin(_f:typing.Callable) -> typing.Callable:
+    @functools.wraps(_f)
+    def wrapper(*args, **kwargs) -> typing.Any:
+        if flask.session.get('id') is None:
+            return flask.redirect('/')
+        return _f(*args, **kwargs)
+    return wrapper
 
 @app.route('/', methods=['GET'])
 def main():
     return flask.render_template('demo_landing.html')
 
 @app.route('/dashboard', methods=['GET'])
+@is_loggedin
 def dashboard():
-    return flask.redirect('/dashboard/games')
+    return flask.render_template('dashboard_onboard.html', user=protest_users.User.get_user(int(flask.session['id'])))
 
 @app.route('/dashboard/games', methods=['GET'])
 def dashboard_games():
@@ -121,7 +132,7 @@ def signin_user():
     if (r:=protest_users.User.signin_user(json.loads(flask.request.form['payload'])))['status']:
         flask.session['id'] = r['user']
     
-    return flask.jsonify({'status':False, 'message':'Invalid email or password'})
+    return flask.jsonify(r)
 
 @app.route('/add-account', methods=['POST'])
 def add_account():
