@@ -13,6 +13,14 @@ class User:
         return f'{self.__class__.__name__}({self.id})'
 
     @classmethod
+    def get_user(cls, _id:int) -> typing.Union[None, 'User']:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict = True) as cl:
+            cl.execute('select u.* from users u where u.id = %s', [int(_id)])
+            if (r:=cl.fetchone()) is not None:
+                return cls(**r[0])
+        
+
+    @classmethod
     def signin_user(cls, _payload:dict) -> dict:
         with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
             cl.execute('select id from users where email = %s and password = %s', [_payload['email'], _payload['password']])
