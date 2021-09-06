@@ -1,4 +1,4 @@
-import flask, protest_users
+import flask, protest_users, json
 
 app = flask.Flask(__name__)
 
@@ -115,6 +115,13 @@ def sign_in():
 def sign_out():
     flask.session['id'] = None
     flask.redirect('/')
+
+@app.route('/signin-user', methods=['POST'])
+def signin_user():
+    if (r:=protest_users.User.signin_user(json.loads(flask.request.form['payload'])))['status']:
+        flask.session['id'] = r['user']
+    
+    return flask.jsonify({'status':False, 'message':'Invalid email or password'})
 
 @app.route('/add-account', methods=['POST'])
 def add_account():

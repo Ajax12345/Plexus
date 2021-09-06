@@ -1,5 +1,6 @@
 $(document).ready(function(){
     $('body').on('input', '.entry-field', function(){
+        $('.error-container').css('display', 'none')
         if (Array.from(document.querySelectorAll('.entry-field')).every(function(x){return $(x).val().length > 0})){
             $('.sign-up').removeClass('sign-up-disabled')
         }
@@ -11,6 +12,24 @@ $(document).ready(function(){
         if (!$(this).hasClass('sign-up-disabled')){
             var payload = Object.fromEntries(Array.from(document.querySelectorAll('.entry-field')).map(function(x){return [$(x).data('param'), $(x).val()]}));
             start_signup_loader();
+            $.ajax({
+                url: "/signin-user",
+                type: "post",
+                data: {payload: JSON.stringify(payload)},
+                success: function(response) {
+                    if (response.status){
+                        window.location.replace('/dashboard')
+                    }
+                    else{
+                        $('.error-message').html(response.message)
+                        $('.error-container').css('display', 'block')
+                        end_signup_loader();
+                    }
+                },
+                error: function(xhr) {
+                    //Do Something to handle error
+                }
+            });
         }
     });
     function start_signup_loader(){
