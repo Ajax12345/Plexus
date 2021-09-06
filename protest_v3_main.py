@@ -111,6 +111,19 @@ def sign_up():
 def sign_in():
     return flask.render_template('sign_in.html')
 
+@app.route('/SignOut', methods=['GET'])
+def sign_out():
+    flask.session['id'] = None
+    flask.redirect('/')
+
+@app.route('/add-account', methods=['POST'])
+def add_account():
+    '''
+    if (r:=protest_users.User.add_user(json.loads(flask.request.form['payload'])))['status']:
+        flask.session['id'] = r['user']
+    '''
+    return flask.jsonify({'status':False})
+
 @app.after_request
 def add_header(r):
     """

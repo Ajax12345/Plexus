@@ -10,8 +10,23 @@ $(document).ready(function(){
     $('body').on('click', '.sign-up', function(){
         if (!$(this).hasClass('sign-up-disabled')){
             var payload = Object.fromEntries(Array.from(document.querySelectorAll('.entry-field')).map(function(x){return [$(x).data('param'), $(x).val()]}));
-            alert(JSON.stringify(payload))
             start_signup_loader();
+            $.ajax({
+                url: "/add-account",
+                type: "post",
+                data: {payload: JSON.stringify(payload)},
+                success: function(response) {
+                    if (response.status){
+                        window.location.replace('/dashboard')
+                    }
+                    else{
+                        end_signup_loader();
+                    }
+                },
+                error: function(xhr) {
+                    //Do Something to handle error
+                }
+            });
         }
     });
     function start_signup_loader(){
