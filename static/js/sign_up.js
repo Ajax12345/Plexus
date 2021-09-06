@@ -1,5 +1,6 @@
 $(document).ready(function(){
     $('body').on('input', '.entry-field', function(){
+        $('.error-container').css('display', 'none')
         if (Array.from(document.querySelectorAll('.entry-field')).every(function(x){return $(x).val().length > 0})){
             $('.sign-up').removeClass('sign-up-disabled')
         }
@@ -20,6 +21,8 @@ $(document).ready(function(){
                         window.location.replace('/dashboard')
                     }
                     else{
+                        $('.error-message').html(response.message)
+                        $('.error-container').css('display', 'block')
                         end_signup_loader();
                     }
                 },

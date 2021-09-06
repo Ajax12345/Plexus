@@ -118,11 +118,10 @@ def sign_out():
 
 @app.route('/add-account', methods=['POST'])
 def add_account():
-    '''
     if (r:=protest_users.User.add_user(json.loads(flask.request.form['payload'])))['status']:
         flask.session['id'] = r['user']
-    '''
-    return flask.jsonify({'status':False})
+    
+    return flask.jsonify(r)
 
 @app.after_request
 def add_header(r):

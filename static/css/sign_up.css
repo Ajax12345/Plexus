@@ -133,3 +133,17 @@ body{
 .circle-obj-l{
     transform:scale(1.35);
 }
+.error-container{
+    display: none;
+}
+.error-message{
+    font-size:15px;
+    font-family: 'Source Sans Pro', sans-serif;
+    color:#f32929;
+    font-weight: 600;
+    text-align: center;
+}
+.error-message a{
+    color:#f32929;
+    text-decoration: underline;
+}
