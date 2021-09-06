@@ -1,4 +1,4 @@
-import flask
+import flask, protest_users
 
 app = flask.Flask(__name__)
 

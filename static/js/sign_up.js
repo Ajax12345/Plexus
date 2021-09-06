@@ -10,6 +10,7 @@ $(document).ready(function(){
     $('body').on('click', '.sign-up', function(){
         if (!$(this).hasClass('sign-up-disabled')){
             var payload = Object.fromEntries(Array.from(document.querySelectorAll('.entry-field')).map(function(x){return [$(x).data('param'), $(x).val()]}));
+            alert(JSON.stringify(payload))
             start_signup_loader();
         }
     });
