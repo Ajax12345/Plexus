@@ -1,5 +1,5 @@
 import typing, re
-import protest_db
+import protest_db, hashlib
 
 class User:
     '''
@@ -12,6 +12,14 @@ class User:
 
     def __repr__(self) -> str:
         return f'{self.__class__.__name__}({self.id})'
+
+    @property
+    def full_name(self) -> str:
+        return f'{self.first_name} {self.last_name}'
+
+    @property
+    def gravatar(self) -> str:
+        return f'https://www.gravatar.com/avatar/{hashlib.md5(self.email.encode()).hexdigest()}?d=identicon'
 
     @classmethod
     def get_user(cls, _id:int) -> typing.Union[None, 'User']:
