@@ -7,6 +7,7 @@ class User:
     cols: (id int, first_name text, last_name text, email text, password text, jdate datetime)
     '''
     def __init__(self, **kwargs:dict) -> None:
+        print(kwargs)
         self.__dict__ = kwargs
 
     def __repr__(self) -> str:

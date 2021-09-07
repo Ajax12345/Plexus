@@ -125,7 +125,7 @@ def sign_in():
 @app.route('/SignOut', methods=['GET'])
 def sign_out():
     flask.session['id'] = None
-    flask.redirect('/')
+    return flask.redirect('/')
 
 @app.route('/signin-user', methods=['POST'])
 def signin_user():
