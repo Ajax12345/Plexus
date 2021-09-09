@@ -1,4 +1,12 @@
 $(document).ready(function(){
+    var full_content_payload = {title:null, desc:null, content:null};
+    function content_title_set(_){
+        full_content_payload.title = $('.content-title-field[data-handler="content-title"]').val();
+    }
+    var input_handlers = {'content-title':content_title_set, 'content-block':content_block_set};
+    $('body').on('input', '.content-title-field', function(){
+        input_handlers[$(this).data('handler')](this);
+    });
     function format_progress_bar(){
         for (var i of document.querySelectorAll('.step-listing-col')){
             if (!$(i).data('circle')){
@@ -28,9 +36,6 @@ $(document).ready(function(){
             $('.content-input-placeholder').text('Describe the outlay of this content...');
         }
     });
-    $('body').on('input', '.content-title-field', function(){
-        content_block.title = $(this).val();
-    }); 
     var selected_link_piece = null;
     var content_block = {text:'', title:'', links:[]};
     var mouse_down = false;
@@ -54,8 +59,12 @@ $(document).ready(function(){
         return _c;
     }
     $('body').on('input', '.content-input-area', function(){
-        content_block.text = $(this).text();
+        input_handlers[$(this).data('handler')](this);
+    
     });
+    function content_block_set(elem){
+        content_block.text = $(elem).text();
+    }
     function get_full_text_offset(node){
         var c_node = node.previousSibling;
         var c = 0;

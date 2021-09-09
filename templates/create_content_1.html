@@ -84,7 +84,7 @@
                     <div class='field-wrapper'>
                         <div class='step-header'>Content name</div>
                         <div style='height:15px'></div>
-                        <input type='text' class='content-title-field'>
+                        <input type='text' class='content-title-field' data-handler='content-title'>
                         <div style='height:50px'></div>
                         <div class='step-header'>Content description (optional)</div>
                         <div style='height:20px'></div>
@@ -92,7 +92,7 @@
                         <div class='step-description'>Every round, each actor will move. Sequential play will occur until the round limit is reached</div>
                         -->
                         <div class='content-textarea'>
-                            <div class='content-input-area' contenteditable="true" id='content-input-area1'>
+                            <div class='content-input-area' contenteditable="true" id='content-input-area1' data-handler='content-block'>
                                 <div class='content-input-placeholder'>Describe the outlay of this content...</div>
                             </div>
                             <div class='content-input-footer'>
@@ -101,7 +101,7 @@
                         </div>
                         <div style='height:40px'></div>
                         <div class='next-step-outer'>
-                            <div class='next-step-button step-progress-button' data-tolink='/create-game-2'>Next</div>
+                            <div class='next-step-button step-progress-button' data-tostep='2'>Next</div>
                             <div class='next-icon'></div>
                         </div>
                        
