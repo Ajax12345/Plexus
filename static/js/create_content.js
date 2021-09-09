@@ -4,7 +4,11 @@ $(document).ready(function(){
         $("#content-title-error").css('display', 'none');
         full_content_payload.title = $('.content-title-field[data-handler="content-title"]').val();
     }
-    var input_handlers = {'content-title':content_title_set, 'content-block':content_block_set};
+    function content_slide_title_set(elem){
+        $("#content-slide-title-error").css('display', 'none');
+        content_block.title = $(elem).val();
+    }
+    var input_handlers = {'content-title':content_title_set, 'content-block':content_block_set, 'content-slide-title':content_slide_title_set};
     $('body').on('input', '.content-title-field', function(){
         input_handlers[$(this).data('handler')](this);
     });
@@ -41,6 +45,7 @@ $(document).ready(function(){
     var content_block = {text:'', title:'', links:[]};
     var mouse_down = false;
     var mouse_move = false;
+    var current_step = 1;
     $('body').on('mousedown', '.content-textarea', function(){
         mouse_down = true;
     });
@@ -217,7 +222,8 @@ $(document).ready(function(){
                 <div style="height:30px"></div>
                 <div class='step-header'>Slide title</div>
                 <div style='height:15px'></div>
-                <input type='text' class='content-title-field'>
+                <input type='text' class='content-title-field' data-handler='content-slide-title'>
+                <div class='field-error-message' id='content-slide-title-error' style='display:none'></div>
                 <div style='height:50px'></div>
                 <div class='step-header'>Slide content</div>
                 <div style='height:20px'></div>
@@ -225,7 +231,7 @@ $(document).ready(function(){
                 <div class='step-description'>Every round, each actor will move. Sequential play will occur until the round limit is reached</div>
                 -->
                 <div class='content-textarea'>
-                    <div class='content-input-area' contenteditable="true" id='content-input-area1'>
+                    <div class='content-input-area' contenteditable="true" id='content-input-area1' data-handler='content-block'>
                         <div class='content-input-placeholder'>Describe the outlay of this content...</div>
                     </div>
                     <div class='content-input-footer'>
@@ -234,16 +240,62 @@ $(document).ready(function(){
                 </div>
                 <div style='height:40px'></div>
                 <div class="progress-controls">
-                    <div class="next-step-button step-progress-button add-slide-button" data-tolink="/create-game">Add slide</div>
+                    <div class="next-step-button step-progress-button add-slide-button" data-step="2">Add slide</div>
                     <div class="progress-control-dividor"></div>
-                    <div class="next-step-button step-progress-button" data-tolink="/create-game-3">Finish</div>
+                    <div class="next-step-button step-progress-button" data-step="3">Finish</div>
                 </div>
             `);
+            current_step = 2
             
         }   
     }
-    var step_handlers = {'1':step_1}
+    function step_2(){
+        if (content_block.title.length === 0){
+            $("#content-slide-title-error").css('display', 'block');
+            $("#content-slide-title-error").html('Please add a title for this content slide');
+        }
+        else{
+            $('.content-title-field[data-handler="content-slide-title"]').val('')
+            full_content_payload.content = full_content_payload.content === null ? [content_block] : [...full_content_payload.content, full_content_payload]
+            console.log('full content payload')
+            console.log(full_content_payload)
+            selected_link_piece = null;
+            content_block = {text:'', title:'', links:[]};
+            var _c_b = document.querySelector('#content-input-area1');
+            for (var i of _c_b.childNodes){
+                if (i.nodeType === 3 || !$(i).hasClass('content-input-placeholder')){
+                    _c_b.removeChild(i);
+                }
+            }
+            $('.content-input-placeholder').text('Describe the outlay of this content...');
+            
+            if (full_content_payload.content.length === 1){
+                $('div[data-sid="7"].step-listing-col > .step-spacer').addClass('step-spacer-slide-display')
+                $("#step-progress-col7 .progress-bar").css('height', '20px')
+            }
+            var nid = 7+full_content_payload.content.length;
+            $('.progress-main').append(`<div class="step-listing-col" data-sid="${nid}" data-circle="true">
+                <div class='slide-title-progress'>${full_content_payload.content[full_content_payload.content.length-1].title}</div>
+            </div>`);
+            $('.progress-main').append(`<div class="step-progress-col" id="step-progress-col${nid}">
+                <div class='slide-dot-display'></div>
+            </div>`);
+            var nh = (parseInt($(`div[data-sid="${nid}"].step-listing-col`).css('height').match('\\d+')) - parseInt($(`#step-progress-col${nid} > .slide-dot-display`).css('height').match('\\d+')))/2;
+            $(`<div class='progress-bar' style='height:${nh}px'></div>`).insertBefore(`#step-progress-col${nid} > .slide-dot-display`)
+            $(`<div class='progress-bar' style='height:${nh}px'></div>`).insertAfter(`#step-progress-col${nid} > .slide-dot-display`)
+            $('.progress-main').append(`<div class="step-listing-col" data-circle="true">
+                <div class="step-spacer step-spacer-trailing step-spacer-slide-display"></div>
+            </div>`);
+            $('.progress-main').append(`<div class="step-progress-col">
+                <div class="progress-bar" style="height: 20px;"></div>
+            </div>`);
+        }
+    }
+    function step_3(){
+        
+    }
+    var step_handlers = {1:step_1, 2:step_2, 3:step_3};
     $('body').on('click', '.next-step-button', function(){
-        step_handlers[$(this).data('step').toString()]()
+        step_handlers[parseInt($(this).data('step'))]()
     });
 });
