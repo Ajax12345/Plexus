@@ -1,6 +1,7 @@
 $(document).ready(function(){
-    var full_content_payload = {title:null, desc:null, content:null};
+    var full_content_payload = {title:'', desc:null, content:null};
     function content_title_set(_){
+        $("#content-title-error").css('display', 'none');
         full_content_payload.title = $('.content-title-field[data-handler="content-title"]').val();
     }
     var input_handlers = {'content-title':content_title_set, 'content-block':content_block_set};
@@ -194,5 +195,22 @@ $(document).ready(function(){
         }
         console.log('content block after incrementation detection')
         console.log(JSON.stringify(content_block))
+    });
+    function step_1(){
+        if (full_content_payload.title.length === 0){
+            $("#content-title-error").css('display', 'block');
+            $("#content-title-error").html('Please add a name for this content');
+        }
+        else{
+            if (content_block.text.length > 0){
+                full_content_payload.desc = content_block;
+            }
+            selected_link_piece = null;
+            content_block = {text:'', title:'', links:[]};
+        }   
+    }
+    var step_handlers = {'1':step_1}
+    $('body').on('click', '.next-step-button', function(){
+        step_handlers[$(this).data('step').toString()]()
     });
 });

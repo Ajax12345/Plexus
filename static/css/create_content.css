@@ -512,3 +512,10 @@ body{
 .step-spacer-slide-display{
     height:20px !important;
 }
+.field-error-message{
+    font-size: 15px;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #f32929;
+    font-weight: 600;
+    margin-top:5px;
+}
