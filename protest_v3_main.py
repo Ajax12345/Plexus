@@ -1,5 +1,6 @@
 import flask, protest_users, json
 import typing, functools, random, string
+import protest_utilites
 
 app = flask.Flask(__name__)
 app.secret_key = ''.join(random.choice(string.ascii_letters+string.digits+string.punctuation) for _ in range(30))
@@ -51,8 +52,9 @@ def create_game_3():
     return flask.render_template('create_game_3.html')
 
 @app.route('/create-content', methods=['GET'])
+@is_loggedin
 def create_content():
-    return flask.render_template('create_content_1.html')
+    return flask.render_template('create_content_1.html', r_g = protest_utilites.FromGame(flask.request.args.get('g_redirect')), user=protest_users.User.get_user(int(flask.session['id'])))
 
 @app.route('/create-content-2', methods=['GET'])
 def create_content_2():
