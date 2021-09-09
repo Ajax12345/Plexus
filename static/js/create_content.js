@@ -207,6 +207,39 @@ $(document).ready(function(){
             }
             selected_link_piece = null;
             content_block = {text:'', title:'', links:[]};
+            $("#step-progress-col2 .process-circle").addClass('progress-circle-complete')
+            $("#step-progress-col2 .process-circle").html(`<div class="progress-complete-check"></div>`)
+            $("#step-progress-col4 .process-circle").removeClass('progress-circle-not-completed')
+            $('.field-wrapper').html(`
+                <div class="step-header step-main">Add a slide</div>
+                <div style="height:10px"></div>
+                <div class="step-description">A slide consists of a title and content body</div>
+                <div style="height:30px"></div>
+                <div class='step-header'>Slide title</div>
+                <div style='height:15px'></div>
+                <input type='text' class='content-title-field'>
+                <div style='height:50px'></div>
+                <div class='step-header'>Slide content</div>
+                <div style='height:20px'></div>
+                <!--
+                <div class='step-description'>Every round, each actor will move. Sequential play will occur until the round limit is reached</div>
+                -->
+                <div class='content-textarea'>
+                    <div class='content-input-area' contenteditable="true" id='content-input-area1'>
+                        <div class='content-input-placeholder'>Describe the outlay of this content...</div>
+                    </div>
+                    <div class='content-input-footer'>
+                        <div class='attach-link'></div>
+                    </div>
+                </div>
+                <div style='height:40px'></div>
+                <div class="progress-controls">
+                    <div class="next-step-button step-progress-button add-slide-button" data-tolink="/create-game">Add slide</div>
+                    <div class="progress-control-dividor"></div>
+                    <div class="next-step-button step-progress-button" data-tolink="/create-game-3">Finish</div>
+                </div>
+            `);
+            
         }   
     }
     var step_handlers = {'1':step_1}
