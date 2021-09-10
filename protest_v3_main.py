@@ -1,6 +1,6 @@
 import flask, protest_users, json
 import typing, functools, random, string
-import protest_utilites
+import protest_utilites, game_content
 
 app = flask.Flask(__name__)
 app.secret_key = ''.join(random.choice(string.ascii_letters+string.digits+string.punctuation) for _ in range(30))
@@ -55,6 +55,10 @@ def create_game_3():
 @is_loggedin
 def create_content():
     return flask.render_template('create_content_1.html', r_g = protest_utilites.FromGame(flask.request.args.get('g_redirect')), user=protest_users.User.get_user(int(flask.session['id'])))
+
+@app.route('/add-content', methods=['POST'])
+def add_content():
+    return flask.jsonify(game_content.Content.create_content(flask.session['id'], json.loads(flask.request.form['payload'])))
 
 @app.route('/create-content-2', methods=['GET'])
 def create_content_2():

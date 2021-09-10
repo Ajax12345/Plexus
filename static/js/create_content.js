@@ -263,7 +263,7 @@ $(document).ready(function(){
         }
         else{
             $('.content-title-field[data-handler="content-slide-title"]').val('')
-            full_content_payload.content = full_content_payload.content === null ? [content_block] : [...JSON.parse(JSON.stringify(full_content_payload.content)), content_block]
+            full_content_payload.content = full_content_payload.content === null ? [{...content_block, id:1}] : [...JSON.parse(JSON.stringify(full_content_payload.content)), {...content_block, id:Math.max(...full_content_payload.content.map(x => x.id))+1}]
             console.log('full content payload')
             console.log(full_content_payload)
             selected_link_piece = null;
@@ -306,6 +306,7 @@ $(document).ready(function(){
         $('.finish-loader-outer').html(`<div class="la-ball-clip-rotate" style='color:rgb(211, 61, 211);height: 10px;width: 10px;margin-top: -11px;margin-right: 17px;'><div></div></div>`);
         $('.finish-loader-outer + .next-step-button.step-progress-button').html('Creating content...')
         $('.finish-loader-outer + .next-step-button.step-progress-button').addClass('step-disabled')
+
     }
     var step_handlers = {1:step_1, 2:step_2, 3:step_3};
     $('body').on('click', '.next-step-button', function(){
