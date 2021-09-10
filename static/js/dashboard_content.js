@@ -31,9 +31,11 @@ $(document).ready(function(){
         build_string += block.text.substring(last_ind);
         return build_string
     }
+    var full_content_display = {};
     function display_content_payload(content){
         $('.all-content').html(`<div class='content-outer'></div>`)
         for (var [_id, _name, _desc, _content] of content){
+            full_content_display[_id] = {title:_name, desc:_desc, cont:_content};
             $('.content-outer').append(`
                 <div class="content-card" data-card="${_id}" id="content-card${_id}">
                     <div class="content-title">${_name}</div>
@@ -41,7 +43,9 @@ $(document).ready(function(){
                     <div class="content-description" id="content-description${_id}">${render_content_block(_desc)}</div>
                     <div style="height:10px"></div>
                     <div class='view-content-outer'>
-                        <div class="view-content">View</div>
+                        <a href='/content/${_id}' style='text-decoration:none'>
+                            <div class="view-content">View</div>
+                        </a>
                         <div class='listed-in-store'></div>
                     </div>
                 </div>
@@ -57,6 +61,7 @@ $(document).ready(function(){
                 console.log('content response here')
                 console.log(response.content)
                 display_content_payload(JSON.parse(response.content))
+                adjust_content_card_heights();
             },
             error: function(xhr) {
                 //Do Something to handle error
