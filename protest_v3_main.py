@@ -31,7 +31,7 @@ def dashboard_games():
 def dashboard_content():
     if not game_content.Content.has_content(flask.session['id']):
         return flask.redirect('/dashboard')
-    return flask.render_template('dashboard_content.html')
+    return flask.render_template('dashboard_content.html', user = protest_users.User.get_user(flask.session['id']))
 
 @app.route('/dashboard/matrices', methods=['GET'])
 def dashboard_matrices():
