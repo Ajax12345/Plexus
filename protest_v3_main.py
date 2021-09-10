@@ -123,9 +123,12 @@ def game_dashboard2():
 def matrix_dashboard():
     return flask.render_template('matrix_dashboard.html')
 
-@app.route('/content/testcontent', methods=['GET'])
-def content_dashboard():
-    return flask.render_template('content_dashboard.html')
+@app.route('/content/<cid>', methods=['GET'])
+@is_loggedin
+def content_dashboard(cid):
+    if not (g_c:=game_content.Content.get_content(flask.session['id'], int(cid)))['status']:
+        return flask.redirect('/') #TODO: add 404 here
+    return flask.render_template('content_dashboard.html', user=protest_users.User.get_user(flask.session['id']), content = g_c['content'])
 
 @app.route('/SignUp', methods=['GET'])
 def sign_up():

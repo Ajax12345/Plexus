@@ -17,9 +17,6 @@ $(document).ready(function(){
             }
         }
     }
-    setTimeout(function(){
-        adjust_content_card_heights();
-    }, 300);
     function render_content_block(block){
         var last_ind = 0;
         var build_string = '';

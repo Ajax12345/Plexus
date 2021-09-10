@@ -16,8 +16,8 @@
                 <div></div>
                 <div>
                     <div class='user-profile-display'>
-                        <img src='https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon' class='dashboard-avatar'>
-                        <div class='welcome-user-text'><a href='/profile' class='logged-in-profile'>James Petullo</a></div>
+                        <img src='{{user.gravatar}}' class='dashboard-avatar'>
+                        <div class='welcome-user-text'><a href='/profile' class='logged-in-profile'>{{user.full_name}}</a></div>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
         <div class='dashboard-main'>
             <div style='height:50px'></div>
             <div class='dashboard-name-header'>
-                <div class='dashboard-toggle-header'>Protest Game Content</div>
+                <div class='dashboard-toggle-header' data-payload='{{content.to_json}}'>{{content.name}}</div>
                 <div class='game-use-count'>Used in 10 games</div>
             </div>
             <div style='height:15px'></div>

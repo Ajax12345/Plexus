@@ -5,6 +5,21 @@ class Content:
     tablename: content
     columns: id int, creator int, name text, dsc mediumtext, content longtext, added datetime
     """
+    def __init__(self, **kwargs:dict) -> None:
+        self.__dict__ = kwargs
+
+    @property
+    def description(self) -> dict:
+        return json.loads(self.dsc)
+
+    @property
+    def _content(self) -> dict:
+        return json.loads(self.content)
+
+    @property
+    def to_json(self) -> str:
+        return json.dumps({'desc':self.description, 'content':self._content})
+
     @classmethod
     def create_content(cls, creator:int, payload:dict) -> dict:
         with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
@@ -13,6 +28,15 @@ class Content:
             cl.commit()
 
         return {'status':True, 'id':_id}
+
+    @classmethod
+    def get_content(cls, creator:int, cid:int) -> dict:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict = True) as cl:
+            cl.execute('select c.* from content c where c.id = %s and c.creator  = %s', [int(cid), int(creator)])
+            if (c_data:=cl.fetchone()) is None:
+                return {'status':False}
+
+            return {'status':True, 'content':cls(**c_data)}
 
     @classmethod
     def has_content(cls, creator:int) -> bool:
