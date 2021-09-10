@@ -17,6 +17,9 @@ class DbClient:
     def __getattr__(self, _n:str) -> typing.Any:
         return getattr(self.cursor, _n)
 
+    def __iter__(self) -> typing.Iterator:
+        yield from self.cursor
+
     def commit(self) -> None:
         self.connection.commit()
 

@@ -19,6 +19,12 @@ class Content:
         with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
             cl.execute('select exists (select 1 from content where creator = %s)', [int(creator)])
             return cl.fetchone()[0]
+
+    @classmethod
+    def get_all_content(cls, creator:int) -> dict:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
+            cl.execute('select c.id, c.name, c.dsc, c.content from content c where c.creator = %s', [int(creator)])
+            return {'content':json.dumps([[a, b, *map(json.loads, c)] for a, b, *c in cl])}
     
 
 if __name__ == '__main__':

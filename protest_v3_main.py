@@ -33,6 +33,10 @@ def dashboard_content():
         return flask.redirect('/dashboard')
     return flask.render_template('dashboard_content.html', user = protest_users.User.get_user(flask.session['id']))
 
+@app.route('/get-all-content', methods=['POST'])
+def get_all_content():
+    return flask.jsonify(game_content.Content.get_all_content(flask.session['id']))
+
 @app.route('/dashboard/matrices', methods=['GET'])
 def dashboard_matrices():
     return flask.render_template('dashboard_matrices.html')
