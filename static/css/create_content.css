@@ -519,3 +519,9 @@ body{
     font-weight: 600;
     margin-top:5px;
 }
+.progress-controls-start .progress-control-dividor{
+    visibility: hidden;
+}
+.progress-controls-start .step-progress-button:not(.add-slide-button){
+    visibility: hidden;
+}

@@ -239,7 +239,7 @@ $(document).ready(function(){
                     </div>
                 </div>
                 <div style='height:40px'></div>
-                <div class="progress-controls">
+                <div class="progress-controls progress-controls-start">
                     <div class="next-step-button step-progress-button add-slide-button" data-step="2">Add slide</div>
                     <div class="progress-control-dividor"></div>
                     <div class="next-step-button step-progress-button" data-step="3">Finish</div>
@@ -292,6 +292,7 @@ $(document).ready(function(){
             $('.progress-main').append(`<div class="step-progress-col">
                 <div class="progress-bar" style="height: 20px;"></div>
             </div>`);
+            $('.progress-controls').removeClass('progress-controls-start')
         }
     }
     function step_3(){
