@@ -27,7 +27,10 @@ def dashboard_games():
     return flask.render_template('dashboard.html')
 
 @app.route('/dashboard/content', methods=['GET'])
+@is_loggedin
 def dashboard_content():
+    if not game_content.Content.has_content(flask.session['id']):
+        return flask.redirect('/dashboard')
     return flask.render_template('dashboard_content.html')
 
 @app.route('/dashboard/matrices', methods=['GET'])
@@ -38,8 +41,7 @@ def dashboard_matrices():
 def dashboard_onboard():
     return flask.render_template('dashboard_onboard.html')
 
-#TODO: convert /create-<resource> to /create/<resource>
-@app.route('/create-game', methods=['GET'])
+@app.route('/create/game', methods=['GET'])
 def create_game():
     return flask.render_template('create_game.html')
 
@@ -51,7 +53,7 @@ def create_game_2():
 def create_game_3():
     return flask.render_template('create_game_3.html')
 
-@app.route('/create-content', methods=['GET'])
+@app.route('/create/content', methods=['GET'])
 @is_loggedin
 def create_content():
     return flask.render_template('create_content_1.html', r_g = protest_utilites.FromGame(flask.request.args.get('g_redirect')), user=protest_users.User.get_user(int(flask.session['id'])))
@@ -65,7 +67,7 @@ def create_content_2():
     raise Exception('depreciated')
     return flask.render_template('create_content_2.html')
 
-@app.route('/create-matrix', methods=['GET'])
+@app.route('/create/matrix', methods=['GET'])
 def create_matrix():
     return flask.render_template('create_matrix.html')
 

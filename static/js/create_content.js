@@ -306,7 +306,19 @@ $(document).ready(function(){
         $('.finish-loader-outer').html(`<div class="la-ball-clip-rotate" style='color:rgb(211, 61, 211);height: 10px;width: 10px;margin-top: -11px;margin-right: 17px;'><div></div></div>`);
         $('.finish-loader-outer + .next-step-button.step-progress-button').html('Creating content...')
         $('.finish-loader-outer + .next-step-button.step-progress-button').addClass('step-disabled')
-
+        $.ajax({
+            url: "/add-content",
+            type: "post",
+            data: {payload: JSON.stringify(full_content_payload)},
+            success: function(response) {
+                if (response.status){
+                    window.location.replace(`/content/${response.id}`)
+                }
+            },
+            error: function(xhr) {
+                //Do Something to handle error
+            }
+        });
     }
     var step_handlers = {1:step_1, 2:step_2, 3:step_3};
     $('body').on('click', '.next-step-button', function(){
