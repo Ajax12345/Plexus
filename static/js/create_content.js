@@ -69,6 +69,7 @@ $(document).ready(function(){
     
     });
     function content_block_set(elem){
+        $("#content-slide-error").css('display', 'none');
         content_block.text = $(elem).text();
     }
     function get_full_text_offset(node){
@@ -238,10 +239,12 @@ $(document).ready(function(){
                         <div class='attach-link'></div>
                     </div>
                 </div>
+                <div class='field-error-message' id='content-slide-error' style='display:none'></div>
                 <div style='height:40px'></div>
                 <div class="progress-controls progress-controls-start">
                     <div class="next-step-button step-progress-button add-slide-button" data-step="2">Add slide</div>
                     <div class="progress-control-dividor"></div>
+                    <div class='finish-loader-outer'></div>
                     <div class="next-step-button step-progress-button" data-step="3">Finish</div>
                 </div>
             `);
@@ -253,6 +256,10 @@ $(document).ready(function(){
         if (content_block.title.length === 0){
             $("#content-slide-title-error").css('display', 'block');
             $("#content-slide-title-error").html('Please add a title for this content slide');
+        }
+        else if (content_block.text.length === 0){
+            $("#content-slide-error").css('display', 'block');
+            $("#content-slide-error").html('Content slide cannot be left empty');
         }
         else{
             $('.content-title-field[data-handler="content-slide-title"]').val('')
@@ -296,10 +303,14 @@ $(document).ready(function(){
         }
     }
     function step_3(){
-        
+        $('.finish-loader-outer').html(`<div class="la-ball-clip-rotate" style='color:rgb(211, 61, 211);height: 10px;width: 10px;margin-top: -11px;margin-right: 17px;'><div></div></div>`);
+        $('.finish-loader-outer + .next-step-button.step-progress-button').html('Creating content...')
+        $('.finish-loader-outer + .next-step-button.step-progress-button').addClass('step-disabled')
     }
     var step_handlers = {1:step_1, 2:step_2, 3:step_3};
     $('body').on('click', '.next-step-button', function(){
-        step_handlers[parseInt($(this).data('step'))]()
+        if (!$(this).hasClass('step-disabled')){
+            step_handlers[parseInt($(this).data('step'))]()
+        }
     });
 });
