@@ -191,12 +191,14 @@ $(document).ready(function(){
         if (content_block.title.length > 0 && content_block.text.length > 0){
             content_queue.push(JSON.parse(JSON.stringify(content_block)));
             $('.content-title-field').val('');
-            var _c_b = document.querySelector('#content-input-area1');
-            for (var i of _c_b.childNodes){
-                if (i.nodeType === 3 || !$(i).hasClass('content-input-placeholder')){
-                    _c_b.removeChild(i);
+            for (var i of document.querySelector('#content-input-area1').childNodes){
+                if (!$(i).hasClass('content-input-placeholder')){
+                    $(i).remove();
                 }
             }
+            $('.content-block-link').each(function(){
+                $(this).remove();
+            });
             $('.content-input-placeholder').text('Describe the outlay of this content...');
             content_block = {text:'', title:'', links:[]};
             

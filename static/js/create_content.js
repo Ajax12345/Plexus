@@ -88,10 +88,10 @@ $(document).ready(function(){
                 if (r.replace(/^\s+|\s+$/, '').length > 0){
                     var new_r = range.getRangeAt(0)
                     var offset_count = get_full_text_offset(new_r.startContainer)
-                    console.log('all offset stuff here')
-                    console.log(offset_count)
+                    //console.log('all offset stuff here')
+                    //console.log(offset_count)
                     selected_link_piece = {start:offset_count+new_r.startOffset, end:offset_count+new_r.endOffset, link:null};
-                    console.log(selected_link_piece)
+                    //console.log(selected_link_piece)
                     
                     $('.attach-link').addClass('attach-link-focus')
                 }
@@ -136,8 +136,8 @@ $(document).ready(function(){
         $(`#${$(this).data('fid')}`).html('');
     }); 
     function add_link_content_block(id, payload){
-        console.log('payload test in here')
-        console.log(JSON.stringify(payload))
+        //console.log('payload test in here')
+        //console.log(JSON.stringify(payload))
         var last_index = 0;
         var build_up_text = `<div class='content-input-placeholder'></div>`;
         for (var {link:l_link, start:_start, end:_end, lid:_lid} of payload.links){
@@ -198,8 +198,8 @@ $(document).ready(function(){
             //add_link_content_block(1, content_block)
             //range = [r.startOffset-1, r.startOffset];
         }
-        console.log('content block after incrementation detection')
-        console.log(JSON.stringify(content_block))
+        //console.log('content block after incrementation detection')
+        //console.log(JSON.stringify(content_block))
     });
     function step_1(){
         if (full_content_payload.title.length === 0){
@@ -256,7 +256,7 @@ $(document).ready(function(){
         }
         else{
             $('.content-title-field[data-handler="content-slide-title"]').val('')
-            full_content_payload.content = full_content_payload.content === null ? [content_block] : [...full_content_payload.content, full_content_payload]
+            full_content_payload.content = full_content_payload.content === null ? [content_block] : [...JSON.parse(JSON.stringify(full_content_payload.content)), content_block]
             console.log('full content payload')
             console.log(full_content_payload)
             selected_link_piece = null;
@@ -267,6 +267,9 @@ $(document).ready(function(){
                     _c_b.removeChild(i);
                 }
             }
+            $('.content-block-link').each(function(){
+                $(this).remove();
+            });
             $('.content-input-placeholder').text('Describe the outlay of this content...');
             
             if (full_content_payload.content.length === 1){

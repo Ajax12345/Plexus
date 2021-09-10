@@ -58,6 +58,7 @@ def create_content():
 
 @app.route('/create-content-2', methods=['GET'])
 def create_content_2():
+    raise Exception('depreciated')
     return flask.render_template('create_content_2.html')
 
 @app.route('/create-matrix', methods=['GET'])
