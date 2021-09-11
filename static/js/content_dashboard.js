@@ -9,17 +9,44 @@ $(document).ready(function(){
         if ($('.content-input-placeholder').text().length > 0){
            $('.content-input-placeholder').html('');
         }
+        if ($(this).data('fid') === 'basic'){
+            content_block = JSON.parse(JSON.stringify(content_payload.desc))            
+        }
+        else{
+            var fid = parseInt($(this).data('fid'))
+            for (var i of content_payload.content){
+                if (i.id === fid){
+                    content_block = JSON.parse(JSON.stringify(i));
+                    break;
+                }
+            }
+        }
+    });
+    $('body').on('focus', '.game-setting-field', function(){
+        if ($(this).data('fid') === 'basic'){
+            content_block = JSON.parse(JSON.stringify(content_payload.desc))            
+        }
+        else{
+            var fid = parseInt($(this).data('fid'))
+            for (var i of content_payload.content){
+                if (i.id === fid){
+                    content_block = JSON.parse(JSON.stringify(i));
+                    break;
+                }
+            }
+        }
     });
     $('body').on('blur', '.content-input-area', function(){
         if ($('.content-input-area').text().replace(/^\s+|\s+$/, '').length === 0){
             $('.content-input-placeholder').text('Describe the outlay of this content...');
         }
     });
-    $('body').on('input', '.content-title-field', function(){
+    $('body').on('input', '.game-setting-field', function(){
         content_block.title = $(this).val();
     }); 
     var selected_link_piece = null;
-    var content_block = {text:'asdfasfdsadffsad', title:'', links:[]};
+    var content_block = {text:'', title:'', links:[]};
+    var attach_link_fid = null;
     var mouse_down = false;
     var mouse_move = false;
     $('body').on('mousedown', '.content-textarea', function(){
@@ -65,7 +92,7 @@ $(document).ready(function(){
                     selected_link_piece = {start:offset_count+new_r.startOffset, end:offset_count+new_r.endOffset, link:null};
                     console.log(selected_link_piece)
                     
-                    $('.attach-link').addClass('attach-link-focus')
+                    $(`.attach-link[data-fid="${$(this).data('fid')}"]`).addClass('attach-link-focus')
                 }
             }
             mouse_down = false; 
@@ -73,6 +100,7 @@ $(document).ready(function(){
         }
     });
     $('body').on('click', '.attach-link-focus', function(){
+        attach_link_fid = $(this).data('fid');
         $(this).removeClass('attach-link-focus');
         $('#insert-content-link').css('display', 'block');
         $('.text-to-display-field').val(content_block.text.substring(selected_link_piece.start, selected_link_piece.end));
@@ -99,7 +127,7 @@ $(document).ready(function(){
                 }
                 return 0;
             });
-            add_link_content_block(1, content_block)
+            add_link_content_block(attach_link_fid, content_block)
             selected_link_piece = null;
             $('#insert-content-link').css('display', 'none');
         } 
@@ -108,8 +136,7 @@ $(document).ready(function(){
         $(`#${$(this).data('fid')}`).html('');
     }); 
     function add_link_content_block(id, payload){
-        console.log('payload test in here')
-        console.log(JSON.stringify(payload))
+        $(`#save-edits${id}`).removeClass('save-edits-disabled')
         var last_index = 0;
         var build_up_text = `<div class='content-input-placeholder'></div>`;
         for (var {link:l_link, start:_start, end:_end, lid:_lid} of payload.links){
@@ -220,6 +247,11 @@ $(document).ready(function(){
             $(`.game-setting-field.input-entry-field[data-fid="${$(this).data('fid')}"]`).val(content_payload.content.filter(x => x.id === fid)[0].title);
             $(`#content-input-area${$(this).data('fid')}`).html(`${render_content_block(content_payload.content.filter(x => x.id === fid)[0])}<div class="content-input-placeholder"></div>`);
         }
+        selected_link_piece = null;
+        content_block = {text:'', title:'', links:[]};
+        attach_link_fid = null;
+        console.log('content_payload after cancel')
+        console.log(content_payload)
     });
     $('body').on('click', '.save-edits', function(){
         if (!$(this).hasClass('save-edits-disabled')){
@@ -241,6 +273,25 @@ $(document).ready(function(){
                     $(i.querySelector('.content-input-area')).attr('contenteditable', false);
                 }
             }
+            if ($(this).data('fid') === 'basic'){
+                content_payload.desc = JSON.parse(JSON.stringify(content_block));
+                content_payload.name = content_payload.desc.title;
+                //$(`#content-input-area${$(this).data('fid')}`).html(`${render_content_block(content_payload.desc)}<div class="content-input-placeholder"></div>`);
+            }
+            else{
+                var fid = parseInt($(this).data('fid'))
+                for (var i = 0; i < content_payload.content.length; i++){
+                    if (content_payload.content[i].id === fid){
+                        content_payload.content[i] = JSON.parse(JSON.stringify(content_block));
+                        break;
+                    }
+                }
+            }
+            selected_link_piece = null;
+            content_block = {text:'', title:'', links:[]};
+            attach_link_fid = null;
+            console.log('content_payload after save')
+            console.log(content_payload)
         }
     });
     $('body').on('click', '.delete-slide', function(){
@@ -295,7 +346,7 @@ $(document).ready(function(){
             <div class="content-input-area" contenteditable="true" id="content-input-areabasic" data-fid='basic'>${render_content_block(content_payload.desc)}<div class="content-input-placeholder"></div>
             </div>
             <div class="content-input-footer">
-                <div class="attach-link"></div>
+                <div class="attach-link" data-fid='basic'></div>
             </div>
         </div>
         </div>
@@ -328,7 +379,7 @@ $(document).ready(function(){
                     <div class="content-input-area" contenteditable="true" id="content-input-area${_id}" data-fid='${_id}'>${render_content_block({title:_title, text:_text, links:_links, id:_id})}<div class="content-input-placeholder"></div>
                     </div>
                     <div class="content-input-footer">
-                        <div class="attach-link"></div>
+                        <div class="attach-link" data-fid='${_id}'></div>
                     </div>
                 </div>
             `);
