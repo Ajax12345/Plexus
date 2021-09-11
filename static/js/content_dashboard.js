@@ -211,6 +211,15 @@ $(document).ready(function(){
                 $(i.querySelector('.content-input-area')).attr('contenteditable', false);
             }
         }
+        if ($(this).data('fid') === 'basic'){
+            $(`.game-setting-field.input-entry-field[data-fid="${$(this).data('fid')}"]`).val(content_payload.name);
+            $(`#content-input-area${$(this).data('fid')}`).html(`${render_content_block(content_payload.desc)}<div class="content-input-placeholder"></div>`);
+        }
+        else{
+            var fid = parseInt($(this).data('fid'))
+            $(`.game-setting-field.input-entry-field[data-fid="${$(this).data('fid')}"]`).val(content_payload.content.filter(x => x.id === fid)[0].title);
+            $(`#content-input-area${$(this).data('fid')}`).html(`${render_content_block(content_payload.content.filter(x => x.id === fid)[0])}<div class="content-input-placeholder"></div>`);
+        }
     });
     $('body').on('click', '.save-edits', function(){
         if (!$(this).hasClass('save-edits-disabled')){
@@ -220,7 +229,8 @@ $(document).ready(function(){
                     <div class='edit-entry'></div>
                 </div>
             `);
-            $(`#cancel-edit${$(this).data('fid')}`).css('visibility', 'hidden')
+            $(`#cancel-edit${$(this).data('fid')}`).css('visibility', 'hidden');
+            $(`#delete-slide${$(this).data('fid')}`).css('visibility', 'hidden');
             for (var i of document.querySelectorAll(`.input-entry-field[data-fid="${$(this).data('fid')}"]`)){
                 if ($(i).hasClass('game-setting-field')){
                     $(i).addClass('game-setting-field-disabled')
