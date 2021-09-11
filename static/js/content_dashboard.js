@@ -244,11 +244,17 @@ $(document).ready(function(){
         }
     });
     $('body').on('click', '.delete-slide', function(){
-        $(`[data-content="${$(this).data('fid')}"]`).remove();
-        var c = 1;
-        for (var i of document.querySelectorAll('.content-slide-name')){
-            $(i).text(`Slide ${c}`);
-            c++;
+        if (Array.from(document.querySelectorAll('.content-slide-name')).length > 1){
+            var fid = parseInt($(this).data('fid'));
+            content_payload.content = content_payload.content.filter(x => parseInt(x.id) != fid);
+            $(`[data-content="${fid}"]`).remove();
+            var c = 1;
+            for (var i of document.querySelectorAll('.content-slide-name')){
+                $(i).text(`Slide ${c}`);
+                c++;
+            }
+            console.log('content_payload after deletion')
+            console.log(content_payload)
         }
     });
     function render_content_block(block){
