@@ -32,90 +32,95 @@
             <div style='height:15px'></div>
             <div class='nav-entry-underscore'></div>
             <div style='height:30px'></div>
-            <div class='game-settings-outer'>
-                <div class='edit-section-outer'>
-                    <div class='section-edit-name'>Basic</div>
-                    <div class="make-edits">
-                        <div class="edit-entry-outer entry-control-edit" id='entry-control-edit1'>
-                            <div class="edit-entries" data-fid='1'>
-                                <div>Edit</div>
-                                <div class="edit-entry"></div>
+            <div class='content-settings'>
+                <div class='loader'></div>
+                <!--
+                <div class='game-settings-outer'>
+                    <div class='edit-section-outer'>
+                        <div class='section-edit-name'>Basic</div>
+                        <div class="make-edits">
+                            <div class="edit-entry-outer entry-control-edit" id='entry-control-editbasic'>
+                                <div class="edit-entries" data-fid='basic'>
+                                    <div>Edit</div>
+                                    <div class="edit-entry"></div>
+                                </div>
+                            </div>
+                            <div class="edit-entry-outer">
+                                <div class="cancel-edit" data-fid='basic' id='cancel-editbasic'>Cancel</div>
                             </div>
                         </div>
-                        <div class="edit-entry-outer">
-                            <div class="cancel-edit" data-fid='1' id='cancel-edit1'>Cancel</div>
+                    </div>
+                    <div></div>
+                    <div class="game-setting-entry">Name</div>
+                    <input type="text" value="Protest game matrix" class="game-setting-field game-setting-field-disabled input-entry-field" data-fid="basic" readonly="">
+                    <div class="game-setting-entry">Description</div>
+                    <div class="content-textarea content-textarea-disabled input-entry-field" data-fid='basic'>
+                        <div class="content-input-area" contenteditable="true" id="content-input-areabasic" data-fid='basic'>asdfasfdsadffsad<div class="content-input-placeholder"></div>
+                        </div>
+                        <div class="content-input-footer">
+                            <div class="attach-link"></div>
                         </div>
                     </div>
-                </div>
-                <div></div>
-                <div class="game-setting-entry">Name</div>
-                <input type="text" value="Protest game matrix" class="game-setting-field game-setting-field-disabled input-entry-field" data-fid="1" readonly="">
-                <div class="game-setting-entry">Description</div>
-                <div class="content-textarea content-textarea-disabled input-entry-field" data-fid='1'>
-                    <div class="content-input-area" contenteditable="true" id="content-input-area1" data-fid='1'>asdfasfdsadffsad<div class="content-input-placeholder"></div>
-                    </div>
-                    <div class="content-input-footer">
-                        <div class="attach-link"></div>
-                    </div>
-                </div>
-                <div class='edit-section-outer' data-content='2'>
-                    <div class='section-edit-name content-slide-name'>Slide 1</div>
-                    <div class="make-edits make-edits-content">
-                        <div class="edit-entry-outer entry-control-edit" id='entry-control-edit2'>
-                            <div class="edit-entries" data-fid='2'>
-                                <div>Edit</div>
-                                <div class="edit-entry"></div>
+                    <div class='edit-section-outer' data-content='2'>
+                        <div class='section-edit-name content-slide-name'>Slide 1</div>
+                        <div class="make-edits make-edits-content">
+                            <div class="edit-entry-outer entry-control-edit" id='entry-control-edit2'>
+                                <div class="edit-entries" data-fid='2'>
+                                    <div>Edit</div>
+                                    <div class="edit-entry"></div>
+                                </div>
+                            </div>
+                            <div class='edit-entry-outer'>
+                                <div class='delete-slide' data-fid='2' id='delete-slide2'>Delete</div>
+                            </div>
+                            <div class="edit-entry-outer">
+                                <div class="cancel-edit" data-fid='2' id='cancel-edit2'>Cancel</div>
                             </div>
                         </div>
-                        <div class='edit-entry-outer'>
-                            <div class='delete-slide' data-fid='2' id='delete-slide2'>Delete</div>
+                    </div>
+                    <div data-content='2'></div>
+                    <div class="game-setting-entry" data-content='2'>Title</div>
+                    <input type="text" value="Protest game matrix" class="game-setting-field game-setting-field-disabled input-entry-field" data-fid="2" readonly="" data-content='2'>
+                    <div class="game-setting-entry" data-content='2'>Content</div>
+                    <div class="content-textarea content-textarea-disabled input-entry-field" data-fid='2' data-content='2'>
+                        <div class="content-input-area" contenteditable="true" id="content-input-area1" data-fid='2'>asdfasfdsadffsad<div class="content-input-placeholder"></div>
                         </div>
-                        <div class="edit-entry-outer">
-                            <div class="cancel-edit" data-fid='2' id='cancel-edit2'>Cancel</div>
+                        <div class="content-input-footer">
+                            <div class="attach-link"></div>
                         </div>
                     </div>
-                </div>
-                <div data-content='2'></div>
-                <div class="game-setting-entry" data-content='2'>Title</div>
-                <input type="text" value="Protest game matrix" class="game-setting-field game-setting-field-disabled input-entry-field" data-fid="2" readonly="" data-content='2'>
-                <div class="game-setting-entry" data-content='2'>Content</div>
-                <div class="content-textarea content-textarea-disabled input-entry-field" data-fid='2' data-content='2'>
-                    <div class="content-input-area" contenteditable="true" id="content-input-area1" data-fid='2'>asdfasfdsadffsad<div class="content-input-placeholder"></div>
-                    </div>
-                    <div class="content-input-footer">
-                        <div class="attach-link"></div>
-                    </div>
-                </div>
-                <div class='edit-section-outer' data-content='3'>
-                    <div class='section-edit-name content-slide-name'>Slide 2</div>
-                    <div class="make-edits make-edits-content">
-                        <div class="edit-entry-outer entry-control-edit" id='entry-control-edit3'>
-                            <div class="edit-entries" data-fid='3'>
-                                <div>Edit</div>
-                                <div class="edit-entry"></div>
+                    <div class='edit-section-outer' data-content='3'>
+                        <div class='section-edit-name content-slide-name'>Slide 2</div>
+                        <div class="make-edits make-edits-content">
+                            <div class="edit-entry-outer entry-control-edit" id='entry-control-edit3'>
+                                <div class="edit-entries" data-fid='3'>
+                                    <div>Edit</div>
+                                    <div class="edit-entry"></div>
+                                </div>
+                            </div>
+                            <div class='edit-entry-outer'>
+                                <div class='delete-slide' data-fid='3' id='delete-slide3'>Delete</div>
+                            </div>
+                            <div class="edit-entry-outer">
+                                <div class="cancel-edit" data-fid='3' id='cancel-edit3'>Cancel</div>
                             </div>
                         </div>
-                        <div class='edit-entry-outer'>
-                            <div class='delete-slide' data-fid='3' id='delete-slide3'>Delete</div>
+                    </div>
+                    <div data-content='3'></div>
+                    <div class="game-setting-entry" data-content='3'>Title</div>
+                    <input type="text" value="Protest game matrix" class="game-setting-field game-setting-field-disabled input-entry-field" data-fid="3" readonly="" data-content='3'>
+                    <div class="game-setting-entry" data-content='3'>Content</div>
+                    <div class="content-textarea content-textarea-disabled input-entry-field" data-fid='3' data-content='3'>
+                        <div class="content-input-area" contenteditable="true" id="content-input-area1" data-fid='3'>asdfasfdsadffsad<div class="content-input-placeholder"></div>
                         </div>
-                        <div class="edit-entry-outer">
-                            <div class="cancel-edit" data-fid='3' id='cancel-edit3'>Cancel</div>
+                        <div class="content-input-footer">
+                            <div class="attach-link"></div>
                         </div>
                     </div>
-                </div>
-                <div data-content='3'></div>
-                <div class="game-setting-entry" data-content='3'>Title</div>
-                <input type="text" value="Protest game matrix" class="game-setting-field game-setting-field-disabled input-entry-field" data-fid="3" readonly="" data-content='3'>
-                <div class="game-setting-entry" data-content='3'>Content</div>
-                <div class="content-textarea content-textarea-disabled input-entry-field" data-fid='3' data-content='3'>
-                    <div class="content-input-area" contenteditable="true" id="content-input-area1" data-fid='3'>asdfasfdsadffsad<div class="content-input-placeholder"></div>
-                    </div>
-                    <div class="content-input-footer">
-                        <div class="attach-link"></div>
-                    </div>
-                </div>
 
 
+                </div>
+                -->
             </div>
             <div style='height:40px'></div>
             

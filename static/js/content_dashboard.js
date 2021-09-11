@@ -252,5 +252,73 @@ $(document).ready(function(){
         build_string += block.text.substring(last_ind);
         return build_string
     }
+    var content_payload = null;
+    function load_payload(){
+        content_payload = $('.dashboard-toggle-header').data('payload');
+        $('.content-settings').html(`
+        <div class='game-settings-outer'>
+        <div class='edit-section-outer'>
+            <div class='section-edit-name'>Basic</div>
+            <div class="make-edits">
+                <div class="edit-entry-outer entry-control-edit" id='entry-control-editbasic'>
+                    <div class="edit-entries" data-fid='basic'>
+                        <div>Edit</div>
+                        <div class="edit-entry"></div>
+                    </div>
+                </div>
+                <div class="edit-entry-outer">
+                    <div class="cancel-edit" data-fid='basic' id='cancel-editbasic'>Cancel</div>
+                </div>
+            </div>
+        </div>
+        <div></div>
+        <div class="game-setting-entry">Name</div>
+        <input type="text" value="${content_payload.name}" class="game-setting-field game-setting-field-disabled input-entry-field" data-fid="basic" readonly="">
+        <div class="game-setting-entry">Description</div>
+        <div class="content-textarea content-textarea-disabled input-entry-field" data-fid='basic'>
+            <div class="content-input-area" contenteditable="true" id="content-input-areabasic" data-fid='basic'>${render_content_block(content_payload.desc)}<div class="content-input-placeholder"></div>
+            </div>
+            <div class="content-input-footer">
+                <div class="attach-link"></div>
+            </div>
+        </div>
+        </div>
+        `);
+        var _c = 1;
+        for (var {title:_title, text:_text, links:_links, id:_id} of content_payload.content){
+            $('.game-settings-outer').append(`
+                <div class='edit-section-outer' data-content='${_id}'>
+                    <div class='section-edit-name content-slide-name'>Slide ${_c}</div>
+                    <div class="make-edits make-edits-content">
+                        <div class="edit-entry-outer entry-control-edit" id='entry-control-edit${_id}'>
+                            <div class="edit-entries" data-fid='${_id}'>
+                                <div>Edit</div>
+                                <div class="edit-entry"></div>
+                            </div>
+                        </div>
+                        <div class='edit-entry-outer'>
+                            <div class='delete-slide' data-fid='${_id}' id='delete-slide${_id}'>Delete</div>
+                        </div>
+                        <div class="edit-entry-outer">
+                            <div class="cancel-edit" data-fid='${_id}' id='cancel-edit${_id}'>Cancel</div>
+                        </div>
+                    </div>
+                </div>
+                <div data-content='${_id}'></div>
+                <div class="game-setting-entry" data-content='${_id}'>Title</div>
+                <input type="text" value="${_title}" class="game-setting-field game-setting-field-disabled input-entry-field" data-fid="${_id}" readonly="" data-content='${_id}'>
+                <div class="game-setting-entry" data-content='${_id}'>Content</div>
+                <div class="content-textarea content-textarea-disabled input-entry-field" data-fid='${_id}' data-content='${_id}'>
+                    <div class="content-input-area" contenteditable="true" id="content-input-area${_id}" data-fid='${_id}'>${render_content_block({title:_title, text:_text, links:_links, id:_id})}<div class="content-input-placeholder"></div>
+                    </div>
+                    <div class="content-input-footer">
+                        <div class="attach-link"></div>
+                    </div>
+                </div>
+            `);
+            _c++;
+        }
     
+    }
+    load_payload()
 });

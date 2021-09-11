@@ -18,7 +18,7 @@ class Content:
 
     @property
     def to_json(self) -> str:
-        return json.dumps({'desc':self.description, 'content':self._content})
+        return json.dumps({'desc':self.description, 'content':self._content, 'name':self.name})
 
     @classmethod
     def create_content(cls, creator:int, payload:dict) -> dict:
