@@ -275,6 +275,7 @@ $(document).ready(function(){
             if ($(this).data('fid') === 'basic'){
                 content_payload.desc = JSON.parse(JSON.stringify(content_block));
                 content_payload.name = content_payload.desc.title;
+                $('.dashboard-toggle-header').html(content_payload.name);
                 //$(`#content-input-area${$(this).data('fid')}`).html(`${render_content_block(content_payload.desc)}<div class="content-input-placeholder"></div>`);
             }
             else{
