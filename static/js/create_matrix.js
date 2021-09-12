@@ -307,7 +307,29 @@ $(document).ready(function(){
                 $("#step-progress-col4 .process-circle").addClass('progress-circle-complete');
                 $("#step-progress-col4 .process-circle").html(`<div class="progress-complete-check"></div>`)
                 $("#step-progress-col6 .process-circle").removeClass('progress-circle-not-completed');
-                
+                $('.main-entry-col').html(`
+                    <div class='field-wrapper'>
+                        <div class="step-header step-main">Add reactions</div>
+                        <div style="height:10px"></div>
+                        <div class="step-description">Reactions are the possible moves that an actors can make in the game.</div>
+                        <div style="height:30px"></div>
+                        <div class='actor-add-reactions-prompt'>Add reactions for <span class='actor-hashtag'>#Protestors</span>:</div>
+                        <div style='height:20px'></div>
+                        <div class='add-reactions'>
+
+                        </div>
+                        <div class='add-reaction-outer'>
+                            <input type='text' class='add-reaction-field' placeholder='i.e "non-violent"'>
+                            <div class='add-reaction'>Add</div>
+                        </div>
+                        <div style='height:80px'></div>
+                        <div class='next-step-outer'>
+                            <div class='next-step-button step-progress-button' data-tolink='/create-matrix-2'>Next (<span class='next-step-current'>1</span>/2)</div>
+                            <div class='next-icon'></div>
+                        </div>
+                        
+                    </div>
+                `)
                 console.log('full_matrix_payload');
                 console.log(full_matrix_payload);
             }
