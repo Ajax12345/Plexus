@@ -13,6 +13,10 @@ $(document).ready(function(){
         }
     }
     $('.matrix-title-field').focus();
+    $('body').on('input', '.matrix-title-field', function(){
+        full_matrix_payload.name = $(this).val();
+        $('#content-title-error').css('display', 'none');
+    });
     setTimeout(function(){
         format_progress_bar();
     }, 100)
@@ -27,14 +31,13 @@ $(document).ready(function(){
         if ($('.content-input-area').text().replace(/^\s+|\s+$/, '').length === 0){
             $('.content-input-placeholder').text('Describe the outlay of this content...');
         }
-    });
-    $('body').on('input', '.content-title-field', function(){
-        content_block.title = $(this).val();
     }); 
     var selected_link_piece = null;
     var content_block = {text:'', title:'', links:[]};
     var mouse_down = false;
     var mouse_move = false;
+    var full_matrix_payload = {name:null, desc:null};
+    var step = 1;
     $('body').on('mousedown', '.content-textarea', function(){
         mouse_down = true;
     });
@@ -217,5 +220,29 @@ $(document).ready(function(){
         if (e.keyCode === 13){
             add_reaction();
         }
+    });
+    function step_1(){
+        if (full_matrix_payload.name === null || full_matrix_payload.name.length === 0){
+            $('#content-title-error').css('display', 'block');
+            $('#content-title-error').html('Please enter a name for this matrix')
+        }
+        else{
+            if (content_block.text.length > 0){
+                full_matrix_payload.desc = content_block;
+            }
+            selected_link_piece = null;
+            content_block = {text:'', title:'', links:[]};
+            $("#step-progress-col2 .process-circle").addClass('progress-circle-complete');
+            $("#step-progress-col2 .process-circle").html(`<div class="progress-complete-check"></div>`)
+            $("#step-progress-col4 .process-circle").removeClass('progress-circle-not-completed');
+            step = 2;
+
+        }
+        console.log('full_matrix_payload');
+        console.log(full_matrix_payload);
+    }
+    var step_handlers = {1:step_1}
+    $('body').on('click', '.next-step-button', function(){
+        step_handlers[step]()
     });
 });

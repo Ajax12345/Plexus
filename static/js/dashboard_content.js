@@ -18,6 +18,9 @@ $(document).ready(function(){
         }
     }
     function render_content_block(block){
+        if (block === null){
+            return '';
+        }
         var last_ind = 0;
         var build_string = '';
         for (var {link:l_link, start:_start, end:_end, lid:_lid} of block.links){
