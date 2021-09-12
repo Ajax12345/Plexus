@@ -130,6 +130,10 @@ def content_dashboard(cid):
         return flask.redirect('/') #TODO: add 404 here
     return flask.render_template('content_dashboard.html', user=protest_users.User.get_user(flask.session['id']), content = g_c['content'])
 
+@app.route('/update-content', methods=['POST'])
+def update_content():
+    return flask.jsonify(game_content.Content.update_content(flask.session['id'], json.loads(flask.request.form['payload'])))
+
 @app.route('/SignUp', methods=['GET'])
 def sign_up():
     return flask.render_template('sign_up.html')

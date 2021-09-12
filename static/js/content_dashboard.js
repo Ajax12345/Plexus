@@ -1,10 +1,9 @@
 $(document).ready(function(){
     function disable_contentarea_fields(){
         for (var i of document.querySelectorAll('.content-textarea-disabled')){
-            $(i.querySelector('.content-input-area')).attr('contenteditable', false);
+            $(i.querySelector('.content-input-area')).prop('contenteditable', false);
         }
     }
-    disable_contentarea_fields()
     $('body').on('focus', '.content-input-area', function(){
         if ($('.content-input-placeholder').text().length > 0){
            $('.content-input-placeholder').html('');
@@ -290,6 +289,17 @@ $(document).ready(function(){
             selected_link_piece = null;
             content_block = {text:'', title:'', links:[]};
             attach_link_fid = null;
+            $.ajax({
+                url: "/update-content",
+                type: "post",
+                data: {payload: JSON.stringify({payload:content_payload, id:parseInt($('.dashboard-toggle-header').data('cid'))})},
+                success: function(response) {
+                    //pass
+                },
+                error: function(xhr) {
+                    //Do Something to handle error
+                }
+            });
             console.log('content_payload after save')
             console.log(content_payload)
         }
@@ -306,6 +316,17 @@ $(document).ready(function(){
             }
             console.log('content_payload after deletion')
             console.log(content_payload)
+            $.ajax({
+                url: "/update-content",
+                type: "post",
+                data: {payload: JSON.stringify({payload:content_payload, id:parseInt($('.dashboard-toggle-header').data('cid'))})},
+                success: function(response) {
+                    //pass
+                },
+                error: function(xhr) {
+                    //Do Something to handle error
+                }
+            });
         }
     });
     function render_content_block(block){
@@ -314,7 +335,7 @@ $(document).ready(function(){
         for (var {link:l_link, start:_start, end:_end, lid:_lid} of block.links){
             build_string += block.text.substring(last_ind, _start)
             build_string += `<a href='${l_link}' class='content-block-link' id='content-block-link${_lid}' data-lid='${_lid}'>${block.text.substring(_start, _end)}</a>`;
-            last_ind = end;
+            last_ind = _end;
         }
         build_string += block.text.substring(last_ind);
         return build_string
@@ -385,6 +406,7 @@ $(document).ready(function(){
             `);
             _c++;
         }
+        disable_contentarea_fields();
     
     }
     load_payload()

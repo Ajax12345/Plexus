@@ -50,6 +50,14 @@ class Content:
             cl.execute('select c.id, c.name, c.dsc, c.content from content c where c.creator = %s', [int(creator)])
             return {'content':json.dumps([[a, b, *map(json.loads, c)] for a, b, *c in cl])}
     
+    @classmethod
+    def update_content(cls, creator:int, payload:dict) -> dict:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
+            cl.execute('update content set name=%s, dsc = %s, content= %s where creator = %s and id = %s', [payload['payload']['name'], json.dumps(payload['payload']['desc']), json.dumps(payload['payload']['content']), int(creator), int(payload['id'])])
+            cl.commit()
+        return {'status':True}
+
+
 
 if __name__ == '__main__':
     with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
