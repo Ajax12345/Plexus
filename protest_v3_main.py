@@ -72,8 +72,9 @@ def create_content_2():
     return flask.render_template('create_content_2.html')
 
 @app.route('/create/matrix', methods=['GET'])
+@is_loggedin
 def create_matrix():
-    return flask.render_template('create_matrix.html')
+    return flask.render_template('create_matrix.html', r_g = protest_utilites.FromGame(flask.request.args.get('g_redirect')), user=protest_users.User.get_user(int(flask.session['id'])))
 
 @app.route('/create-matrix-2', methods=['GET'])
 def create_matrix_2():

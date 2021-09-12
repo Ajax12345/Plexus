@@ -16,8 +16,8 @@
                 <div></div>
                 <div>
                     <div class='user-profile-display'>
-                        <img src='https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon' class='dashboard-avatar'>
-                        <div class='welcome-user-text'><a href='/profile' class='logged-in-profile'>James Petullo</a></div>
+                        <img src='{{user.gravatar}}' class='dashboard-avatar'>
+                        <div class='welcome-user-text'><a href='/profile' class='logged-in-profile'>{{user.full_name}}</a></div>
                     </div>
                 </div>
             </div>
@@ -29,11 +29,13 @@
             <div class="about-content">
                 The matrix specifies the actors, reactions, and payouts that power your game.
             </div>
+            {%if r_g%}
             <div style='height:10px'></div>
             <div class='back-to-game-creation'>
                 <div class='back-to-create-icon'></div>
                 <div class='back-to-create-text'>Back to game creation</div>
             </div>
+            {%endif%}
             <div style='height:40px'></div>
             <div class='steps-main-outer'>
                 <div class='steps-progression-col'>

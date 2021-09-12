@@ -9,7 +9,7 @@ $(document).ready(function(){
            $('.content-input-placeholder').html('');
         }
         if ($(this).data('fid') === 'basic'){
-            content_block = JSON.parse(JSON.stringify(content_payload.desc))            
+            content_block = content_payload.desc === null ? {text:'', title:$('.game-setting-field[data-fid="basic"]').val(), links:[]} : JSON.parse(JSON.stringify(content_payload.desc))            
         }
         else{
             var fid = parseInt($(this).data('fid'))
@@ -365,7 +365,7 @@ $(document).ready(function(){
         <input type="text" value="${content_payload.name}" class="game-setting-field game-setting-field-disabled input-entry-field" data-fid="basic" readonly="">
         <div class="game-setting-entry">Description</div>
         <div class="content-textarea content-textarea-disabled input-entry-field" data-fid='basic'>
-            <div class="content-input-area" contenteditable="true" id="content-input-areabasic" data-fid='basic'>${render_content_block(content_payload.desc)}<div class="content-input-placeholder"></div>
+            <div class="content-input-area" contenteditable="true" id="content-input-areabasic" data-fid='basic'>${content_payload.desc === null ? "" : render_content_block(content_payload.desc)}<div class="content-input-placeholder"></div>
             </div>
             <div class="content-input-footer">
                 <div class="attach-link" data-fid='basic'></div>
