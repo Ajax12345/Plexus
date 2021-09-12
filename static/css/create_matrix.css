@@ -555,6 +555,9 @@ body{
     font-weight:400;
     font-family: 'Source Sans Pro', sans-serif;
 }
+.first-move-wrapper{
+    display:none;
+}
 .first-move-selection{
     display: grid;
     grid-template-columns: min-content min-content 30px min-content min-content;
@@ -748,4 +751,14 @@ body{
     color: #f32929;
     font-weight: 600;
     margin-top:5px;
+}
+.next-step-disabled{
+    opacity:0.5;
+}
+.next-step-disabled div:hover{
+    cursor:default !important;
+    text-decoration: none !important;
+}
+.next-step-filled{
+    color:rgb(211, 61, 211) !important;
 }

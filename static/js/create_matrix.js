@@ -32,11 +32,17 @@ $(document).ready(function(){
             $('.content-input-placeholder').text('Describe the outlay of this content...');
         }
     }); 
+    $('body').on('input', '.actor-name-field', function(){
+        $("#actor-entry-error").css('display', 'none');
+        $('.first-move-wrapper').css('display', 'none');
+        $('.next-step-current').removeClass('next-step-filled');
+        $('.next-step-current').html('1')
+    });
     var selected_link_piece = null;
     var content_block = {text:'', title:'', links:[]};
     var mouse_down = false;
     var mouse_move = false;
-    var full_matrix_payload = {name:null, desc:null};
+    var full_matrix_payload = {name:null, desc:null, actors:null, move:null};
     var step = 1;
     $('body').on('mousedown', '.content-textarea', function(){
         mouse_down = true;
@@ -236,13 +242,81 @@ $(document).ready(function(){
             $("#step-progress-col2 .process-circle").html(`<div class="progress-complete-check"></div>`)
             $("#step-progress-col4 .process-circle").removeClass('progress-circle-not-completed');
             step = 2;
+            $('.main-entry-col').html(`
+            <div class='field-wrapper'>
+                <div class="step-header step-main">Add actors</div>
+                <div style="height:10px"></div>
+                <div class="step-description">The actors are the two sides that will face off in the game.</div>
+                <div style="height:30px"></div>
+                <div class='add-actors-outer'>
+                    <div class='actor-title-prompt'>Actor 1</div>
+                    <div></div>
+                    <div class='actor-title-prompt'>Actor 2</div>
+                    <input type='text' class='actor-name-field' id='actor-field1'>
+                    <div class='actor-title-prompt' style='font-size:20px'>vs.</div>
+                    <input type='text' class='actor-name-field' id='actor-field2'>
+                </div>
+                <div class='field-error-message' id='actor-entry-error' style='display:none'></div>
+                <div style='height:80px'></div>
+                <div class='first-move-wrapper'>
+                    <div class='actor-move-prompt'>Which actor moves first?</div>
+                    <div style="height:30px"></div>
+                    <div class='first-move-selection'>
+                        <div class='radio-box radio-box-selected' data-aid='1'>
+                            <div class='radio-box-inner'></div>
+                        </div>
+                        <div class='actor-name' data-aid='1'>Protestors</div>
+                        <div></div>
+                        <div class='radio-box' data-aid='2'>
+                            <div class='radio-box-inner'></div>
+                        </div>
+                        <div class='actor-name' data-aid='2'>Police</div>
+                    </div>
+                    <div style='height:70px'></div>
+                </div>
+                <div class='next-step-outer'>
+                    <div class='next-step-button step-progress-button'>Next (<span class='next-step-current'>1</span>/2)</div>
+                    <div class='next-icon'></div>
+                </div>
+            </div>
+            `)
 
         }
         console.log('full_matrix_payload');
         console.log(full_matrix_payload);
     }
-    var step_handlers = {1:step_1}
+    function step_2(){
+        var a1 = $('#actor-field1').val();
+        var a2 = $('#actor-field2').val();
+        if (a1.length === 0 || a2.length === 0){
+            $("#actor-entry-error").css('display', 'block');
+            $("#actor-entry-error").html('Please enter the two actor names');
+        }
+        else{
+            if ($('.first-move-wrapper').css('display') === 'none'){
+                $('.actor-name[data-aid="1"]').html(a1);
+                $('.actor-name[data-aid="2"]').html(a2);
+                $('.first-move-wrapper').css('display', 'block');
+                $('.next-step-current').addClass('next-step-filled');
+                $('.next-step-current').html('2')
+            }
+            else{
+                full_matrix_payload.actors = {1:a1, 2:a2};
+                full_matrix_payload.move = parseInt($(document.querySelector('.radio-box.radio-box-selected')).data('aid'));
+                step = 3;
+                $("#step-progress-col4 .process-circle").addClass('progress-circle-complete');
+                $("#step-progress-col4 .process-circle").html(`<div class="progress-complete-check"></div>`)
+                $("#step-progress-col6 .process-circle").removeClass('progress-circle-not-completed');
+                
+                console.log('full_matrix_payload');
+                console.log(full_matrix_payload);
+            }
+        }
+    }
+    var step_handlers = {1:step_1, 2:step_2};
     $('body').on('click', '.next-step-button', function(){
-        step_handlers[step]()
+        if (!$(this.parentNode).hasClass('next-step-disabled')){
+            step_handlers[step]()
+        }
     });
 });
