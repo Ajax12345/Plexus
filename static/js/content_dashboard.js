@@ -11,7 +11,6 @@ $(document).ready(function(){
         if ($(this).data('fid') === 'basic'){
             content_block = content_payload.desc === null ? {text:'', title:$('.game-setting-field[data-fid="basic"]').val(), links:[]} : JSON.parse(JSON.stringify(content_payload.desc))            
         }
-        
         else{
             var fid = parseInt($(this).data('fid'))
             for (var i of content_payload.content){
