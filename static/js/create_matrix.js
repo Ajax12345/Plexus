@@ -42,7 +42,7 @@ $(document).ready(function(){
     var content_block = {text:'', title:'', links:[]};
     var mouse_down = false;
     var mouse_move = false;
-    var full_matrix_payload = {name:null, desc:null, actors:null, move:null};
+    var full_matrix_payload = {name:null, desc:null, actors:null, move:null, reactions:null};
     var step = 1;
     $('body').on('mousedown', '.content-textarea', function(){
         mouse_down = true;
@@ -202,24 +202,27 @@ $(document).ready(function(){
         }
     });
     var reactions = [];
-    function add_reaction(){
+    function add_reaction(a_id){
         var _reaction = $('.add-reaction-field').val();
+        var f_reactions = [...full_matrix_payload.reactions[1], ...full_matrix_payload.reactions[2]];
         if (_reaction.length > 0){
-            var _r_id = (reactions.length > 0 ? Math.max(...reactions) : 0)+1;
-            reactions.push(_r_id)
+            var _r_id = (f_reactions.length > 0 ? Math.max(...f_reactions.map(x => parseInt(x.id))) : 0)+1;
+            full_matrix_payload.reactions[a_id].push({id:_r_id, reaction:_reaction});
             $('.add-reaction-outer').append(`
                 <div class='reaction-entry' data-rid='${_r_id}'>${_reaction}</div>
-                <div class='remove-reaction' data-rid='${_r_id}'></div>
+                <div class='remove-reaction' data-rid='${_r_id}' data-aid='${a_id}'></div>
             `);
             $('.add-reaction-field').val('');
+            $('.add-reaction-field').focus();
         }
     }
     $('body').on('click', '.add-reaction', function(){
-        add_reaction();
+        add_reaction(parseInt($(this).data('aid')));
     });
     $('body').on('click', '.remove-reaction', function(){
-        var _rid = $(this).data('rid');
-        reactions = reactions.filter(x => x != parseInt(_rid));
+        var _rid = parseInt($(this).data('rid'));
+        var a_id = parseInt($(this).data('aid'));
+        full_matrix_payload.reactions[a_id] = full_matrix_payload.reactions[a_id].filter(x => parseInt(x.id) != _rid);
         $(`div[data-rid="${_rid}"]`).remove()
     });
     $('body').on('keypress', '.add-reaction-field', function(e){
@@ -279,7 +282,8 @@ $(document).ready(function(){
                     <div class='next-icon'></div>
                 </div>
             </div>
-            `)
+            `);
+            $('#actor-field1').focus();
 
         }
         console.log('full_matrix_payload');
@@ -301,7 +305,8 @@ $(document).ready(function(){
                 $('.next-step-current').html('2')
             }
             else{
-                full_matrix_payload.actors = {1:a1, 2:a2};
+                full_matrix_payload.actors = {1:{name:a1}, 2:{name:a2}};
+                full_matrix_payload.reactions = {1:[], 2:[]};
                 full_matrix_payload.move = parseInt($(document.querySelector('.radio-box.radio-box-selected')).data('aid'));
                 step = 3;
                 $("#step-progress-col4 .process-circle").addClass('progress-circle-complete');
@@ -313,29 +318,65 @@ $(document).ready(function(){
                         <div style="height:10px"></div>
                         <div class="step-description">Reactions are the possible moves that an actors can make in the game.</div>
                         <div style="height:30px"></div>
-                        <div class='actor-add-reactions-prompt'>Add reactions for <span class='actor-hashtag'>#Protestors</span>:</div>
+                        <div class='actor-add-reactions-prompt'>Add reactions for <span class='actor-hashtag'>#${full_matrix_payload.actors[1].name}</span>:</div>
                         <div style='height:20px'></div>
-                        <div class='add-reactions'>
-
-                        </div>
                         <div class='add-reaction-outer'>
                             <input type='text' class='add-reaction-field' placeholder='i.e "non-violent"'>
-                            <div class='add-reaction'>Add</div>
+                            <div class='add-reaction' data-aid='1'>Add</div>
                         </div>
                         <div style='height:80px'></div>
                         <div class='next-step-outer'>
-                            <div class='next-step-button step-progress-button' data-tolink='/create-matrix-2'>Next (<span class='next-step-current'>1</span>/2)</div>
+                            <div class='next-step-button step-progress-button' data-aid='1'>Next (<span class='next-step-current'>1</span>/2)</div>
                             <div class='next-icon'></div>
                         </div>
                         
                     </div>
                 `)
+                $('.add-reaction-field').focus();
                 console.log('full_matrix_payload');
                 console.log(full_matrix_payload);
             }
         }
     }
-    var step_handlers = {1:step_1, 2:step_2};
+    function step_3(){
+        if (Object.keys(full_matrix_payload.reactions).every(function (x){return full_matrix_payload.reactions[x].length === 0})){
+            //do something later
+        }
+        else{
+            if (Object.keys(full_matrix_payload.reactions).every(function (x){return full_matrix_payload.reactions[x].length > 0})){
+                $("#step-progress-col6 .process-circle").addClass('progress-circle-complete');
+                $("#step-progress-col6 .process-circle").html(`<div class="progress-complete-check"></div>`)
+                $("#step-progress-col8 .process-circle").removeClass('progress-circle-not-completed');
+                step = 4;
+            }
+            else{
+                $('.main-entry-col').html(`
+                    <div class='field-wrapper'>
+                        <div class="step-header step-main">Add reactions</div>
+                        <div style="height:10px"></div>
+                        <div class="step-description">Reactions are the possible moves that an actors can make in the game.</div>
+                        <div style="height:30px"></div>
+                        <div class='actor-add-reactions-prompt'>Add reactions for <span class='actor-hashtag'>#${full_matrix_payload.actors[2].name}</span>:</div>
+                        <div style='height:20px'></div>
+                        <div class='add-reaction-outer'>
+                            <input type='text' class='add-reaction-field' placeholder='i.e "non-violent"'>
+                            <div class='add-reaction' data-aid='2'>Add</div>
+                        </div>
+                        <div style='height:80px'></div>
+                        <div class='next-step-outer'>
+                            <div class='next-step-button step-progress-button' data-aid='2'>Next (<span class='next-step-current next-step-filled'>2</span>/2)</div>
+                            <div class='next-icon'></div>
+                        </div>
+                        
+                    </div>
+                `)
+                $('.add-reaction-field').focus();
+            }
+        }
+        console.log('full_matrix_payload');
+        console.log(full_matrix_payload);
+    }
+    var step_handlers = {1:step_1, 2:step_2, 3:step_3};
     $('body').on('click', '.next-step-button', function(){
         if (!$(this.parentNode).hasClass('next-step-disabled')){
             step_handlers[step]()
