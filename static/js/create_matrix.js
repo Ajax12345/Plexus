@@ -42,7 +42,7 @@ $(document).ready(function(){
     var content_block = {text:'', title:'', links:[]};
     var mouse_down = false;
     var mouse_move = false;
-    var full_matrix_payload = {name:null, desc:null, actors:null, move:null, reactions:null};
+    var full_matrix_payload = {name:null, desc:null, actors:null, move:null, reactions:null, payoffs:null};
     var step = 1;
     $('body').on('mousedown', '.content-textarea', function(){
         mouse_down = true;
@@ -338,6 +338,23 @@ $(document).ready(function(){
             }
         }
     }
+    function* reaction_combos(d, c = []){
+        if (d.length === 0){
+            yield c
+        }
+        else{
+            for (var r of d[0]){
+                yield* reaction_combos(d.slice(1), [...c, r]);
+            }
+        }
+    }
+    var payoff_combos = null;
+    var running_payoffs = [];
+    var running_payout = null;
+    var start_len = null;
+    $('body').on('input', '.payoff-point-field', function(){
+        running_payout.payouts[parseInt($(this).data('aid'))] = parseInt($(this).val());
+    });
     function step_3(){
         if (Object.keys(full_matrix_payload.reactions).every(function (x){return full_matrix_payload.reactions[x].length === 0})){
             //do something later
@@ -348,6 +365,36 @@ $(document).ready(function(){
                 $("#step-progress-col6 .process-circle").html(`<div class="progress-complete-check"></div>`)
                 $("#step-progress-col8 .process-circle").removeClass('progress-circle-not-completed');
                 step = 4;
+                payoff_combos = [...reaction_combos([full_matrix_payload.reactions[1], full_matrix_payload.reactions[2]])]
+                start_len = payoff_combos.length;
+                console.log('payoff combos')
+                console.log(payoff_combos);
+                var [p1, p2] = payoff_combos.shift();
+                running_payout = {reactions:{1:p1, 2:p2}, payouts:{1:0, 2:0}};
+                $('.main-entry-col').html(`
+                    <div class='field-wrapper'>
+                        <div class="step-header step-main">Add payoffs</div>
+                        <div style="height:10px"></div>
+                        <div class="step-description">Payoffs are the points that are added to the total score of each side for a given pair of reactions.</div>
+                        <div style="height:30px"></div>
+                        <div class='side-move-description'>When the <span class="actor-hashtag">#${full_matrix_payload.actors[1].name}</span> reaction is <span class='reaction-pill'>${p1.reaction}</span> and the <span class="actor-hashtag">#${full_matrix_payload.actors[1].name}</span> reaction is <span class='reaction-pill'>${p2.reaction}</span>:</div>
+                        <div style='height:25px'></div> 
+                        <div class='award-points-outer'>
+                            <div class='award-payouts-text'>Award</div>
+                            <input type='number' class='payoff-point-field' value='0' data-aid='1'>
+                            <div class='award-payouts-text'><span id='award-points-point-text1'>points</span> to the <span class="actor-hashtag">${full_matrix_payload.actors[1].name}</span></div>
+                            <div class='award-payouts-text'>Award</div>
+                            <input type='number' class='payoff-point-field' value='0' data-aid='2'>
+                            <div class='award-payouts-text'><span id='award-points-point-text2'>points</span> to the <span class="actor-hashtag">${full_matrix_payload.actors[2].name}</span></div>
+                        </div>
+                        <div style='height:80px'></div>
+                        <div class='next-step-outer'>
+                            <div class='next-step-button step-progress-button'>Next (<span class='next-step-current'>1</span>/${start_len})</div>
+                            <div class='next-icon'></div>
+                        </div>
+                    </div>
+                `);
+                $('.payoff-point-field[data-rid="1"]').focus();
             }
             else{
                 $('.main-entry-col').html(`
@@ -376,7 +423,45 @@ $(document).ready(function(){
         console.log('full_matrix_payload');
         console.log(full_matrix_payload);
     }
-    var step_handlers = {1:step_1, 2:step_2, 3:step_3};
+    function step_4(){
+        if (!payoff_combos.length){
+            alert('done')
+            running_payoffs.push(running_payout);
+            full_matrix_payload.payoffs = running_payoffs;
+            console.log('running payoffs final')
+            console.log(running_payoffs)
+        }
+        else{
+            running_payoffs.push(running_payout);
+            var [p1, p2] = payoff_combos.shift();
+            running_payout = {reactions:{1:p1, 2:p2}, payouts:{1:0, 2:0}};
+            $('.main-entry-col').html(`
+                <div class='field-wrapper'>
+                    <div class="step-header step-main">Add payoffs</div>
+                    <div style="height:10px"></div>
+                    <div class="step-description">Payoffs are the points that are added to the total score of each side for a given pair of reactions.</div>
+                    <div style="height:30px"></div>
+                    <div class='side-move-description'>When the <span class="actor-hashtag">#${full_matrix_payload.actors[1].name}</span> reaction is <span class='reaction-pill'>${p1.reaction}</span> and the <span class="actor-hashtag">#${full_matrix_payload.actors[1].name}</span> reaction is <span class='reaction-pill'>${p2.reaction}</span>:</div>
+                    <div style='height:25px'></div> 
+                    <div class='award-points-outer'>
+                        <div class='award-payouts-text'>Award</div>
+                        <input type='number' class='payoff-point-field' value='0' data-aid='1'>
+                        <div class='award-payouts-text'><span id='award-points-point-text1'>points</span> to the <span class="actor-hashtag">${full_matrix_payload.actors[1].name}</span></div>
+                        <div class='award-payouts-text'>Award</div>
+                        <input type='number' class='payoff-point-field' value='0' data-aid='2'>
+                        <div class='award-payouts-text'><span id='award-points-point-text2'>points</span> to the <span class="actor-hashtag">${full_matrix_payload.actors[2].name}</span></div>
+                    </div>
+                    <div style='height:80px'></div>
+                    <div class='next-step-outer'>
+                        <div class='next-step-button step-progress-button'>Next (<span class='next-step-current ${running_payoffs.length+1 === start_len ? "next-step-filled" : ""}'>${running_payoffs.length+1}</span>/${start_len})</div>
+                        <div class='next-icon'></div>
+                    </div>
+                </div>
+            `);
+            $('.payoff-point-field[data-rid="1"]').focus();
+        }
+    }
+    var step_handlers = {1:step_1, 2:step_2, 3:step_3, 4:step_4};
     $('body').on('click', '.next-step-button', function(){
         if (!$(this.parentNode).hasClass('next-step-disabled')){
             step_handlers[step]()
