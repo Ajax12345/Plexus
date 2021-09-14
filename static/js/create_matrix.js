@@ -96,14 +96,14 @@ $(document).ready(function(){
     });
     $('body').on('click', '.attach-link-focus', function(){
         $(this).removeClass('attach-link-focus');
-        $('.modal').css('display', 'block');
+        $('#add-link-modal').css('display', 'block');
         $('.text-to-display-field').val(content_block.text.substring(selected_link_piece.start, selected_link_piece.end));
         $('.link-to-display-field').val('');
         $('.link-to-display-field').focus();
     });
     $('body').on('click', '.cancel-link-to', function(){
         selected_link_piece = null;
-        $('.modal').css('display', 'none');
+        $('#add-link-modal').css('display', 'none');
     });
     $('body').on('click', '.add-link-to', function(){
         var t_link = $('.link-to-display-field').val();
@@ -123,7 +123,7 @@ $(document).ready(function(){
             });
             add_link_content_block(1, content_block)
             selected_link_piece = null;
-            $('.modal').css('display', 'none');
+            $('#add-link-modal').css('display', 'none');
         } 
     });
     $('body').on('input', '.link-to-box', function(){
@@ -377,7 +377,7 @@ $(document).ready(function(){
                         <div style="height:10px"></div>
                         <div class="step-description">Payoffs are the points that are added to the total score of each side for a given pair of reactions.</div>
                         <div style="height:30px"></div>
-                        <div class='side-move-description'>When the <span class="actor-hashtag">#${full_matrix_payload.actors[1].name}</span> reaction is <span class='reaction-pill'>${p1.reaction}</span> and the <span class="actor-hashtag">#${full_matrix_payload.actors[1].name}</span> reaction is <span class='reaction-pill'>${p2.reaction}</span>:</div>
+                        <div class='side-move-description'>When the <span class="actor-hashtag">#${full_matrix_payload.actors[1].name}</span> reaction is <span class='reaction-pill'>${p1.reaction}</span> and the <span class="actor-hashtag">#${full_matrix_payload.actors[2].name}</span> reaction is <span class='reaction-pill'>${p2.reaction}</span>:</div>
                         <div style='height:25px'></div> 
                         <div class='award-points-outer'>
                             <div class='award-payouts-text'>Award</div>
@@ -425,11 +425,22 @@ $(document).ready(function(){
     }
     function step_4(){
         if (!payoff_combos.length){
-            alert('done')
             running_payoffs.push(running_payout);
             full_matrix_payload.payoffs = running_payoffs;
-            console.log('running payoffs final')
-            console.log(running_payoffs)
+            console.log('full_matrix_payload')
+            console.log(full_matrix_payload)
+            $("#create-matrix-modal").css('display', 'block');
+            $.ajax({
+                url: "/create-matrix",
+                type: "post",
+                data: {payload: JSON.stringify(full_matrix_payload)},
+                success: function(response) {
+                    window.location.replace('/dashboard/matrices');
+                },
+                error: function(xhr) {
+                    //Do Something to handle error
+                }
+            });
         }
         else{
             running_payoffs.push(running_payout);
@@ -441,7 +452,7 @@ $(document).ready(function(){
                     <div style="height:10px"></div>
                     <div class="step-description">Payoffs are the points that are added to the total score of each side for a given pair of reactions.</div>
                     <div style="height:30px"></div>
-                    <div class='side-move-description'>When the <span class="actor-hashtag">#${full_matrix_payload.actors[1].name}</span> reaction is <span class='reaction-pill'>${p1.reaction}</span> and the <span class="actor-hashtag">#${full_matrix_payload.actors[1].name}</span> reaction is <span class='reaction-pill'>${p2.reaction}</span>:</div>
+                    <div class='side-move-description'>When the <span class="actor-hashtag">#${full_matrix_payload.actors[1].name}</span> reaction is <span class='reaction-pill'>${p1.reaction}</span> and the <span class="actor-hashtag">#${full_matrix_payload.actors[2].name}</span> reaction is <span class='reaction-pill'>${p2.reaction}</span>:</div>
                     <div style='height:25px'></div> 
                     <div class='award-points-outer'>
                         <div class='award-payouts-text'>Award</div>

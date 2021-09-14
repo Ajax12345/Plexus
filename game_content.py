@@ -47,7 +47,7 @@ class Content:
     @classmethod
     def get_all_content(cls, creator:int) -> dict:
         with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
-            cl.execute('select c.id, c.name, c.dsc, c.content from content c where c.creator = %s', [int(creator)])
+            cl.execute('select c.id, c.name, c.dsc, c.content from content c where c.creator = %s order by added desc', [int(creator)])
             return {'content':json.dumps([[a, b, *map(json.loads, c)] for a, b, *c in cl])}
     
     @classmethod

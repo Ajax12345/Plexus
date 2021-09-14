@@ -1,0 +1,21 @@
+import typing, protest_db, json
+
+class Matrix:
+    """
+    tablename: matrices
+    columns: id int, creator int, name text, dsc longtext, move int, actors longtext, reactions longtext, payoffs longtext, added datetime
+    """
+    @classmethod
+    def create_matrix(cls, creator:int, payload:dict) -> dict:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
+            cl.execute('select max(id) from matrices')
+            cl.execute('insert into matrices values (%s, %s, %s, %s, %s, %s, %s, %s, now())', [(mid:=(1 if (c:=cl.fetchone()[0]) is None else c + 1)), int(creator), payload['name'], json.dumps(payload['desc']), payload['move'], json.dumps(payload['actors']), json.dumps(payload['reactions']), json.dumps(payload['payoffs'])])
+            cl.commit()
+        return {'status':True, 'id':mid}
+
+if __name__ == '__main__':
+    with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
+        cl.execute('create table matrices (id int, creator int, name text, dsc longtext, move int, actors longtext, reactions longtext, payoffs longtext, added datetime)')
+        cl.commit()
+        
+    

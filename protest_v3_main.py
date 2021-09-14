@@ -1,6 +1,7 @@
 import flask, protest_users, json
 import typing, functools, random, string
 import protest_utilites, game_content
+import game_matrix
 
 app = flask.Flask(__name__)
 app.secret_key = ''.join(random.choice(string.ascii_letters+string.digits+string.punctuation) for _ in range(30))
@@ -75,6 +76,10 @@ def create_content_2():
 @is_loggedin
 def create_matrix():
     return flask.render_template('create_matrix.html', r_g = protest_utilites.FromGame(flask.request.args.get('g_redirect')), user=protest_users.User.get_user(int(flask.session['id'])))
+
+@app.route('/create-matrix', methods=['POST'])
+def _create_matrix():
+    return flask.jsonify(game_matrix.Matrix.create_matrix(flask.session['id'], json.loads(flask.request.form['payload'])))
 
 @app.route('/create-matrix-2', methods=['GET'])
 def create_matrix_2():
