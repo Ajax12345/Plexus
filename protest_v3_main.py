@@ -39,7 +39,10 @@ def get_all_content():
     return flask.jsonify(game_content.Content.get_all_content(flask.session['id']))
 
 @app.route('/dashboard/matrices', methods=['GET'])
+@is_loggedin
 def dashboard_matrices():
+    if not game_matrix.Matrix.has_matrices(flask.session['id']):
+        return flask.redirect('/dashboard')
     return flask.render_template('dashboard_matrices.html')
 
 @app.route('/dashboard-onboard', methods=['GET'])

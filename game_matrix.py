@@ -13,6 +13,12 @@ class Matrix:
             cl.commit()
         return {'status':True, 'id':mid}
 
+    @classmethod
+    def has_matrices(cls, creator:int) -> bool:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
+            cl.execute('select exists (select 1 from matrices m where m.creator = %s)', [int(creator)])
+            return bool(cl.fetchone()[0])
+
 if __name__ == '__main__':
     with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
         cl.execute('create table matrices (id int, creator int, name text, dsc longtext, move int, actors longtext, reactions longtext, payoffs longtext, added datetime)')
