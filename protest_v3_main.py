@@ -43,7 +43,11 @@ def get_all_content():
 def dashboard_matrices():
     if not game_matrix.Matrix.has_matrices(flask.session['id']):
         return flask.redirect('/dashboard')
-    return flask.render_template('dashboard_matrices.html')
+    return flask.render_template('dashboard_matrices.html', user = protest_users.User.get_user(flask.session['id']))
+
+@app.route('/get-all-matrices', methods=['POST'])
+def get_all_matrices():
+    return flask.jsonify(game_matrix.Matrix.all_matrices(flask.session['id']))
 
 @app.route('/dashboard-onboard', methods=['GET'])
 def dashboard_onboard():

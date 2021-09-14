@@ -14,6 +14,13 @@ class Matrix:
         return {'status':True, 'id':mid}
 
     @classmethod
+    def all_matrices(cls, creator:int) -> dict:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict=True) as cl:
+            cl.execute('select m.* from matrices m where m.creator = %s order by m.added desc', [int(creator)])
+            ops = {**dict(zip(['dsc', 'actors', 'reactions', 'payoffs'], [json.loads]*4)), 'added':str}
+            return {'matrices':json.dumps([{a:ops.get(a, lambda x:x)(b) for a, b in i.items()} for i in cl])}
+
+    @classmethod
     def has_matrices(cls, creator:int) -> bool:
         with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
             cl.execute('select exists (select 1 from matrices m where m.creator = %s)', [int(creator)])

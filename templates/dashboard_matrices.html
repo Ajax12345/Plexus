@@ -16,8 +16,8 @@
                 <div></div>
                 <div>
                     <div class='user-profile-display'>
-                        <img src='https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon' class='dashboard-avatar'>
-                        <div class='welcome-user-text'><a href='/profile' class='logged-in-profile'>James Petullo</a></div>
+                        <img src='{{user.gravatar}}' class='dashboard-avatar'>
+                        <div class='welcome-user-text'><a href='/profile' class='logged-in-profile'>{{user.full_name}}</a></div>
                     </div>
                 </div>
             </div>
@@ -79,6 +79,11 @@
                 Matrices specify the actors, reactions, and payouts for your game.
             </div>
             <div style='height:25px'></div>
+            <div class='all-matrices'>
+                <div class='loader-dividor'></div>
+                <div class='loader'></div>
+            </div>
+            <!--
             <div class='content-outer'>
                 <div class="content-card" data-card="1" id="content-card1">
                     <div class='content-title'>Protest Game Matrix</div>
@@ -106,14 +111,15 @@
                     <div class='view-content-outer'>
                         <div class="view-content">View</div>
                         <div class='feature-in-store'>
-                            <!--
+                            
                             <div class='featured-icon'></div>
                             <div class='featured-text'>Listed in store</div>
-                            -->
+                            
                         </div>
                     </div>
                 </div>
             </div>
+            -->
         </div>
         <div style='height:100px'></div>
     </body>
