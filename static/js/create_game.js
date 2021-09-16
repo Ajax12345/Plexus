@@ -67,8 +67,6 @@ $(document).ready(function(){
                     <div style="height:10px"></div>
                     <div class="step-description">Content provides background information and further resources for your game players</div>
                     <div style="height:30px"></div>
-                    <div class="content-type-prompt">Add existing content or <span class="create-new-content">create new content</span></div>
-                    <div style="height:20px"></div>
                     <div class='choose-content-wrapper'>
                         <div class='loader'></div>
                     </div>
@@ -87,6 +85,8 @@ $(document).ready(function(){
                 data: {payload: ''},
                 success: function(response) {
                     $('.choose-content-wrapper').html(`
+                    <div class="content-type-prompt">Add existing content or <span class="create-new-content">create new content</span></div>
+                    <div style="height:20px"></div>
                     <div class="user-own-content">
                     </div>
                     `)
@@ -103,7 +103,7 @@ $(document).ready(function(){
                                         <div style="height:10px"></div>
                                         <div class="content-description" id="content-description${id}">${render_content_block(desc)}</div>
                                         <div class='content-spacer' style="height:10px"></div>
-                                        <div class="add-content-to-game" data-cid='${id}'>Choose</div>
+                                        <div class="add-content-to-game add-game-content" data-cid='${id}'>Choose</div>
                                     </div>
                                 </div>
                             `);
@@ -124,52 +124,64 @@ $(document).ready(function(){
             $('#no-content-chosen-error').html('Please choose a content block');
         }
         else{
+            $("#step-progress-col4 .process-circle").addClass('progress-circle-complete');
+            $("#step-progress-col4 .process-circle").html(`<div class="progress-complete-check"></div>`)
+            $("#step-progress-col6 .process-circle").removeClass('progress-circle-not-completed');
             step = 3;
             $('.main-entry-col').html(`
                 <div class='field-wrapper'>
-                        <div class='step-header step-main'>Choose matrix</div>
-                        <div style='height:10px'></div>
-                        <div class='step-description'>The matrix specifies the game's actors, reactions, and payoffs</div>
-                        <div style='height:30px'></div>
-                        <div class='content-type-prompt'>Add an existing matrix or <span class='create-new-content'>create new matrix</span></div>
-                        <div style='height:20px'></div>
-                        <div class='user-own-content'>
+                    <div class='step-header step-main'>Choose matrix</div>
+                    <div style='height:10px'></div>
+                    <div class='step-description'>The matrix specifies the game's actors, reactions, and payoffs</div>
+                    <div style='height:30px'></div>
+                    <div class='choose-matrix-wrapper'>
+                        <div class='loader'></div>
+                    </div>
+                    <div class='field-error-message' id='no-matrix-chosen-error'></div>
+                    <div style='height:80px'></div>
+                    <div class='next-step-button step-progress-button' data-tolink='/create-game-3'>Create game</div>
+                </div>
+            `);
+            $.ajax({
+                url: "/get-all-matrices",
+                type: "post",
+                data: {payload: ''},
+                success: function(response) {
+                    $('.choose-matrix-wrapper').html(`
+                    <div class='content-type-prompt'>Add an existing matrix or <span class='create-new-content'>create new matrix</span></div>
+                    <div style='height:20px'></div>
+                    <div class="user-own-content">
+                    </div>
+                    `)
+                    var _matrices = JSON.parse(response.matrices);
+                    if (_matrices.length === 0){
+                        $('.content-type-prompt').html(`<span class="create-new-matrix">Create new matrix</span>`)
+                    }
+                    else{
+                        for (var i of _matrices){
+                            $('.user-own-content').append(`
                             <div class='content-col'>
-                                <div class='content-card' data-card='1' id='content-card1'>
-                                    <div class='content-title'>Protest Game Matrix</div>
+                                <div class='content-card matrix-card' data-card='${i.id}' id='content-card${i.id}'>
+                                    <div class='content-title'>${i.name}</div>
                                     <div style='height:10px'></div>
                                     <div class='matrix-actor-header'>Actors</div>
                                     <div style='height:5px'></div>
                                     <div class='matrix-actor-outer'><span class='matrix-actor'>#Police</span>, <span class='matrix-actor'>#Protestors</span></div>
                                     <div style='height:10px'></div>
-                                    <div class='content-description' id='content-description1'>This matrix stores the actors, reactions, and payoffs for a standard protest game.</div>
-                                    <div style='height:12px'></div>
-                                    <div class='add-content-to-game'>Choose</div>
+                                    <div class='content-description' id='content-description${i.id}'>${render_content_block(i.dsc)}</div>
+                                    <div class='content-spacer' style="height:10px"></div>
+                                    <div class='add-content-to-game add-game-matrix' data-mid='${i.id}'>Choose</div>
                                 </div>
                             </div>
-                            <div class='content-col'>
-                                <div class='content-card' data-card='2' id='content-card2'>
-                                    <div class='content-title'>Prisoners' Dilemma</div>
-                                    <div style='height:10px'></div>
-                                    <div class='matrix-actor-header'>Actors</div>
-                                    <div style='height:5px'></div>
-                                    <div class='matrix-actor-outer'><span class='matrix-actor'>#Prisoner1</span>, <span class='matrix-actor'>#Prisoner2</span></div>
-                                    <div style='height:10px'></div>
-                                    <div class='content-description' id='content-description2'>This matrix stores the actors, reactions, and payoffs for a standard protest game.</div>
-                                    <div style='height:12px'></div>
-                                    <div class='add-content-to-game'>Choose</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div style='height:80px'></div>
-                        
-                        <div class='progress-controls'>
-                            <div class='previous-step-button step-progress-button' data-tolink='/create-game-2'>Prev</div>
-                            <div class='progress-control-dividor'></div>
-                            <div class='next-step-button step-progress-button' data-tolink='/create-game-3'>Create game</div>
-                        </div>
-                    </div>
-            `)
+                            `);
+                        }
+                        adjust_content_card_height();
+                    }
+                },
+                error: function(xhr) {
+                    //Do Something to handle error
+                }
+            });
         }
     }
     var step_handlers = {1:step_1, 2:step_2};
@@ -179,9 +191,12 @@ $(document).ready(function(){
     $('body').on('click', '.create-new-content', function(){
         window.location.replace('/create/content');
     });
-    $('body').on('click', '.add-content-to-game', function(){
+    $('body').on('click', '.create-new-matrix', function(){
+        window.location.replace('/create/matrix');
+    });
+    $('body').on('click', '.add-game-content', function(){
         if (!$(this).hasClass('content-chosen')){
-            for (var i of document.querySelectorAll('.add-content-to-game')){
+            for (var i of document.querySelectorAll('.add-game-content')){
                 $(i).removeClass('content-chosen')
                 $(i).html('Choose')
             }
@@ -189,6 +204,19 @@ $(document).ready(function(){
             $(this).html('Chosen')
             $('#no-content-chosen-error').css('display', 'none');
             game_payload.content = parseInt($(this).data('cid'));
+
+        }
+    });
+    $('body').on('click', '.add-game-matrix', function(){
+        if (!$(this).hasClass('content-chosen')){
+            for (var i of document.querySelectorAll('.add-game-matrix')){
+                $(i).removeClass('content-chosen')
+                $(i).html('Choose')
+            }
+            $(this).addClass('content-chosen')
+            $(this).html('Chosen')
+            $('#no-matrix-chosen-error').css('display', 'none');
+            game_payload.matrix = parseInt($(this).data('mid'));
 
         }
     });

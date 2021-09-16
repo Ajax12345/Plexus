@@ -234,6 +234,13 @@ body{
 .create-new-content:hover{
     cursor:pointer;
 }
+.create-new-matrix{
+    color: rgb(211, 61, 211);
+    text-decoration: underline;
+}
+.create-new-matrix:hover{
+    cursor:pointer;
+}
 .user-own-content{
     display: grid;
     grid-template-columns: min-content min-content;
