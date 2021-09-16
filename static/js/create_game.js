@@ -184,7 +184,16 @@ $(document).ready(function(){
             });
         }
     }
-    var step_handlers = {1:step_1, 2:step_2};
+    function step_3(){
+        if (game_payload.matrix === null){
+            $('#no-matrix-chosen-error').css('display', 'block');
+            $('#no-matrix-chosen-error').html('Please choose a matrix');
+        }
+        else{
+            $("#create-game-modal").css('display', 'block')
+        }
+    }
+    var step_handlers = {1:step_1, 2:step_2, 3:step_3};
     $('body').on('click', '.next-step-button', function(){
         step_handlers[step]()
     });
