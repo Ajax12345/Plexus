@@ -191,6 +191,8 @@ $(document).ready(function(){
         }
         else{
             $("#create-game-modal").css('display', 'block')
+            console.log('full payload')
+            console.log(game_payload);
         }
     }
     var step_handlers = {1:step_1, 2:step_2, 3:step_3};
