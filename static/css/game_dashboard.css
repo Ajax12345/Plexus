@@ -339,6 +339,9 @@ body{
 .game-setting-field-disabled:focus{
     border-color: white !important;
 }
+.game-component-a{
+    text-decoration: none !important;
+}
 .game-component-link{
     color: rgb(27, 149, 224);
     font-size: 17px;

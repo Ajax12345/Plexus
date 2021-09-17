@@ -128,7 +128,41 @@ $(document).ready(function(){
     });
     function load_payload(){
         game_payload = $('.game-settings-wrapper').data('payload');
-        
+        $('.game-settings-wrapper').html(`
+            <div class='make-edits'>
+                <div class='edit-entry-outer entry-control-edit'>
+                    <div class='edit-entries'>
+                        <div>Edit</div>
+                        <div class='edit-entry'></div>
+                    </div>
+                </div>
+                <div class='edit-entry-outer'>
+                    <div class='cancel-edit'>Cancel</div>
+                </div>
+            </div>
+            <div style='height:20px'></div>
+            <div class='game-settings-outer'>
+                <div class='game-setting-entry'>Game name</div>
+                <input type='text' value='${game_payload.name}' class='game-setting-field game-setting-field-disabled' data-fid='1' readonly>
+                <div class='game-setting-entry'>Number of rounds</div>
+                <input type='number' value='${game_payload.rounds}' class='game-setting-field game-setting-field-disabled' data-fid='2' readonly>
+                
+                <div class='game-setting-entry'>Payoff matrix</div>
+                <div class='game-component-outer'>
+                    <a href='/content/${game_payload.content}' class='game-component-a' >
+                        <div class='game-component-link'>${game_payload.matrix_name}</div>
+                    </a>
+                    <div class='tooltip-info' data-tooltip='The matrix specifies the actors, reactions, and payoffs that power your game'></div>
+                </div>
+                <div class='game-setting-entry'>Content</div>
+                <div class='game-component-outer'>
+                    <a href='/matrix/${game_payload.matrix}' class='game-component-a'>
+                        <div class='game-component-link'>${game_payload.content_name}</div>
+                    </a>
+                    <div class='tooltip-info' data-tooltip='Content are slides of text, links, and images that players of your games can access and reference throughout play'></div>
+                </div>
+            </div>
+        `);
     }
     load_payload();
 });
