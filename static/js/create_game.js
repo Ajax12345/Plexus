@@ -39,7 +39,7 @@ $(document).ready(function(){
         for (var {link:l_link, start:_start, end:_end, lid:_lid} of block.links){
             build_string += block.text.substring(last_ind, _start)
             build_string += `<a href='${l_link}' class='content-block-link' id='content-block-link${_lid}' data-lid='${_lid}'>${block.text.substring(_start, _end)}</a>`;
-            last_ind = end;
+            last_ind = _end;
         }
         build_string += block.text.substring(last_ind);
         return build_string

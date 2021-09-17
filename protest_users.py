@@ -45,7 +45,7 @@ class User:
                 return {'status':False, 'message':'That email already exists. <a href="/SignIn">Sign in?</a>'}
             
             cl.execute('select max(id) from users')
-            cl.execute('insert into users values (%s, %s, %s, %s, %s, now())', [(uid:=(1 if (_id:=cl.fetchone()[0]) is None else int(_id[0])+1)), _payload['first_name'], _payload['last_name'], _payload['email'], _payload['password']])
+            cl.execute('insert into users values (%s, %s, %s, %s, %s, now())', [(uid:=(1 if (_id:=cl.fetchone()[0]) is None else int(_id)+1)), _payload['first_name'], _payload['last_name'], _payload['email'], _payload['password']])
             cl.commit()
             return {'status':True, 'user':uid}
         
