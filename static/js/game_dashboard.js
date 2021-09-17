@@ -6,6 +6,7 @@ $(document).ready(function(){
         }, 700);
     });
     var display_tooltip = false;
+    var game_payload = null;
     $(document).on({
         mouseenter: function () {
             display_tooltip = true;
@@ -125,4 +126,9 @@ $(document).ready(function(){
     $('body').on('click', function(e){
         close_dropdown(e.target)
     });
+    function load_payload(){
+        game_payload = $('.game-settings-wrapper').data('payload');
+        
+    }
+    load_payload();
 });

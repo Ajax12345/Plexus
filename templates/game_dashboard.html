@@ -16,8 +16,8 @@
                 <div></div>
                 <div>
                     <div class='user-profile-display'>
-                        <img src='https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon' class='dashboard-avatar'>
-                        <div class='welcome-user-text'><a href='/profile' class='logged-in-profile'>James Petullo</a></div>
+                        <img src='{{user.gravatar}}' class='dashboard-avatar'>
+                        <div class='welcome-user-text'><a href='/profile' class='logged-in-profile'>{{user.full_name}}</a></div>
                     </div>
                 </div>
             </div>
@@ -27,16 +27,16 @@
             <div style='height:50px'></div>
             <div class='main-header'>
                 <div class='main-header-col'>
-                    <div class='dashboard-toggle-header'>Protest Game</div>
+                    <div class='dashboard-toggle-header'>{{game.name}}</div>
                 </div>
                 <div class='main-header-col'>
-                    <div class="game-status-pill game-status-players-waiting">3 Players waiting</div>
+                    <div class="game-status-pill">Not started yet</div>
                 </div>
             </div>
             <div style='height:15px'></div>
             <div class='player-access-link-outer'>
                 <div class='player-access-link-text'>Gameplay access link:</div>
-                <div class='player-access-link'>https://www.protestgame.com/game/play/23131414</div>
+                <div class='player-access-link'>https://www.protestgame.com/game/play/{{game.id}}</div>
                 <div class='copy-game-link'></div>
             </div>
             <!--
@@ -72,36 +72,40 @@
             <div style='height:20px'></div>
             <div class='game-row-divider'></div>
             <div style='height:20px'></div>
-            <div class='make-edits'>
-                <div class='edit-entry-outer entry-control-edit'>
-                    <div class='edit-entries'>
-                        <div>Edit</div>
-                        <div class='edit-entry'></div>
+            <div class='game-settings-wrapper' data-gid='{{game.id}}' data-payload = '{{game.to_json}}'>
+                <div class='loader'></div>
+                <!--
+                <div class='make-edits'>
+                    <div class='edit-entry-outer entry-control-edit'>
+                        <div class='edit-entries'>
+                            <div>Edit</div>
+                            <div class='edit-entry'></div>
+                        </div>
+                    </div>
+                    <div class='edit-entry-outer'>
+                        <div class='cancel-edit'>Cancel</div>
                     </div>
                 </div>
-                <div class='edit-entry-outer'>
-                    <div class='cancel-edit'>Cancel</div>
+                <div style='height:20px'></div>
+                <div class='game-settings-outer'>
+                    <div class='game-setting-entry'>Game name</div>
+                    <input type='text' value='Protest game' class='game-setting-field game-setting-field-disabled' data-fid='1' readonly>
+                    <div class='game-setting-entry'>Number of rounds</div>
+                    <input type='number' value='6' class='game-setting-field game-setting-field-disabled' data-fid='2' readonly>
+                    
+                    <div class='game-setting-entry'>Payoff matrix</div>
+                    <div class='game-component-outer'>
+                        <div class='game-component-link'>Protest Game Matrix</div>
+                        <div class='tooltip-info' data-tooltip='The matrix specifies the actors, reactions, and payoffs that power your game'></div>
+                    </div>
+                    <div class='game-setting-entry'>Content</div>
+                    <div class='game-component-outer'>
+                        <div class='game-component-link'>Protest Game Content</div>
+                        <div class='tooltip-info' data-tooltip='Content are slides of text, links, and images that players of your games can access and reference throughout play'></div>
+                    </div>
                 </div>
+                -->
             </div>
-            <div style='height:20px'></div>
-            <div class='game-settings-outer'>
-                <div class='game-setting-entry'>Game name</div>
-                <input type='text' value='Protest game' class='game-setting-field game-setting-field-disabled' data-fid='1' readonly>
-                <div class='game-setting-entry'>Number of rounds</div>
-                <input type='number' value='6' class='game-setting-field game-setting-field-disabled' data-fid='2' readonly>
-                
-                <div class='game-setting-entry'>Payoff matrix</div>
-                <div class='game-component-outer'>
-                    <div class='game-component-link'>Protest Game Matrix</div>
-                    <div class='tooltip-info' data-tooltip='The matrix specifies the actors, reactions, and payoffs that power your game'></div>
-                </div>
-                <div class='game-setting-entry'>Content</div>
-                <div class='game-component-outer'>
-                    <div class='game-component-link'>Protest Game Content</div>
-                    <div class='tooltip-info' data-tooltip='Content are slides of text, links, and images that players of your games can access and reference throughout play'></div>
-                </div>
-            </div>
-            
         </div>
         <div style='height:100px'></div>
     </body>

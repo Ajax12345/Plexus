@@ -24,6 +24,7 @@ def dashboard():
     return flask.render_template('dashboard_onboard.html', user=protest_users.User.get_user(int(flask.session['id'])))
 
 @app.route('/dashboard/games', methods=['GET'])
+@is_loggedin
 def dashboard_games():
     return flask.render_template('dashboard.html')
 
@@ -56,7 +57,7 @@ def dashboard_onboard():
 @app.route('/create/game', methods=['GET'])
 @is_loggedin
 def create_game():
-    return flask.render_template('create_game.html')
+    return flask.render_template('create_game.html', user=protest_users.User.get_user(int(flask.session['id'])))
 
 @app.route('/create-game', methods=['POST'])
 def _create_game():
@@ -126,8 +127,12 @@ def instructor_player_game_window():
     return flask.render_template('game_window_v3_3.html')
 
 @app.route('/game/<id>', methods=['GET'])
+@is_loggedin
 def game_dashboard(id):
-    return flask.render_template('game_dashboard.html')
+    if not (game:=protest_game.Game.get_game(int(flask.session['id']), int(id)))['status']:
+        return flask.redirect('/') #TODO: add 404 here
+    print(game['game'].__dict__)
+    return flask.render_template('game_dashboard.html', user = protest_users.User.get_user(flask.session['id']), game=game['game'])
 
 @app.route('/game1/testgame', methods=['GET'])
 def game_dashboard1():
