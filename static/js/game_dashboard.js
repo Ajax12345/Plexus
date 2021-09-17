@@ -76,16 +76,36 @@ $(document).ready(function(){
     });
     $('body').on('click', '.save-edits', function(){
         if (!$(this).hasClass('save-edits-disabled')){
-            $('.entry-control-edit').html(`
-                <div class='edit-entries'>
-                    <div>Edit</div>
-                    <div class='edit-entry'></div>
-                </div>
-            `);
-            $('.cancel-edit').css('display', 'none')
-            $('.game-setting-field').each(function(){
-                $(this).addClass('game-setting-field-disabled')
-                $(this).attr('readonly', true)
+            game_payload.rounds = parseInt($('.game-setting-field[data-fid="2"]').val());
+            var n_name = $('.game-setting-field[data-fid="1"]').val();
+            if (n_name.length > 0){
+                $('.dashboard-toggle-header').html(n_name);
+                game_payload.name = n_name;
+                $('.entry-control-edit').html(`
+                    <div class='edit-entries'>
+                        <div>Edit</div>
+                        <div class='edit-entry'></div>
+                    </div>
+                `);
+                $('.cancel-edit').css('display', 'none')
+                $('.game-setting-field').each(function(){
+                    $(this).addClass('game-setting-field-disabled')
+                    $(this).attr('readonly', true)
+                });
+            }
+            else{
+                $('.game-setting-field[data-fid="1"]').addClass('input-entry-field-error');
+            }
+            $.ajax({
+                url: "/update-game",
+                type: "post",
+                data: {payload: JSON.stringify(game_payload)},
+                success: function(response) {
+                    //pass
+                },
+                error: function(xhr) {
+                    //Do Something to handle error
+                }
             });
         }
     });
@@ -101,6 +121,9 @@ $(document).ready(function(){
     var _edit_id_bindings = {1:edit_game_name, 2:edit_game_rounds}
     $('body').on('input', '.game-setting-field', function(){
         _edit_id_bindings[parseInt($(this).data('fid'))](this, $(this).val())
+        if (parseInt($(this).data('fid')) === 1){
+            $(this).removeClass('input-entry-field-error')
+        }
     });
     $('body').on('click', '.game-date-selector', function(){
         $(".dropdown-outer").css('width', $('.all-game-play-dates').css('width'))

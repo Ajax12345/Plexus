@@ -486,3 +486,17 @@ body{
     height:1px;
     background-color:rgb(228, 228, 228);
 }
+.field-error-message{
+    font-size: 15px;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: #f32929;
+    font-weight: 600;
+    margin-top:5px;
+}
+.input-entry-field{
+    box-shadow: 0px 0px 0px 0 rgb(210 65 65 / 50%);
+}
+.input-entry-field-error{
+    box-shadow: 0px 0px 3px 2px rgb(210 65 65 / 50%);
+    transition: box-shadow 0.4s;
+}

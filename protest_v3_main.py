@@ -134,6 +134,10 @@ def game_dashboard(id):
     print(game['game'].__dict__)
     return flask.render_template('game_dashboard.html', user = protest_users.User.get_user(flask.session['id']), game=game['game'])
 
+@app.route('/update-game', methods=['POST'])
+def update_game():
+    return flask.jsonify(protest_game.Game.update_game(int(flask.session['id']), json.loads(flask.request.form['payload'])))
+
 @app.route('/game1/testgame', methods=['GET'])
 def game_dashboard1():
     return flask.render_template('game_dashboard_1.html')

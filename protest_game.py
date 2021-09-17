@@ -28,6 +28,12 @@ class Game:
                 return {'status':False}
             return {'status':True, 'game':cls(g)}
 
+    @classmethod
+    def update_game(cls, creator:int, _payload:dict) -> dict:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict = True) as cl:
+            cl.execute('update games set name = %s, rounds = %s where id = %s', [_payload['name'], int(_payload['rounds']), int(_payload['id'])])
+            cl.commit()
+        return {'status':True}
 
 if __name__ == '__main__':
     with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:

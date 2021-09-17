@@ -23,7 +23,7 @@ $(document).ready(function(){
     });
     $('body').on('focus', '.game-setting-field', function(){
         if ($(this).data('fid') === 'basic'){
-            content_block = JSON.parse(JSON.stringify(content_payload.desc))            
+            content_block = JSON.parse(JSON.stringify(content_payload.desc))
         }
         else{
             var fid = parseInt($(this).data('fid'))
@@ -201,6 +201,9 @@ $(document).ready(function(){
     });
     $('body').on('input', ".input-entry-field", function(){
         $(`#save-edits${$(this).data('fid')}`).removeClass('save-edits-disabled')
+        if ($(this).data('fid') === 'basic' && $(this).hasClass('game-setting-field')){
+            $('.game-setting-field[data-fid="basic"]').removeClass('input-entry-field-error')
+        }
     });
     $('body').on('click', '.edit-entries', function(){
         var _fid=$(this).data('fid');
@@ -254,28 +257,17 @@ $(document).ready(function(){
     });
     $('body').on('click', '.save-edits', function(){
         if (!$(this).hasClass('save-edits-disabled')){
-            $(`#entry-control-edit${$(this).data('fid')}`).html(`
-                <div class='edit-entries' data-fid='${$(this).data('fid')}'>
-                    <div>Edit</div>
-                    <div class='edit-entry'></div>
-                </div>
-            `);
-            $(`#cancel-edit${$(this).data('fid')}`).css('visibility', 'hidden');
-            $(`#delete-slide${$(this).data('fid')}`).css('visibility', 'hidden');
-            for (var i of document.querySelectorAll(`.input-entry-field[data-fid="${$(this).data('fid')}"]`)){
-                if ($(i).hasClass('game-setting-field')){
-                    $(i).addClass('game-setting-field-disabled')
-                    $(i).attr('readonly', true)
-                }
-                else{
-                    $(i).addClass('content-textarea-disabled')
-                    $(i.querySelector('.content-input-area')).attr('contenteditable', false);
-                }
-            }
+            var error_field = null;
             if ($(this).data('fid') === 'basic'){
                 content_payload.desc = JSON.parse(JSON.stringify(content_block));
-                content_payload.name = content_payload.desc.title;
-                $('.dashboard-toggle-header').html(content_payload.name);
+                if (content_payload.desc.title.length > 0){
+                    content_payload.name = content_payload.desc.title;
+                    $('.dashboard-toggle-header').html(content_payload.name);
+                }
+                else{
+                    error_field = 'basic';
+                    $('.game-setting-field[data-fid="basic"]').addClass('input-entry-field-error')
+                }
                 //$(`#content-input-area${$(this).data('fid')}`).html(`${render_content_block(content_payload.desc)}<div class="content-input-placeholder"></div>`);
             }
             else{
@@ -284,6 +276,28 @@ $(document).ready(function(){
                     if (content_payload.content[i].id === fid){
                         content_payload.content[i] = JSON.parse(JSON.stringify(content_block));
                         break;
+                    }
+                }
+            }
+            if (error_field === null){
+                $(`#entry-control-edit${$(this).data('fid')}`).html(`
+                    <div class='edit-entries' data-fid='${$(this).data('fid')}'>
+                        <div>Edit</div>
+                        <div class='edit-entry'></div>
+                    </div>
+                `);
+                $(`#cancel-edit${$(this).data('fid')}`).css('visibility', 'hidden');
+                $(`#delete-slide${$(this).data('fid')}`).css('visibility', 'hidden');
+            }
+            for (var i of document.querySelectorAll(`.input-entry-field[data-fid="${$(this).data('fid')}"]`)){
+                if ($(i).data('fid') != error_field){
+                    if ($(i).hasClass('game-setting-field')){
+                        $(i).addClass('game-setting-field-disabled')
+                        $(i).attr('readonly', true)
+                    }
+                    else{
+                        $(i).addClass('content-textarea-disabled')
+                        $(i.querySelector('.content-input-area')).attr('contenteditable', false);
                     }
                 }
             }
