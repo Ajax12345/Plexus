@@ -193,6 +193,17 @@ $(document).ready(function(){
             $("#create-game-modal").css('display', 'block')
             console.log('full payload')
             console.log(game_payload);
+            $.ajax({
+                url: "/create-game",
+                type: "post",
+                data: {payload: JSON.stringify(game_payload)},
+                success: function(response) {
+                    window.location.replace(`/game/${response.id}`);
+                },
+                error: function(xhr) {
+                    //Do Something to handle error
+                }
+            });
         }
     }
     var step_handlers = {1:step_1, 2:step_2, 3:step_3};

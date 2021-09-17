@@ -1,7 +1,7 @@
 import flask, protest_users, json
 import typing, functools, random, string
 import protest_utilites, game_content
-import game_matrix
+import game_matrix, protest_game
 
 app = flask.Flask(__name__)
 app.secret_key = ''.join(random.choice(string.ascii_letters+string.digits+string.punctuation) for _ in range(30))
@@ -54,8 +54,13 @@ def dashboard_onboard():
     return flask.render_template('dashboard_onboard.html')
 
 @app.route('/create/game', methods=['GET'])
+@is_loggedin
 def create_game():
     return flask.render_template('create_game.html')
+
+@app.route('/create-game', methods=['POST'])
+def _create_game():
+    return flask.jsonify(protest_game.Game.create_game(int(flask.session['id']), json.loads(flask.request.form['payload'])))
 
 @app.route('/create-game-2', methods=['GET'])
 def create_game_2():
@@ -120,8 +125,8 @@ def third_player_game_window():
 def instructor_player_game_window():
     return flask.render_template('game_window_v3_3.html')
 
-@app.route('/game/testgame', methods=['GET'])
-def game_dashboard():
+@app.route('/game/<id>', methods=['GET'])
+def game_dashboard(id):
     return flask.render_template('game_dashboard.html')
 
 @app.route('/game1/testgame', methods=['GET'])
