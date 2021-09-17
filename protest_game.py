@@ -1,5 +1,23 @@
 import typing, json, protest_db
 
+class AllGames:
+    def __init__(self, _games:typing.List['Game']) -> None:
+        self.games = _games
+    
+    def __bool__(self) -> bool:
+        return bool(self.games)
+
+    def __len__(self) -> int:
+        return len(self.games)
+
+    @property
+    def games_num(self) -> int:
+        return len(self)
+
+    def __iter__(self) -> typing.Iterator:
+        yield from self.games
+
+
 class Game:
     """
     tablename: games
@@ -34,6 +52,16 @@ class Game:
             cl.execute('update games set name = %s, rounds = %s where id = %s', [_payload['name'], int(_payload['rounds']), int(_payload['id'])])
             cl.commit()
         return {'status':True}
+
+    @classmethod
+    def instantiate_game(cls, _payload:dict, cursor:protest_db.DbClient) -> 'Game':
+        return cls(_payload)
+
+    @classmethod
+    def get_all_games(cls, _id:int) -> AllGames:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict = True) as cl:
+            cl.execute('select g.* from games g where g.creator = %s order by added desc', [int(_id)])
+            return AllGames([cls.instantiate_game(i, cl) for i in cl])
 
 if __name__ == '__main__':
     with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:

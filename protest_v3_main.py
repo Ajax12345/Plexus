@@ -18,15 +18,12 @@ def is_loggedin(_f:typing.Callable) -> typing.Callable:
 def main():
     return flask.render_template('demo_landing.html')
 
-@app.route('/dashboard', methods=['GET'])
-@is_loggedin
-def dashboard():
-    return flask.render_template('dashboard_onboard.html', user=protest_users.User.get_user(int(flask.session['id'])))
-
 @app.route('/dashboard/games', methods=['GET'])
 @is_loggedin
 def dashboard_games():
-    return flask.render_template('dashboard.html')
+    if not (games:=protest_game.Game.get_all_games(int(flask.session['id']))):
+        return flask.render_template('dashboard_onboard.html', user=protest_users.User.get_user(int(flask.session['id'])))
+    return flask.render_template('dashboard.html', games = games, user=protest_users.User.get_user(int(flask.session['id'])))
 
 @app.route('/dashboard/content', methods=['GET'])
 @is_loggedin

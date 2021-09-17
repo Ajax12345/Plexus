@@ -16,8 +16,8 @@
                 <div></div>
                 <div>
                     <div class='user-profile-display'>
-                        <img src='https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon' class='dashboard-avatar'>
-                        <div class='welcome-user-text'><a href='/profile' class='logged-in-profile'>James Petullo</a></div>
+                        <img src='{{user.gravatar}}' class='dashboard-avatar'>
+                        <div class='welcome-user-text'><a href='/profile' class='logged-in-profile'>{{user.full_name}}</a></div>
                     </div>
                 </div>
             </div>
@@ -69,24 +69,29 @@
                     <div class='dashboard-toggle-header'>My Games</div>
                 </div>
                 <div class='main-header-col'>
-                    <a href='/create-game' style='text-decoration:none;'>
+                    <a href='/create/game' style='text-decoration:none;'>
                         <div class='create-entity'>Create game</div>
                     </a>
                 </div>
             </div>
             <div style='height:40px'></div>
-            <div class='game-row-divider'></div>
-            <div class='game-row'>
-                <div class='game-col game-col-td'>
-                    <div class='game-name'>My first protest game</div>
+            {%for game in games%}
+                <div class='game-row-divider'></div>
+                <div class='game-row'>
+                    <div class='game-col game-col-td'>
+                        <div class='game-name'>{{game.name}}</div>
+                    </div>
+                    <div class='game-col game-col-td'>
+                        <div class='game-status-pill'>Not started yet</div>
+                    </div>
+                    <div class='game-col game-col-td'>
+                        <a href='/game/{{game.id}}' style='text-decoration:none'>
+                            <div class='view-game-text'>view</div>
+                        </a>
+                    </div>
                 </div>
-                <div class='game-col game-col-td'>
-                    <div class='game-status-pill'>Not started yet</div>
-                </div>
-                <div class='game-col game-col-td'>
-                    <div class='view-game-text'>view</div>
-                </div>
-            </div>
+            {%endfor%}
+            <!--
             <div class='game-row-divider'></div>
             <div class='game-row'>
                 <div class='game-col game-col-td'>
@@ -123,6 +128,8 @@
                     <div class='view-game-text'>view</div>
                 </div>
             </div>
+            <div class='game-row-divider'></div>
+            -->
             <div class='game-row-divider'></div>
         </div>
         <div style='height:100px'></div>

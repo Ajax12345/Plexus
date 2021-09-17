@@ -18,7 +18,7 @@ $(document).ready(function(){
                 data: {payload: JSON.stringify(payload)},
                 success: function(response) {
                     if (response.status){
-                        window.location.replace('/dashboard')
+                        window.location.replace('/dashboard/games')
                     }
                     else{
                         $('.error-message').html(response.message)
