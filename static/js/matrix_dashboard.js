@@ -15,11 +15,22 @@ $(document).ready(function(){
             $('.content-input-placeholder').text('Describe the outlay of this content...');
         }
     });
-    $('body').on('input', '.content-title-field', function(){
-        content_block.title = $(this).val();
+    function game_field_1(){
+        
+    }
+    function game_field_2(){
+
+    }
+    var game_setting_field_handlers = {1:game_field_1, 2:game_field_2}
+    $('body').on('input', '.game-setting-field', function(){
+        var fid = parseInt($(this).data('fid'));
+        if (fid in game_setting_field_handlers){
+            game_setting_field_handlers[fid]()
+        }
     }); 
     var selected_link_piece = null;
-    var content_block = {text:'asdfasfdsadffsad', title:'', links:[]};
+    var content_block = {text:'', title:'', links:[]};
+    var matrix_payload = null;
     var mouse_down = false;
     var mouse_move = false;
     $('body').on('mousedown', '.content-textarea', function(){
@@ -212,21 +223,24 @@ $(document).ready(function(){
     });
     $('body').on('click', '.save-edits', function(){
         if (!$(this).hasClass('save-edits-disabled')){
-            $(`#entry-control-edit${$(this).data('fid')}`).html(`
-                <div class='edit-entries' data-fid='${$(this).data('fid')}'>
-                    <div>Edit</div>
-                    <div class='edit-entry'></div>
-                </div>
-            `);
-            $(`#cancel-edit${$(this).data('fid')}`).css('visibility', 'hidden')
-            for (var i of document.querySelectorAll(`.input-entry-field[data-fid="${$(this).data('fid')}"]`)){
-                if ($(i).hasClass('game-setting-field')){
-                    $(i).addClass('game-setting-field-disabled')
-                    $(i).attr('readonly', true)
-                }
-                else{
-                    $(i).addClass('content-textarea-disabled')
-                    $(i.querySelector('.content-input-area')).attr('contenteditable', false);
+            var saving_error = false;
+            if (!saving_error){
+                $(`#entry-control-edit${$(this).data('fid')}`).html(`
+                    <div class='edit-entries' data-fid='${$(this).data('fid')}'>
+                        <div>Edit</div>
+                        <div class='edit-entry'></div>
+                    </div>
+                `);
+                $(`#cancel-edit${$(this).data('fid')}`).css('visibility', 'hidden')
+                for (var i of document.querySelectorAll(`.input-entry-field[data-fid="${$(this).data('fid')}"]`)){
+                    if ($(i).hasClass('game-setting-field')){
+                        $(i).addClass('game-setting-field-disabled')
+                        $(i).attr('readonly', true)
+                    }
+                    else{
+                        $(i).addClass('content-textarea-disabled')
+                        $(i.querySelector('.content-input-area')).attr('contenteditable', false);
+                    }
                 }
             }
         }
@@ -276,4 +290,100 @@ $(document).ready(function(){
     $('#edit-side-payoffs').on('click', '.cancel-modal', function(){
         $('#edit-side-payoffs').css('display', 'none');
     });
+    function render_content_block(block){
+        var last_ind = 0;
+        var build_string = '';
+        for (var {link:l_link, start:_start, end:_end, lid:_lid} of block.links){
+            build_string += block.text.substring(last_ind, _start)
+            build_string += `<a href='${l_link}' class='content-block-link' id='content-block-link${_lid}' data-lid='${_lid}'>${block.text.substring(_start, _end)}</a>`;
+            last_ind = _end;
+        }
+        build_string += block.text.substring(last_ind);
+        return build_string
+    }
+    function load_payload(){
+        matrix_payload = $('.matrix-settings-wrapper').data('payload');
+        $('.matrix-settings-wrapper').html(`
+        <div class='game-settings-outer'>
+            <div class='edit-section-outer'>
+                <div class='section-edit-name'>Basic</div>
+                <div class="make-edits">
+                    <div class="edit-entry-outer entry-control-edit" id='entry-control-edit1'>
+                        <div class="edit-entries" data-fid='1'>
+                            <div>Edit</div>
+                            <div class="edit-entry"></div>
+                        </div>
+                    </div>
+                    <div class="edit-entry-outer">
+                        <div class="cancel-edit" data-fid='1' id='cancel-edit1'>Cancel</div>
+                    </div>
+                </div>
+            </div>
+            <div></div>
+            <div class="game-setting-entry">Name</div>
+            <input type="text" value="${matrix_payload.name}" class="game-setting-field game-setting-field-disabled input-entry-field" data-fid="1" readonly="">
+            <div class="game-setting-entry">Description</div>
+            <div class="content-textarea content-textarea-disabled input-entry-field" data-fid='1'>
+                <div class="content-input-area" contenteditable="true" id="content-input-area1" data-fid='1'>${render_content_block(matrix_payload.dsc)}<div class="content-input-placeholder"></div>
+                </div>
+                <div class="content-input-footer">
+                    <div class="attach-link"></div>
+                </div>
+            </div>
+            <div class='edit-section-outer'>
+                <div class='section-edit-name'>Actors</div>
+                <div class="make-edits">
+                    <div class="edit-entry-outer entry-control-edit" id='entry-control-edit2'>
+                        <div class="edit-entries" data-fid='2'>
+                            <div>Edit</div>
+                            <div class="edit-entry"></div>
+                        </div>
+                    </div>
+                    <div class="edit-entry-outer">
+                        <div class="cancel-edit" data-fid='2' id='cancel-edit2'>Cancel</div>
+                    </div>
+                </div>
+            </div>
+            <div></div>
+            <div class="game-setting-entry">Actor 1</div>
+            <input type="text" value="${matrix_payload.actors[1].name}" class="game-setting-field game-setting-field-disabled input-entry-field" data-fid="2" readonly="" data-aid="1">
+            <div class="game-setting-entry">Actor 2</div>
+            <input type="text" value="${matrix_payload.actors[2].name}" class="game-setting-field game-setting-field-disabled input-entry-field" data-fid="2" readonly="" data-aid="2">
+            <div style='height:20px'></div>
+            <div style='height:20px'></div>
+            <div class='edit-section-outer'>
+                <div class='section-edit-name'>Reactions</div>
+                <div class="make-edits">
+                    
+                </div>
+            </div>
+            <div></div>
+            <div class="actor-entry">#${matrix_payload.actors[1].name}</div>
+            <div class='edit-reactions-outer'>
+                <div class='edit-reactions-entry'>2 reactions</div>
+                <div class='edit-reactions-icon' data-name='${matrix_payload.actors[1].name}' data-aid='1'></div>
+            </div>
+            <div class="actor-entry">#${matrix_payload.actors[2].name}</div>
+            <div class='edit-reactions-outer'>
+                <div class='edit-reactions-entry'>2 reactions</div>
+                <div class='edit-reactions-icon' data-name='${matrix_payload.actors[2].name}' data-aid='2'></div>
+            </div>
+            
+        </div>
+        
+        <div style='height:40px'></div>
+        <div class='edit-section-outer'>
+            <div class='section-edit-name'>Payoffs</div>
+            <div class="make-edits">
+                <div class="edit-entry-outer entry-control-edit">
+                    <div class="edit-entries-payoffs">
+                        <div>Edit</div>
+                        <div class="edit-entry"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        `);
+    }   
+    load_payload();
 }); 

@@ -172,14 +172,14 @@ $(document).ready(function(){
                 
                 <div class='game-setting-entry'>Payoff matrix</div>
                 <div class='game-component-outer'>
-                    <a href='/content/${game_payload.content}' class='game-component-a' >
+                    <a href='/matrix/${game_payload.matrix}' class='game-component-a' >
                         <div class='game-component-link'>${game_payload.matrix_name}</div>
                     </a>
                     <div class='tooltip-info' data-tooltip='The matrix specifies the actors, reactions, and payoffs that power your game'></div>
                 </div>
                 <div class='game-setting-entry'>Content</div>
                 <div class='game-component-outer'>
-                    <a href='/matrix/${game_payload.matrix}' class='game-component-a'>
+                    <a href='/content/${game_payload.content}' class='game-component-a'>
                         <div class='game-component-link'>${game_payload.content_name}</div>
                     </a>
                     <div class='tooltip-info' data-tooltip='Content are slides of text, links, and images that players of your games can access and reference throughout play'></div>

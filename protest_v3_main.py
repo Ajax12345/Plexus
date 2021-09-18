@@ -143,9 +143,13 @@ def game_dashboard1():
 def game_dashboard2():
     return flask.render_template('game_dashboard_2.html')
 
-@app.route('/matrix/testmatrix', methods=['GET'])
-def matrix_dashboard():
-    return flask.render_template('matrix_dashboard.html')
+@app.route('/matrix/<mid>', methods=['GET'])
+@is_loggedin
+def matrix_dashboard(mid):
+    if not (matrix:=game_matrix.Matrix.get_matrix(int(mid)))['status']:
+        return flask.redirect('/') #TODO: add 404
+        
+    return flask.render_template('matrix_dashboard.html', user = protest_users.User.get_user(flask.session['id']), matrix = matrix['matrix'])
 
 @app.route('/content/<cid>', methods=['GET'])
 @is_loggedin

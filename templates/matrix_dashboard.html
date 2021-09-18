@@ -16,8 +16,8 @@
                 <div></div>
                 <div>
                     <div class='user-profile-display'>
-                        <img src='https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon' class='dashboard-avatar'>
-                        <div class='welcome-user-text'><a href='/profile' class='logged-in-profile'>James Petullo</a></div>
+                        <img src='{{user.gravatar}}' class='dashboard-avatar'>
+                        <div class='welcome-user-text'><a href='/profile' class='logged-in-profile'>{{user.full_name}}</a></div>
                     </div>
                 </div>
             </div>
@@ -26,12 +26,16 @@
         <div class='dashboard-main'>
             <div style='height:50px'></div>
             <div class='dashboard-name-header'>
-                <div class='dashboard-toggle-header'>Protest Game Matrix</div>
+                <div class='dashboard-toggle-header'>{{matrix.name}}</div>
                 <div class='game-use-count'>Used in 10 games</div>
             </div>
             <div style='height:15px'></div>
             <div class='nav-entry-underscore'></div>
             <div style='height:30px'></div>
+            <div class='matrix-settings-wrapper' data-payload = "{{matrix.to_json}}">
+                <div class='loader'></div>
+            </div>
+            <!--
             <div class='game-settings-outer'>
                 <div class='edit-section-outer'>
                     <div class='section-edit-name'>Basic</div>
@@ -98,6 +102,7 @@
                 </div>
                 
             </div>
+            
             <div style='height:40px'></div>
             <div class='edit-section-outer'>
                 <div class='section-edit-name'>Payoffs</div>
@@ -110,6 +115,7 @@
                     </div>
                 </div>
             </div>
+            -->
             <div style='height:30px'></div>
             
             

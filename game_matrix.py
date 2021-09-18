@@ -5,6 +5,13 @@ class Matrix:
     tablename: matrices
     columns: id int, creator int, name text, dsc longtext, move int, actors longtext, reactions longtext, payoffs longtext, added datetime
     """
+    def __init__(self, _payload:dict) -> None:
+        self.__dict__ = _payload
+
+    @property
+    def to_json(self) -> str:
+        return json.dumps({a:b if a != 'added' else str(b) for a, b in self.__dict__.items()})
+
     @classmethod
     def create_matrix(cls, creator:int, payload:dict) -> dict:
         with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
@@ -25,6 +32,19 @@ class Matrix:
         with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
             cl.execute('select exists (select 1 from matrices m where m.creator = %s)', [int(creator)])
             return bool(cl.fetchone()[0])
+
+    @classmethod
+    def instantiate_matrix(cls, _payload:dict, cursor:protest_db.DbClient) -> 'Matrix':
+        return cls(_payload)
+
+    @classmethod
+    def get_matrix(cls, _id:int) -> dict:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict = True) as cl:
+            cl.execute('select m.* from matrices m where m.id = %s', [int(_id)])
+            if (m:=cl.fetchone()) is not None:
+                loaders = {'dsc':json.loads, 'actors':json.loads, 'reactions':json.loads, 'payoffs':json.loads}
+                return {'status':True, 'matrix':cls.instantiate_matrix({a:loaders.get(a, lambda x:x)(b) for a, b in m.items()}, cl)}
+        return {'status':False}
 
 if __name__ == '__main__':
     with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
