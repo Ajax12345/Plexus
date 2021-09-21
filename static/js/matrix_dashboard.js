@@ -24,12 +24,13 @@ $(document).ready(function(){
     var game_setting_field_handlers = {1:game_field_1, 2:game_field_2}
     $('body').on('input', '.game-setting-field', function(){
         var fid = parseInt($(this).data('fid'));
+        $(this).removeClass('input-entry-field-error');
         if (fid in game_setting_field_handlers){
             game_setting_field_handlers[fid]()
         }
     }); 
     var selected_link_piece = null;
-    var content_block = {text:'', title:'', links:[]};
+    var content_block = {text:null, title:'', links:[]};
     var matrix_payload = null;
     var mouse_down = false;
     var mouse_move = false;
@@ -221,9 +222,43 @@ $(document).ready(function(){
             }
         }
     });
+    function update_matrix_settings(){
+        //run ajax here
+    }
+    function save_updates(fid){
+        if (parseInt(fid) === 1){
+            var n_name = $('.game-setting-field[data-fid="1"]').val();
+            if (n_name.length === 0){
+                $('.game-setting-field[data-fid="1"]').addClass('input-entry-field-error')
+                return true;
+            }
+            matrix_payload.name = n_name;
+            if (content_block.text != null){
+                matrix_payload.dsc = content_block;
+            }
+            selected_link_piece = null;
+            content_block = {text:null, title:'', links:[]};
+            attach_link_fid = null;
+            update_matrix_settings();
+        } 
+        else if (parseInt(fid) === 2){
+            var a_name_1 = $('.game-setting-field[data-fid="2"][data-aid="1"]').val();
+            var a_name_2 = $('.game-setting-field[data-fid="2"][data-aid="2"]').val();
+            if (a_name_1.length === 0 || a_name_2.length === 0){
+                $(`.game-setting-field[data-fid="2"][data-aid="${a_name_1.length === 0 ? "1" : "2"}"]`).addClass('input-entry-field-error')
+                return true;
+            }
+            matrix_payload.actors[1].name = a_name_1;
+            matrix_payload.actors[2].name = a_name_2;
+            $("#actor-entry1").html(a_name_1);
+            $("#actor-entry2").html(a_name_2);
+            update_matrix_settings();
+        }
+        return false;
+    }
     $('body').on('click', '.save-edits', function(){
         if (!$(this).hasClass('save-edits-disabled')){
-            var saving_error = false;
+            var saving_error = save_updates($(this).data('fid'));
             if (!saving_error){
                 $(`#entry-control-edit${$(this).data('fid')}`).html(`
                     <div class='edit-entries' data-fid='${$(this).data('fid')}'>
@@ -303,6 +338,7 @@ $(document).ready(function(){
     }
     function load_payload(){
         matrix_payload = $('.matrix-settings-wrapper').data('payload');
+        console.log(matrix_payload)
         $('.matrix-settings-wrapper').html(`
         <div class='game-settings-outer'>
             <div class='edit-section-outer'>
@@ -324,7 +360,7 @@ $(document).ready(function(){
             <input type="text" value="${matrix_payload.name}" class="game-setting-field game-setting-field-disabled input-entry-field" data-fid="1" readonly="">
             <div class="game-setting-entry">Description</div>
             <div class="content-textarea content-textarea-disabled input-entry-field" data-fid='1'>
-                <div class="content-input-area" contenteditable="true" id="content-input-area1" data-fid='1'>${render_content_block(matrix_payload.dsc)}<div class="content-input-placeholder"></div>
+                <div class="content-input-area" id="content-input-area1" data-fid='1'>${render_content_block(matrix_payload.dsc)}<div class="content-input-placeholder"></div>
                 </div>
                 <div class="content-input-footer">
                     <div class="attach-link"></div>
@@ -358,12 +394,12 @@ $(document).ready(function(){
                 </div>
             </div>
             <div></div>
-            <div class="actor-entry">#${matrix_payload.actors[1].name}</div>
+            <div class="actor-entry" id='actor-entry1'>#${matrix_payload.actors[1].name}</div>
             <div class='edit-reactions-outer'>
                 <div class='edit-reactions-entry'>2 reactions</div>
                 <div class='edit-reactions-icon' data-name='${matrix_payload.actors[1].name}' data-aid='1'></div>
             </div>
-            <div class="actor-entry">#${matrix_payload.actors[2].name}</div>
+            <div class="actor-entry" id='actor-entry2'>#${matrix_payload.actors[2].name}</div>
             <div class='edit-reactions-outer'>
                 <div class='edit-reactions-entry'>2 reactions</div>
                 <div class='edit-reactions-icon' data-name='${matrix_payload.actors[2].name}' data-aid='2'></div>

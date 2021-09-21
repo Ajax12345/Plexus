@@ -687,3 +687,10 @@ body{
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+.input-entry-field{
+    box-shadow: 0px 0px 0px 0 rgb(210 65 65 / 50%);
+}
+.input-entry-field-error{
+    box-shadow: 0px 0px 3px 2px rgb(210 65 65 / 50%);
+    transition: box-shadow 0.4s;
+}
