@@ -12,6 +12,10 @@ class Matrix:
     def to_json(self) -> str:
         return json.dumps({a:b if a != 'added' else str(b) for a, b in self.__dict__.items()})
 
+    @property
+    def occurrence_text(self) -> str:
+        return f'Used in {int(self.g_count)} game{"s" if self.g_count != 1 else ""}'
+
     @classmethod
     def create_matrix(cls, creator:int, payload:dict) -> dict:
         with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
@@ -40,7 +44,7 @@ class Matrix:
     @classmethod
     def get_matrix(cls, _id:int) -> dict:
         with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict = True) as cl:
-            cl.execute('select m.* from matrices m where m.id = %s', [int(_id)])
+            cl.execute('select m.*, (select sum(m.id = g.matrix) from games g) g_count from matrices m where m.id = %s', [int(_id)])
             if (m:=cl.fetchone()) is not None:
                 loaders = {'dsc':json.loads, 'actors':json.loads, 'reactions':json.loads, 'payoffs':json.loads}
                 return {'status':True, 'matrix':cls.instantiate_matrix({a:loaders.get(a, lambda x:x)(b) for a, b in m.items()}, cl)}

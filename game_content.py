@@ -20,6 +20,10 @@ class Content:
     def to_json(self) -> str:
         return json.dumps({'desc':self.description, 'content':self._content, 'name':self.name})
 
+    @property
+    def occurrence_text(self) -> str:
+        return f'Used in {int(self.g_count)} game{"s" if self.g_count != 1 else ""}'
+
     @classmethod
     def create_content(cls, creator:int, payload:dict) -> dict:
         with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
@@ -32,7 +36,7 @@ class Content:
     @classmethod
     def get_content(cls, creator:int, cid:int) -> dict:
         with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict = True) as cl:
-            cl.execute('select c.* from content c where c.id = %s and c.creator  = %s', [int(cid), int(creator)])
+            cl.execute('select c.*, (select sum(c.id = g.content) from games g) g_count from content c where c.id = %s and c.creator  = %s', [int(cid), int(creator)])
             if (c_data:=cl.fetchone()) is None:
                 return {'status':False}
 
