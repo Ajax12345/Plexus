@@ -424,7 +424,7 @@ body{
     z-index:101;
     width:60%;
     margin:0 auto;
-    margin-top:100px;
+    margin-top:50px;
 }
 .game-content-modal-header{
     padding:20px;
@@ -461,4 +461,69 @@ body{
 .game-content-modal-footer{
     padding:20px;
     border-top:1px solid rgb(226, 226, 226);
+}
+.game-content-modal-body{
+    display: grid;
+    grid-template-columns: 30% 70%;
+}
+.game-content-modal-body > div{
+    height:500px;
+}
+.content-navebar{
+    padding:20px;
+    background-color:rgb(243 243 243);
+    border-right:1px solid rgb(226, 226, 226);
+}
+.content-body-main{
+
+}
+.content-slide-name{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:18px;
+    font-weight:400;
+    color: rgb(101 101 101);
+}
+.content-slide-chosen{
+    font-size:20px;
+    font-weight:600;
+    color:rgb(40, 40, 40);
+}
+.content-slides{
+    display:grid;
+    grid-template-columns: 20px calc(100% - 20px);
+    column-gap: 10px;
+    row-gap: 25px;
+    align-items: center;
+}
+.content-slide-marker{
+    width:10px;
+    height:10px;
+    border-radius: 50%;
+}
+.content-marker-chosen{
+    background-color:rgb(211, 61, 211);
+
+}
+.content-slide-display-outer{
+    padding-left:45px;
+    padding-right:45px;
+    max-height:460px;
+    overflow-y:scroll;
+}
+.content-slide-title{
+    color: rgb(40, 40, 40);
+    font-size: 28px;
+    font-weight: 600;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+.content-slide-body{
+    margin-top: 10px;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: rgb(40, 40, 40);
+    font-size: 17px;
+    font-weight: 400;
+}
+.content-slide-body > a{
+    color: rgb(62 103 224);
+    text-decoration: underline;
 }
