@@ -424,7 +424,7 @@ body{
     z-index:101;
     width:60%;
     margin:0 auto;
-    margin-top:50px;
+    margin-top:30px;
 }
 .game-content-modal-header{
     padding:20px;
@@ -483,6 +483,11 @@ body{
     font-weight:400;
     color: rgb(101 101 101);
 }
+.content-slide-name:not(.content-slide-chosen):hover{
+    color:rgb(84, 84, 84);
+    cursor:pointer;
+    transition:0.2s;
+}
 .content-slide-chosen{
     font-size:20px;
     font-weight:600;
@@ -491,7 +496,7 @@ body{
 .content-slides{
     display:grid;
     grid-template-columns: 20px calc(100% - 20px);
-    column-gap: 10px;
+    column-gap: 5px;
     row-gap: 25px;
     align-items: center;
 }
@@ -519,11 +524,35 @@ body{
 .content-slide-body{
     margin-top: 10px;
     font-family: 'Source Sans Pro', sans-serif;
-    color: rgb(40, 40, 40);
+    color: rgb(144 142 142);
     font-size: 17px;
     font-weight: 400;
 }
 .content-slide-body > a{
     color: rgb(62 103 224);
     text-decoration: underline;
+}
+.content-footer-outer{
+    display:grid;
+    grid-template-columns: 50% 50%;
+    align-items: center;
+}
+.content-footer-col-last{
+    display:flex;
+    justify-content: flex-end;
+}
+.close-content-modal{
+    padding: 8px;
+    padding-left:12px;
+    padding-right:12px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+    color: rgb(74 74 74);
+    font-size: 17px;
+    border-radius: 5px;
+    border: 1px solid #c1c1c1;
+    display:inline-block;
+}
+.close-content-modal:hover{
+    cursor:pointer;
 }
