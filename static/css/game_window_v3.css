@@ -408,3 +408,57 @@ body{
     font-size: 17px;
     font-weight: 400;
 }
+.game-content-modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    z-index: 100;
+    /*background-color: rgb(25 25 25 / 68%);*/
+    background-color: rgb(0 0 0 / 68%);
+}
+.game-content-main{
+    background-color:white;
+    border-radius: 10px;
+    z-index:101;
+    width:60%;
+    margin:0 auto;
+    margin-top:100px;
+}
+.game-content-modal-header{
+    padding:20px;
+    border-bottom:1px solid rgb(226, 226, 226);
+
+}
+.game-content-header-outer{
+    width:100%;
+    display:grid;
+    grid-template-columns: 50% 50%;
+    align-items: center;
+}
+.game-content-modal-title{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: rgb(101 101 101);
+}
+.game-content-close-top{
+    width: 12px;
+    height: 12px;
+    background-size:cover;
+    background-image:url(/static/img/close-modal.svg);
+    justify-content: flex-end;
+    display:flex;
+}
+.game-content-close-top:hover{
+    cursor:pointer;
+}
+.game-content-modal-col{
+    justify-content: flex-end;
+    display:flex;
+}
+.game-content-modal-footer{
+    padding:20px;
+    border-top:1px solid rgb(226, 226, 226);
+}
