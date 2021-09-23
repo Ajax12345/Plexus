@@ -189,6 +189,10 @@ def add_account():
     
     return flask.jsonify(r)
 
+@app.route('/demo/<id>/start', methods=['GET'])
+def demo_start(id):
+    return flask.render_template('demo_signin.html')
+
 @app.after_request
 def add_header(r):
     """

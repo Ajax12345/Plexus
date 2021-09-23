@@ -1,0 +1,15 @@
+/*
+font-family: 'Hind Siliguri', sans-serif;
+font-family: 'Noto Sans', sans-serif;
+font-family: 'Nunito', sans-serif;
+font-family: 'Rubik', sans-serif;
+font-family: 'Roboto', sans-serif;
+font-family: 'Source Sans Pro', sans-serif;
+*/
+body{
+    margin:0;
+    /*font-family: 'Roboto', sans-serif;*/
+    box-sizing: border-box;
+    /*background-color:#f7f8fa !important;*/
+    background-color:white;
+}
