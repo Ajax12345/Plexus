@@ -63,7 +63,22 @@ class Game:
             cl.execute('select g.* from games g where g.creator = %s order by added desc', [int(_id)])
             return AllGames([cls.instantiate_game(i, cl) for i in cl])
 
+class GameRun:
+    """
+    tables:
+        tablename: waitingroom
+        columns: id int, gid int, name text, email text, status int, added datetime
+    """
+    @classmethod
+    def add_invitee(cls, _payload:dict) -> dict:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
+            cl.execute('select max(id) from waitingroom')
+            cl.execute('insert into waitingroom values (%s, %s, %s, %s, %s, now())', [(_id:=(1 if (v:=cl.fetchone()[0]) is None else int(v)+1)), int(_payload['gid']), _payload['name'], _payload['email'], 0])
+            cl.commit()
+        return {'status':True, 'id':_id}
+
+
 if __name__ == '__main__':
     with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
-        cl.execute('create table games (id int, creator int, name text, rounds int, content int, matrix int, added datetime)')
+        cl.execute('create table waitingroom (id int, gid int, name text, email text, status int, added datetime)')
         cl.commit()

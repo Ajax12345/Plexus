@@ -193,6 +193,10 @@ def add_account():
 def demo_start(id):
     return flask.render_template('demo_signin.html', gid = id)
 
+@app.route('/add-invitee', methods=['POST'])
+def add_invitee():
+    return flask.jsonify(protest_game.GameRun.add_invitee(json.loads(flask.request.form['payload'])))
+
 @app.after_request
 def add_header(r):
     """

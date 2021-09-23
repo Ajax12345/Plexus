@@ -7,18 +7,17 @@ $(document).ready(function(){
         for (var i of document.querySelectorAll('.access-demo-field')){
             if ($(i).val().length === 0){
                 $(i).addClass('access-demo-field-error');
+                $('.start-demo').html(`Start demo`)
                 return;
             }
             _payload[$(i).data('field')] = $(i).val();
         }
         $.ajax({
-            url: "/add-content",
+            url: "/add-invitee",
             type: "post",
-            data: {payload: JSON.stringify(full_content_payload)},
+            data: {payload: JSON.stringify({..._payload, gid:parseInt($('.demo-access-outer').data('gid'))})},
             success: function(response) {
-                if (response.status){
-                    window.location.replace(`/content/${response.id}`)
-                }
+                alert(`added (${response.id})`);
             },
             error: function(xhr) {
                 //Do Something to handle error
@@ -35,6 +34,6 @@ $(document).ready(function(){
                 <div class='start-demo-col'></div>
             </div>
         `);
-        //start_demo();
+        start_demo();
     });
 });
