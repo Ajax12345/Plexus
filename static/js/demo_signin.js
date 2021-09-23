@@ -12,12 +12,13 @@ $(document).ready(function(){
             }
             _payload[$(i).data('field')] = $(i).val();
         }
+        var gid = parseInt($('.demo-access-outer').data('gid'));
         $.ajax({
             url: "/add-invitee",
             type: "post",
-            data: {payload: JSON.stringify({..._payload, gid:parseInt($('.demo-access-outer').data('gid'))})},
+            data: {payload: JSON.stringify({..._payload, gid:gid})},
             success: function(response) {
-                alert(`added (${response.id})`);
+                window.location.replace(`/play/demo/${gid}?uid=${response.id}`);
             },
             error: function(xhr) {
                 //Do Something to handle error

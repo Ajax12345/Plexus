@@ -1,7 +1,7 @@
 import flask, protest_users, json
 import typing, functools, random, string
 import protest_utilites, game_content
-import game_matrix, protest_game
+import game_matrix, protest_game, re
 
 app = flask.Flask(__name__)
 app.secret_key = ''.join(random.choice(string.ascii_letters+string.digits+string.punctuation) for _ in range(30))
@@ -196,6 +196,12 @@ def demo_start(id):
 @app.route('/add-invitee', methods=['POST'])
 def add_invitee():
     return flask.jsonify(protest_game.GameRun.add_invitee(json.loads(flask.request.form['payload'])))
+
+@app.route('/play/demo/<id>', methods=['GET'])
+def play_demo(id):
+    if (uid:=flask.request.args.get('uid')) is None or not re.findall('^\d+$', uid):
+        return "<h1>404</h1>" #TODO: need 404 here
+    return flask.render_template('demo_game_window.html')
 
 @app.after_request
 def add_header(r):
