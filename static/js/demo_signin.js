@@ -11,8 +11,30 @@ $(document).ready(function(){
             }
             _payload[$(i).data('field')] = $(i).val();
         }
+        $.ajax({
+            url: "/add-content",
+            type: "post",
+            data: {payload: JSON.stringify(full_content_payload)},
+            success: function(response) {
+                if (response.status){
+                    window.location.replace(`/content/${response.id}`)
+                }
+            },
+            error: function(xhr) {
+                //Do Something to handle error
+            }
+        });
     }
     $('body').on('click', '.start-demo', function(){
-        start_demo();
+        $('.start-demo').html(`
+            <div class='start-demo-loading'>
+                <div class='start-demo-col'><div class="la-ball-clip-rotate" style='color:white;height: 10px;width: 10px;margin-top: -11px;margin-right: 17px;'><div></div></div></div>
+                <div class='start-demo-col'>
+                    Starting demo...
+                </div>
+                <div class='start-demo-col'></div>
+            </div>
+        `);
+        //start_demo();
     });
 });

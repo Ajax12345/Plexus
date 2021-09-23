@@ -191,7 +191,7 @@ def add_account():
 
 @app.route('/demo/<id>/start', methods=['GET'])
 def demo_start(id):
-    return flask.render_template('demo_signin.html')
+    return flask.render_template('demo_signin.html', gid = id)
 
 @app.after_request
 def add_header(r):
