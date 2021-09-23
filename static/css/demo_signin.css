@@ -13,3 +13,62 @@ body{
     /*background-color:#f7f8fa !important;*/
     background-color:white;
 }
+.demo-access-outer{
+    font-family: 'Source Sans Pro', sans-serif;
+    width:23%;
+    margin:0 auto;
+}
+.play-demo-prompt{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:38px;
+    font-weight:700;
+    color:rgb(40, 40, 40);
+    text-align: center;
+}
+.field-description{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:18px;
+    font-weight:600;
+    color:rgb(40, 40, 40);
+}
+.access-demo-field{
+    width:100%;
+    border-radius:6px;
+    /*border:1px solid rgb(224 224 224);*/
+    border:1px solid rgb(214 212 212);
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:17px;
+    box-shadow: 0px 0px 0px 0 rgb(210 65 65 / 50%);
+    padding:8px;
+    margin-top:6px;
+    color:rgb(60, 60, 60);
+}
+.access-demo-field::placeholder{
+    color:rgb(154, 152, 152);
+}
+.access-demo-field:focus{
+    outline:none;
+    border-color:rgb(211, 61, 211);
+}
+.access-demo-field-error{
+    box-shadow: 0px 0px 3px 2px rgb(210 65 65 / 50%);
+    transition: box-shadow 0.4s;
+}
+.start-demo{
+    border-radius:6px;
+    border:1px solid rgb(107, 56, 194);
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:17px;
+    color:white;
+    padding:8px;
+    margin-top:6px;
+    /*background-color:rgb(107, 56, 194);*/
+    background-color:rgb(135 84 220);
+    text-align: center;
+    font-weight:600;
+}
+.start-demo:hover{
+    transition:0.2s;
+    cursor:pointer;
+    background-color:rgb(107, 56, 194);
+}
