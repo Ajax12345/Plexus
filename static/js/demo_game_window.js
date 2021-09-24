@@ -10,6 +10,31 @@ $(document).ready(function(){
     var user_payload = null;
     var content_payload = null;
     var matrix_payload = null;
+    function render_content_block(block){
+        var last_ind = 0;
+        var build_string = '';
+        for (var {link:l_link, start:_start, end:_end, lid:_lid} of block.links){
+            build_string += block.text.substring(last_ind, _start)
+            build_string += `<a href='${l_link}' class='content-block-link' id='content-block-link${_lid}' data-lid='${_lid}'>${block.text.substring(_start, _end)}</a>`;
+            last_ind = _end;
+        }
+        build_string += block.text.substring(last_ind);
+        return build_string
+    }
+    function load_content_modal(){
+        console.log(content_payload)
+        $('.content-slides').html('');
+        var c = 0;
+        for (var i of content_payload.content){
+            $('.content-slides').append(`
+            <div class='content-slide-marker ${c === 0 ? "content-marker-chosen" : ""}'></div>
+            <div class='content-slide-name ${c === 0 ? "content-slide-chosen" : ""}'>${i.title}</div>
+            `);
+            c++;
+        }
+        $('.content-slide-title').html(content_payload.content[0].title);
+        $('.content-slide-body').html(render_content_block(content_payload.content[0]))
+    }
     function setup_start_screen(next_step = function(){}){
         $('.user-name-about').html(user_payload.name);
         $('.user-handle-about').html('@'+user_payload.name.replace(' ', '_').toLowerCase());
@@ -18,6 +43,7 @@ $(document).ready(function(){
         $('.what-you-need-to-know:nth-of-type(2)').html(`-In a moment, you will be assignmed to a team, either <span class="side-hashtag">#${matrix_payload.actors[1].name}</span> or <span class="side-hashtag">#${matrix_payload.actors[2].name}</span>`)
         $('.what-you-need-to-know:nth-of-type(3)').html(`-This game is ${game_payload.rounds} round${game_payload.rounds === 1 ? "" : "s"}. In each round, you and your teammates will choose a reaction as a response to your opponent's reaction`)
         $('.game-content-modal').css('display', 'block');
+        load_content_modal();
         next_step();
 
     }
