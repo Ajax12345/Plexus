@@ -63,6 +63,22 @@ class Game:
             cl.execute('select g.* from games g where g.creator = %s order by added desc', [int(_id)])
             return AllGames([cls.instantiate_game(i, cl) for i in cl])
 
+    @classmethod
+    def load_full_game_instance(cls, _payload:dict) -> dict:
+        full_payload, loaders = {}, {**{(i, 'dsc'):json.loads for i in ['matrix', 'content', 'game']}, ('matrix', 'reactions'):json.loads, ('matrix', 'payoffs'):json.loads, ('matrix', 'actors'):json.loads, ('content', 'content'):json.loads}
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict = True) as cl:
+            cl.execute('select g.* from games g where g.id = %s', [int(_payload['gid'])])
+            full_payload['game'] = cl.fetchone()
+            cl.execute('select w.* from waitingroom w where w.id = %s and w.gid = %s', [int(_payload['uid']), int(_payload['gid'])])
+            full_payload['user'] = cl.fetchone()
+            cl.execute('select m.* from matrices m where m.id = %s', [int(full_payload['game']['matrix'])])
+            full_payload['matrix'] = cl.fetchone()
+            cl.execute('select c.* from content c where c.id = %s', [int(full_payload['game']['content'])])
+            full_payload['content'] = cl.fetchone()
+
+        return {a:{j:loaders.get((a, j), lambda x:x)(k) if j != 'added' else str(k) for j, k in b.items()} for a, b in full_payload.items()}
+
+
 class GameRun:
     """
     tables:
