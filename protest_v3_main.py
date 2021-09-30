@@ -211,6 +211,10 @@ def load_full_game_instance():
 def invite_demo_players():
     return flask.jsonify(protest_game.GameRun.invite_demo_players(json.loads(flask.request.form['payload'])))
 
+@app.route('/post-message', methods=['POST'])
+def post_message():
+    return flask.jsonify(protest_game.GameRun.post_message(json.loads(flask.request.form['payload'])))
+
 @app.after_request
 def add_header(r):
     """

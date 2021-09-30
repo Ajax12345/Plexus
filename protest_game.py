@@ -91,6 +91,9 @@ class GameRun:
 
         tablename: gameplays
         columns: id int, gid int, start datetime, end datetime, demo int
+
+        tablename: messages
+        columns: id int, gid int, poster int, body longtext, reply int, is_player int, added longtext
     """
     @classmethod
     def add_invitee(cls, _payload:dict) -> dict:
@@ -107,6 +110,14 @@ class GameRun:
             cl.commit()
             cl.execute('select w.id, w.name, w.email from waitingroom w where gid = %s and `status` = 0 and email regexp "player[0-9]+\\.[0-9]+@protestgame\\.com"', [int(_payload['gid'])])
         return {'status':True, 'players':list(cl)}
+
+    @classmethod
+    def post_message(cls, _payload:dict) -> dict:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
+            cl.execute('select max(id) from messages')
+            cl.execute('insert into messages values (%s, %s, %s, %s, %s, %s, %s)', [(mid:=(1 if (_mid:=cl.fetchone()[0]) is None else int(_mid)+1)), int(_payload['gid']), int(_payload['poster']), _payload['body'], _payload['reply'], _payload['is_player'], str(_payload['added'])])
+            cl.commit()
+        return {'status':True, 'id':mid}
 
 
 if __name__ == '__main__':

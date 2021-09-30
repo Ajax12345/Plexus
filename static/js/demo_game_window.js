@@ -1,9 +1,88 @@
 $(document).ready(function(){
+    function utc_now(){
+        var d = new Date();
+        return Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds(), d.getMilliseconds());
+    }
+    function update_message_timestamps(){
+        for (var i of document.querySelectorAll('.game-message .message-post-datetime')){
+            var d1 = $(i).data('posted');
+            var d2 = utc_now();
+            var factors = [[1000, 'sec'], [1000*60, 'min']];
+            var last = null;
+            for (var [interval, t] of factors){
+                var v = Math.floor((d2 - d1)/interval)
+                if (v > 0){
+                    last = {val:v, t_int:t};
+                }
+            }
+            if (last != null){
+                $(i).html(`${last.val} ${last.t_int}`);
+            }
+
+        }
+    }
+    function run_message_timestamp_updates(){
+        setTimeout(function(){
+            update_message_timestamps();
+            run_message_timestamp_updates();
+        }, 60000);
+    }
+    function post_message(payload){
+        var posted_date = utc_now();
+        $.ajax({
+            url: "/post-message",
+            type: "post",
+            data: {payload: JSON.stringify({poster:payload.poster, gid:gameplay_payload.id, is_player:payload.is_player, body:payload.body, reply:payload.reply, added:posted_date})},
+            success: function(response) {
+                $('.message-container').append(`<div class="message-main">
+                    <div class="message-body game-message" id='game-message${response.id}' data-mid='${response.id}'>
+                        <div class="poster-icon-outer">
+                            <img class="message-poster-icon" src="https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon">
+                        </div>
+                        <div class="main-message-body">
+                            <div class="message-about-poster">
+                                <div class="message-poster-name">${payload.name}</div>
+                                <div class="message-poster-handle">@${payload.handle}</div>
+                                <div class="message-dot"></div>
+                                <div class="message-post-datetime" data-posted='${posted_date}'>1 sec</div>
+                            </div>
+                            <div class="message-body-content">${payload.body}</div>
+                            <div class="message-action-footer">
+                                <div class="reply-message-outer">
+                                    <div class="reply-message-icon"></div>
+                                </div>
+                                <div class="message-reply-count">0</div>
+                                <div></div>
+                                <div class="like-message-outer">
+                                    <div class="like-message-icon"></div>
+                                </div>
+                                <div class="message-like-count">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`)
+            },
+            error: function(xhr) {
+                //Do Something to handle error
+            }
+        });
+        
+    }
+    function on_content_close(){
+        if (!closed_content){
+            setTimeout(function(){
+                post_message({poster:10, name:"Protest Game", handle:'protest_game', body:'Preparing demo.... The game will begin in a moment.', is_player:0, reply:null})
+            }, 500);
+            closed_content = true;
+        }
+    }
     $('body').on('click', '.game-content-close-top', function(){
         $('.game-content-modal').css('display', 'none');
+        on_content_close()
     });
     $('body').on('click', '.close-content-modal', function(){
         $('.game-content-modal').css('display', 'none');
+        on_content_close()
     });
     $('body').on('click', '.content-slide-name', function(){
         if (!$(this).hasClass('content-slide-chosen')){
@@ -53,6 +132,7 @@ $(document).ready(function(){
     var content_payload = null;
     var matrix_payload = null;
     var gameplay_payload = null;
+    var closed_content = false;
     function render_content_block(block){
         var last_ind = 0;
         var build_string = '';
@@ -129,6 +209,6 @@ $(document).ready(function(){
             }
         });
     }
-
     load_start();
+    run_message_timestamp_updates()
 });
