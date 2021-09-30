@@ -19,6 +19,34 @@ $(document).ready(function(){
             $('.content-slide-body').html(render_content_block(b))
         }
     });
+    $('body').on('click', '.content-next-toggle', function(){
+        var sid = parseInt($(Array.from(document.querySelectorAll('.content-slide-name')).filter(function(x){return $(x).hasClass('content-slide-chosen')})[0]).data('sid'))
+        var inds = [];
+        var c = 0;
+        var f = false;
+        for (var i of content_payload.content){
+            if (parseInt(i.id) === sid){
+                f = true;
+            }
+            else if (f){
+                inds.push(c);
+            }
+            c++;
+        }
+        var n_ind = inds.length === 0 ? 0 : Math.min(...inds);
+        for (var i of document.querySelectorAll(':is(.content-slide-marker, .content-slide-name)')){
+            $(i).removeClass('content-marker-chosen');
+            $(i).removeClass('content-slide-chosen');
+        }
+        $(`.content-slide-name[data-sid="${content_payload.content[n_ind].id}"]`).addClass('content-slide-chosen');
+        $(`.content-slide-marker[data-sid="${content_payload.content[n_ind].id}"]`).addClass('content-marker-chosen'); 
+        $('.content-slide-title').html(content_payload.content[n_ind].title);
+        $('.content-slide-body').html(render_content_block(content_payload.content[n_ind]))
+
+    });
+    $('body').on('click', '.resource-item', function(){
+        
+    });
     var meta_payload = null;
     var game_payload = null;
     var user_payload = null;
@@ -61,6 +89,20 @@ $(document).ready(function(){
         next_step();
 
     }
+    function invite_demo_players(){
+        $.ajax({
+            url: "/invite-demo-players",
+            type: "post",
+            data: {payload: JSON.stringify({gid:game_payload.id})},
+            success: function(response) {
+                //pass
+            },
+            error: function(xhr) {
+                //Do Something to handle error
+            }
+        });
+        
+    }
     function load_start(){
         meta_payload = $('.main').data('pld')
         $.ajax({
@@ -77,11 +119,13 @@ $(document).ready(function(){
                     $('.game-loading-state-display').css('display', 'none');
                 
                 });
+                invite_demo_players();
             },
             error: function(xhr) {
                 //Do Something to handle error
             }
         });
     }
+
     load_start();
 });

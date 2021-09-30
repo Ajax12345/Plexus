@@ -1,4 +1,5 @@
 import typing, json, protest_db
+import time
 
 class AllGames:
     def __init__(self, _games:typing.List['Game']) -> None:
@@ -83,7 +84,7 @@ class GameRun:
     """
     tables:
         tablename: waitingroom
-        columns: id int, gid int, name text, email text, status int, added datetime
+        columns: id int, gid int, name text, email text, `status` int, added datetime
     """
     @classmethod
     def add_invitee(cls, _payload:dict) -> dict:
@@ -93,8 +94,19 @@ class GameRun:
             cl.commit()
         return {'status':True, 'id':_id}
 
+    @classmethod
+    def invite_demo_players(cls, _payload:dict) -> dict:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict = True) as cl:
+            cl.executemany('insert into waitingroom values ((select max(w.id) + 1 from waitingroom w), %s, %s, %s, %s, now())', [[int(_payload['gid']), f'Player{i}', f'player{time.time()}@protestgame.com', 0] for i in range(1, 20)])
+            cl.commit()
+            cl.execute('select w.id, w.name, w.email from waitingroom w where gid = %s and `status` = 0 and email regexp "player[0-9]+\\.[0-9]+@protestgame\\.com"', [int(_payload['gid'])])
+        return {'status':True, 'players':list(cl)}
+
 
 if __name__ == '__main__':
+    '''
     with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
         cl.execute('create table waitingroom (id int, gid int, name text, email text, status int, added datetime)')
         cl.commit()
+    '''
+    print(GameRun.invite_demo_players({'gid':1}))
