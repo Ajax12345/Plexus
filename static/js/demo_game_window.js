@@ -52,6 +52,7 @@ $(document).ready(function(){
     var user_payload = null;
     var content_payload = null;
     var matrix_payload = null;
+    var gameplay_payload = null;
     function render_content_block(block){
         var last_ind = 0;
         var build_string = '';
@@ -111,10 +112,12 @@ $(document).ready(function(){
             data: {payload: JSON.stringify(meta_payload)},
             success: function(response) {
                 var payload = JSON.parse(response.payload);
+                console.log(payload)
                 game_payload = payload.game;
                 user_payload = payload.user;
                 content_payload = payload.content;
                 matrix_payload = payload.matrix;
+                gameplay_payload = payload.gameplay;
                 setup_start_screen(function(){
                     $('.game-loading-state-display').css('display', 'none');
                 

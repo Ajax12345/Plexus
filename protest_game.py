@@ -76,7 +76,10 @@ class Game:
             full_payload['matrix'] = cl.fetchone()
             cl.execute('select c.* from content c where c.id = %s', [int(full_payload['game']['content'])])
             full_payload['content'] = cl.fetchone()
-
+            cl.execute('select max(id) gpid from gameplays')
+            cl.execute('insert into gameplays values (%s, %s, now(), null, 1)', [(gpid:=(1 if (cid:=cl.fetchone()['gpid']) is None else int(cid)+1)), int(_payload['gid'])])
+            cl.commit()
+            full_payload['gameplay'] = {'id':gpid}
         return {a:{j:loaders.get((a, j), lambda x:x)(k) if j != 'added' else str(k) for j, k in b.items()} for a, b in full_payload.items()}
 
 
@@ -85,6 +88,9 @@ class GameRun:
     tables:
         tablename: waitingroom
         columns: id int, gid int, name text, email text, `status` int, added datetime
+
+        tablename: gameplays
+        columns: id int, gid int, start datetime, end datetime, demo int
     """
     @classmethod
     def add_invitee(cls, _payload:dict) -> dict:
