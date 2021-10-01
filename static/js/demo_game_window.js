@@ -70,8 +70,19 @@ $(document).ready(function(){
     }
     function setup_play_stage(){
         player_role = Object.keys(roles).filter(function(x){return roles[x].some(function(y){return parseInt(y.id) === parseInt(user_payload.id)})})[0]
+        opponent =  Object.keys(matrix_payload.actors).filter(function(x){return parseInt(x) != parseInt(player_role)})[0]
         console.log('player role')
         console.log(player_role);
+        $('.role-container .team-about-large').html('#'+matrix_payload.actors[player_role].name);
+        for (var i of document.querySelectorAll('.how-to-play-container how-to-play-desc > .adversary-hashtag')){
+            $(i).html('#'+actors[opponent].name);
+        }
+        $('.side-score-outer:nth-of-type(1) .side-score-name').html(matrix_payload.actors[player_role].name)
+        $('.side-score-outer:nth-of-type(3) .side-score-name').html(matrix_payload.actors[opponent].name)
+        $('.role-container').css('display', 'block');
+        $('.how-to-play-container').css('display', 'block')
+        $('.score-box').css('display', 'block')
+        $('.scoreboard-spacer').css('display', 'block')
     }
     function assign_player_roles(){
         $.ajax({
@@ -158,6 +169,7 @@ $(document).ready(function(){
     var closed_content = false;
     var roles = null;
     var player_role = null;
+    var opponent = null;
     function render_content_block(block){
         var last_ind = 0;
         var build_string = '';
