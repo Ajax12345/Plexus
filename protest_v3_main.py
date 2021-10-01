@@ -215,6 +215,10 @@ def invite_demo_players():
 def post_message():
     return flask.jsonify(protest_game.GameRun.post_message(json.loads(flask.request.form['payload'])))
 
+@app.route('/assign-roles', methods=['POST'])
+def assign_roles():
+    return flask.jsonify(protest_game.GameRun.assign_roles(json.loads(flask.request.form['payload'])))
+
 @app.after_request
 def add_header(r):
     """

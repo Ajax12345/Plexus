@@ -1,5 +1,5 @@
 import typing, json, protest_db
-import time
+import time, random
 
 class AllGames:
     def __init__(self, _games:typing.List['Game']) -> None:
@@ -94,6 +94,9 @@ class GameRun:
 
         tablename: messages
         columns: id int, gid int, poster int, body longtext, reply int, is_player int, added longtext
+    
+        tablename: roles
+        columns: id int, gid int, actor int
     """
     @classmethod
     def add_invitee(cls, _payload:dict) -> dict:
@@ -119,6 +122,30 @@ class GameRun:
             cl.commit()
         return {'status':True, 'id':mid}
 
+    @classmethod
+    def assign_roles(cls, _payload:dict, demo:typing.Optional[bool] = True) -> dict:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict=True) as cl:
+            cl.execute('select id, name, email from waitingroom where gid = %s and status=0', [int(_payload['id'])])
+            players = list(cl)
+            random.shuffle(players)
+            cl.execute('''
+                with u_ids(id) as (
+                    {}
+                )
+                update waitingroom set status=1 where id in (select * from u_ids)
+            '''.format('\nunion all\n'.join(f'select {i["id"]}' for i in players)))
+            cl.commit()
+            cl.execute('select m.actors a from games g join matrices m on g.matrix = m.id where g.id = %s', [int(_payload['id'])])
+            actors, p = json.loads(cl.fetchone()['a']), iter(players)
+            roles = {int(a):list(filter(None, [next(p, None) for _ in range(len(players)//len(actors))])) for a in actors}
+            if demo:
+                assert len(set([len(b) for b in roles.values()])) == 1
+            
+            cl.executemany('insert into roles values (%s, %s, %s)', [[int(j['id']), int(_payload['gid']), a] for a, b in roles.items() for j in b])
+            cl.commit()
+
+        return {'status':True, 'roles':roles}
+
 
 if __name__ == '__main__':
     '''
@@ -126,4 +153,4 @@ if __name__ == '__main__':
         cl.execute('create table waitingroom (id int, gid int, name text, email text, status int, added datetime)')
         cl.commit()
     '''
-    print(GameRun.invite_demo_players({'gid':1}))
+    print(GameRun.assign_roles({'id':1, 'gid':1}))

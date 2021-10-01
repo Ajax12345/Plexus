@@ -68,10 +68,33 @@ $(document).ready(function(){
         });
         
     }
+    function setup_play_stage(){
+        player_role = Object.keys(roles).filter(function(x){return roles[x].some(function(y){return parseInt(y.id) === parseInt(user_payload.id)})})[0]
+        console.log('player role')
+        console.log(player_role);
+    }
+    function assign_player_roles(){
+        $.ajax({
+            url: "/assign-roles",
+            type: "post",
+            data: {payload: JSON.stringify({id:game_payload.id, gid:gameplay_payload.id})},
+            success: function(response) {
+                roles = response.roles;
+                console.log(roles)
+                setup_play_stage()
+            },
+            error: function(xhr) {
+                //Do Something to handle error
+            }
+        });
+    }
     function on_content_close(){
         if (!closed_content){
             setTimeout(function(){
                 post_message({poster:10, name:"Protest Game", handle:'protest_game', body:'Preparing demo.... The game will begin in a moment.', is_player:0, reply:null})
+                setTimeout(function(){
+                    assign_player_roles();
+                }, 600);
             }, 500);
             closed_content = true;
         }
@@ -133,6 +156,8 @@ $(document).ready(function(){
     var matrix_payload = null;
     var gameplay_payload = null;
     var closed_content = false;
+    var roles = null;
+    var player_role = null;
     function render_content_block(block){
         var last_ind = 0;
         var build_string = '';
