@@ -27,15 +27,35 @@ $(document).ready(function(){
             run_message_timestamp_updates();
         }, 60000);
     }
-    function post_message(payload){
+    function on_message_display(mid){
+        var o = document.querySelector(`#game-message${mid}`);
+        var t = o.offsetTop;
+        var l = o.offsetLeft;
+        var w = (parseInt($(o).css('width').match('\\d+'))+30).toString()+'px'
+        var h = (parseInt($(o).css('height').match('\\d+'))+30).toString()+'px';
+        $('body').append(`<div class='message-added-overlay' style='top:${t};left:${l};width:${w};height:${h}'></div>`);
+        setTimeout(function(){
+            $('.message-added-overlay').addClass('message-on-display');
+        
+            setTimeout(function(){
+                $('.message-added-overlay').removeClass('message-on-display');
+                setTimeout(function(){
+                    $('.message-added-overlay').remove();
+                }, 1000);
+            }, 1000);
+        
+        
+        }, 200);
+    }
+    function post_message(payload, target='#message-container1'){
         var posted_date = utc_now();
         $.ajax({
             url: "/post-message",
             type: "post",
             data: {payload: JSON.stringify({poster:payload.poster, gid:gameplay_payload.id, is_player:payload.is_player, body:payload.body, reply:payload.reply, added:posted_date})},
             success: function(response) {
-                $('.message-container').append(`<div class="message-main">
-                    <div class="message-body game-message" id='game-message${response.id}' data-mid='${response.id}'>
+                $(target).prepend(`<div class="message-main" id='game-message${response.id}'>
+                    <div class="message-body game-message" data-mid='${response.id}'>
                         <div class="poster-icon-outer">
                             <img class="message-poster-icon" src="https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon">
                         </div>
@@ -60,7 +80,9 @@ $(document).ready(function(){
                             </div>
                         </div>
                     </div>
-                </div>`)
+                </div>`);
+                on_message_display(response.id);
+                
             },
             error: function(xhr) {
                 //Do Something to handle error
@@ -83,6 +105,19 @@ $(document).ready(function(){
         $('.how-to-play-container').css('display', 'block')
         $('.score-box').css('display', 'block')
         $('.scoreboard-spacer').css('display', 'block')
+        $("#section-block2").html(`
+            <div class="message-team-outer">
+                <div class="message-team-prompt-outer">
+                    <div class="team-messages-text"><span class="side-hashtag side-hashtag-header">#${matrix_payload.actors[player_role].name}</span> messages</div>
+                </div>
+                <div class="message-button-outer">
+                    <div class="add-message">Message</div>
+                </div>
+            </div>
+        `);
+        $('.current-round').html(`Round 1 of ${game_payload.rounds}`);
+        post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`The game has begun! Your team is <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>.`, is_player:0, reply:null})
+
     }
     function assign_player_roles(){
         $.ajax({
@@ -92,7 +127,9 @@ $(document).ready(function(){
             success: function(response) {
                 roles = response.roles;
                 console.log(roles)
-                setup_play_stage()
+                setTimeout(function(){
+                    setup_play_stage();
+                }, 700);
             },
             error: function(xhr) {
                 //Do Something to handle error
@@ -158,8 +195,11 @@ $(document).ready(function(){
 
     });
     $('body').on('click', '.resource-item', function(){
-        
-    });
+        if ($(this).data('resource') === 'content'){
+            $('.game-content-modal').css('display', 'block');
+            load_content_modal();
+        }
+    }); 
     var meta_payload = null;
     var game_payload = null;
     var user_payload = null;
