@@ -1,4 +1,44 @@
 $(document).ready(function(){
+    class Template{
+        constructor(template){
+            this.template = template;
+        }
+        render_text(str, params){
+            return str.replace(/\{\w+\}/g, function(match, ...p){
+                return params[match.substring(1, match.length-1)];
+            });
+        }
+        format(params){
+            var self = this;
+            return Object.fromEntries(Object.keys(self.template).map(function(x){return [x, self.render_text(self.template[x], params)]}))
+        }
+    }
+    class TemplateCycle{
+        constructor(options){
+            this.options = options;
+            this.ind = 0;
+        }
+        next(){
+            var self = this;
+            if (self.ind >= self.options.length){
+                self.ind = 0;
+            }
+            self.ind++;
+            return new Template(self.options[self.ind-1])
+        }
+    }
+    class ResponseTemplate{
+        static templatify(template){
+            for (var i of Object.keys(template)){
+                if (Array.isArray(template[i])){
+                    template[i] = new TemplateCycle(template[i]);
+                }
+                else{
+                    ResponseTemplate.templatify(template[i])
+                }
+            }
+        }
+    }
     function utc_now(){
         var d = new Date();
         return Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds(), d.getMilliseconds());
@@ -117,6 +157,12 @@ $(document).ready(function(){
         `);
         $('.current-round').html(`Round 1 of ${game_payload.rounds}`);
         post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`The game has begun! Your team is <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>.`, is_player:0, reply:null})
+        var non_start = Object.keys(matrix_payload.actors).filter(function(x){return parseInt(x) != parseInt(matrix_payload.move)})[0]
+        var start_template = response_template.round_by_round.start.next().format({first_move_actor:matrix_payload.actors[matrix_payload.move].name, second_move_actor:matrix_payload.actors[non_start].name})
+        console.log('start template here')
+        console.log(start_template)
+        $('.game-announcement-title').html(start_template.title);
+        $('.game-announcement-body').html(start_template.description);
         if (player_role === matrix_payload.move){
             player_side_move();
         }
@@ -128,7 +174,7 @@ $(document).ready(function(){
 
     }
     function opponent_side_move(){
-        
+
     }
     function assign_player_roles(){
         $.ajax({
@@ -221,6 +267,7 @@ $(document).ready(function(){
     var roles = null;
     var player_role = null;
     var opponent = null;
+    var response_template = null;
     function render_content_block(block){
         var last_ind = 0;
         var build_string = '';
@@ -286,6 +333,8 @@ $(document).ready(function(){
                 content_payload = payload.content;
                 matrix_payload = payload.matrix;
                 gameplay_payload = payload.gameplay;
+                response_template = payload .response_template;
+                ResponseTemplate.templatify(response_template);
                 setup_start_screen(function(){
                     $('.game-loading-state-display').css('display', 'none');
                 
