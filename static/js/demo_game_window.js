@@ -117,7 +117,18 @@ $(document).ready(function(){
         `);
         $('.current-round').html(`Round 1 of ${game_payload.rounds}`);
         post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`The game has begun! Your team is <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>.`, is_player:0, reply:null})
+        if (player_role === matrix_payload.move){
+            player_side_move();
+        }
+        else{
+            opponent_side_move();
+        }
+    }
+    function player_side_move(){
 
+    }
+    function opponent_side_move(){
+        
     }
     function assign_player_roles(){
         $.ajax({

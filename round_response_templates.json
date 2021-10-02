@@ -1,0 +1,39 @@
+{"round_by_round":{
+        "start":[
+            {"title":"The Protest has Begun. {first_move_actor} Will Make Their Move.",
+            "description":"{a1} will make the first move. {second_move_actor} await their choice."},
+            {"title":"The Protest is Underway. {first_move_actor} are Making Their Move.",
+            "description":"{first_move_actor} will make the first move. {second_move_actor} await their choice."}
+        ],
+        "round_results":[
+            {"title":"{round_winner} Win the {round_num_text} Round, Gaining {round_winner_points} Points. {round_loser} Gain {round_loser_points} Points.",
+            "description":"In round {round_int}, the {round_winner} were {round_winner_reaction}, while the {round_loser} were {round_loser_reaction}. {round_score_standing_text}, {actor_running_winner_score} - {actor_running_loser_score}."},
+            {"title":"{round_winner} Have Won Round {round_num_int}, {round_score_standing_text} {actor_running_winner_score} - {actor_running_loser_score}.",
+                "description":"{round_winner} Reaction is {round_winner_reaction} In Round {round_num_int}, {actor_move_text} Move Next."},
+            {"title":"Victory for {round_winner} in Round {round_num_int}.",
+            "description":"The {round_winner} reaction was {round_winner_reaction}, and the {round_loser} were {round_loser_reaction}. {round_score_standing_text}, {actor_running_winner_score} - {actor_running_loser_score}."}
+        ],
+        "round_results_tie":[
+            {"title":"{a1} and {a2} Tie. {round_score_standing_text}, {actor_running_winner_score} - {actor_running_loser_score}.",
+            "description":"{a1} was {a1_reaction} and {a2} was {a2_reaction}. {actor_move_text} move next."},
+            {"title":"{a1} and {a2} Both Score {a1_points} in Round {round_num_text}",
+                "description":"{a1} was {a1_reaction} and {a2} was {a2_reaction}. {round_score_standing_text}, {actor_running_winner_score} - {actor_running_loser_score}."}
+        ]
+    },
+    "actor_response":[
+        {"title":"{a_move} were {reaction}. {a_next} move text.",
+        "description":"In round {round_int}, {a_move} were {reaction}. Now, {a_next} make their move"}
+    ],
+    "round_score_standing_text":{
+        "tie":[
+            {"text":"{a1} tied with {a2}, {a1_total_score} - {a2_total_score}"},
+            {"text":"{a1} {round_transition_state}tied with {a2}, {a1_total_score} - {a2_total_score}"},
+            {"text":"{a1} and {a2} tied, {a1_total_score} - {a2_total_score}"},
+            {"text":"{a1} and {a2} {round_transition_state}tied, {a1_total_score} - {a2_total_score}"}
+        ],
+        "non_tie":[
+            {"text":"{actor_running_winner} leads {actor_running_loser}"},
+            {"text":"{actor_running_winner} {round_transition_state}leads {actor_running_loser}"}
+        ]
+    }
+}
