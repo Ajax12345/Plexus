@@ -163,7 +163,7 @@ $(document).ready(function(){
         console.log(start_template)
         $('.game-announcement-title').html(start_template.title);
         $('.game-announcement-body').html(start_template.description);
-        if (player_role === matrix_payload.move){
+        if (parseInt(player_role) === parseInt(matrix_payload.move)){
             player_side_move();
         }
         else{
@@ -171,11 +171,32 @@ $(document).ready(function(){
         }
     }
     function player_side_move(){
-
+        alert("player side move")
     }
     function opponent_side_move(){
-
+        submit_side_reactions([...choose_reactions(opponent)], opponent)
     }
+    function get_random_reaction(side){
+        return matrix_payload.reactions[side][Math.floor(Math.random()*matrix_payload.reactions[side].length)].id;
+    }
+    function* choose_reactions(side){
+        for (var x of roles[side]){
+            yield {...x, reaction:get_random_reaction(side)}
+        }   
+    }
+    function submit_side_reactions(reactions, side){
+        $.ajax({
+            url: "/submit-side-reactions",
+            type: "post",
+            data: {payload: JSON.stringify({id:game_payload.id, gid:gameplay_payload.id, side:side, reactions:reactions, round:running_round})},
+            success: function(response) {
+                
+            },
+            error: function(xhr) {
+                //Do Something to handle error
+            }
+        });
+    }   
     function assign_player_roles(){
         $.ajax({
             url: "/assign-roles",
@@ -268,6 +289,7 @@ $(document).ready(function(){
     var player_role = null;
     var opponent = null;
     var response_template = null;
+    var running_round = 1;
     function render_content_block(block){
         var last_ind = 0;
         var build_string = '';

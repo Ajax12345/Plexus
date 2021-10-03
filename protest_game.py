@@ -99,6 +99,9 @@ class GameRun:
     
         tablename: roles
         columns: id int, gid int, actor int
+
+        tablename: reactions
+        columns: id int, gid int, actor int, round int, reaction int
     """
     @classmethod
     def add_invitee(cls, _payload:dict) -> dict:
@@ -147,6 +150,39 @@ class GameRun:
             cl.commit()
 
         return {'status':True, 'roles':roles}
+
+    @classmethod
+    def submit_side_reactions(cls, _payload:dict) -> dict:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
+            cl.executemany('insert into reactions values (%s, %s, %s, %s, %s)', [[int(i['id']), int(_payload['gid']), int(_payload['side']), int(_payload['round']), int(i['reaction'])] for i in _payload['reactions']])
+            cl.commit()
+            cl.execute('''
+                with recursive all_reactions(al, i1, i2, r, rf) as (
+                    select json_keys(m.actors), 0, 1, 
+                        json_extract(m.reactions, concat('$.', json_extract(json_keys(m.actors), '$[0]'), '[0]')),
+                        m.reactions
+                        from gameplays gpls join games g on gpls.gid = g.id join matrices m on m.id = g.matrix where gpls.id = %s
+                    union all
+                    select al, case when i2 + 1 >= json_length(json_extract(rf, concat('$.', json_extract(al, concat('$[', i1, ']'))))) then i1+1 else i1 end, case when i2 + 1 < json_length(json_extract(rf, concat('$.', json_extract(al, concat('$[', i1, ']'))))) then i2+1 else 0 end, 
+                        json_extract(rf, concat('$.', json_extract(al, concat('$[', i1, ']')), concat('[', i2, ']'))),
+                        rf
+                        from all_reactions where i1 < json_length(al) or i2 < json_length(json_extract(rf, concat('$.', json_extract(al, concat('$[', i1, ']')))))
+                ),
+                round_results as (
+                    select distinct r.gid, r.actor, r.round from reactions r where r.gid = %s
+                ),
+                reaction_freqs(a, r, f) as (
+                    select r.actor, r.reaction, count(*) from reactions r where r.gid = %s and r.round = %s group by r.actor, r.reaction
+                ),
+                chosen_reactions(a, r) as (
+                    select f1.a, f1.r from reaction_freqs f1 where f1.f = (select max(f2.f) from reaction_freqs f2 where f2.a = f1.a)
+                )
+                select distinct c.*, json_extract(all_r.r, '$.reaction') from chosen_reactions c join all_reactions all_r on c.r = json_extract(all_r.r, '$.id')
+                union all
+                select null, (select count(*) from round_results) = (select json_length(m.actors) from gameplays gpls join games g on gpls.gid = g.id join matrices m on m.id = g.matrix where gpls.id = %s), null
+            ''', [int(_payload['gid']), int(_payload['gid']), int(_payload['gid']), int(_payload['round']), int(_payload['gid'])])
+
+        return {'success':True}
 
 
 if __name__ == '__main__':

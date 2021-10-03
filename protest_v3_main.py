@@ -219,6 +219,10 @@ def post_message():
 def assign_roles():
     return flask.jsonify(protest_game.GameRun.assign_roles(json.loads(flask.request.form['payload'])))
 
+@app.route('/submit-side-reactions', methods=['POST'])
+def submit_side_reactions():
+    return flask.jsonify(protest_game.GameRun.submit_side_reactions(json.loads(flask.request.form['payload'])))
+
 @app.after_request
 def add_header(r):
     """
