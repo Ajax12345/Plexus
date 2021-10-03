@@ -163,6 +163,7 @@ $(document).ready(function(){
         console.log(start_template)
         $('.game-announcement-title').html(start_template.title);
         $('.game-announcement-body').html(start_template.description);
+        submit_side_reactions([...choose_reactions(opponent)], opponent);
         if (parseInt(player_role) === parseInt(matrix_payload.move)){
             player_side_move();
         }
@@ -174,7 +175,8 @@ $(document).ready(function(){
         alert("player side move")
     }
     function opponent_side_move(){
-        submit_side_reactions([...choose_reactions(opponent)], opponent)
+        alert('opponent side move')
+        //submit_side_reactions([...choose_reactions(opponent)], opponent)
     }
     function get_random_reaction(side){
         return matrix_payload.reactions[side][Math.floor(Math.random()*matrix_payload.reactions[side].length)].id;

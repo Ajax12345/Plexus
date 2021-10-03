@@ -180,8 +180,15 @@ class GameRun:
                 select distinct c.*, json_extract(all_r.r, '$.reaction') from chosen_reactions c join all_reactions all_r on c.r = json_extract(all_r.r, '$.id')
                 union all
                 select null, (select count(*) from round_results) = (select json_length(m.actors) from gameplays gpls join games g on gpls.gid = g.id join matrices m on m.id = g.matrix where gpls.id = %s), null
-            ''', [int(_payload['gid']), int(_payload['gid']), int(_payload['gid']), int(_payload['round']), int(_payload['gid'])])
-
+                union all
+                select m.actors, m.payoffs, null from gameplays gpls join games g on gpls.gid = g.id join matrices m on m.id = g.matrix where gpls.id = %s
+            ''', [int(_payload['gid']), int(_payload['gid']), int(_payload['gid']), int(_payload['round']), int(_payload['gid']), int(_payload['gid'])])
+            *reactions, [_, status, _], [_actors, _payoffs, _] = cl
+            actors, payoffs = json.loads(_actors), json.loads(_payoffs)
+            print(reactions, status, actors, payoffs)
+            if not status:
+                pass
+                
         return {'success':True}
 
 
