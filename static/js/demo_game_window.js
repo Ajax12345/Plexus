@@ -278,7 +278,13 @@ $(document).ready(function(){
         if (!$(this.parentNode).hasClass('reaction-poll-disabled')){
             $(this).addClass('reaction-poll-chosen')
             $(this.parentNode).addClass('reaction-poll-disabled');
+            var r_id = parseInt($(this).data('rid'));
             post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`Your selection has been recorded. Please wait while the rest of your team submits their choices.`, is_player:0, reply:null})
+            setTimeout(function(){
+                submit_side_reactions([...choose_reactions(player_role)].map(function(x){
+                    return parseInt(x.id) === parseInt(user_payload.id) ? {...x, reaction:r_id} : x
+                }), player_role)
+            }, 1000);
         }
     });
     $('body').on('click', '.game-content-close-top', function(){
