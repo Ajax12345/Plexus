@@ -152,6 +152,19 @@ class GameRun:
         return {'status':True, 'roles':roles}
 
     @classmethod
+    def round_text(cls, _round:int) -> str:
+        c = {1:'first', 2:'second', 3:'third', 4:'fourth', 5:'fifth', 6:'sixth', 7:'seventh', 8:'eight', 9:'ninth', 10:'tenth', 11:'eleventh', 12:'twelfth', 13:'thirteenth', 20:'twentieth', 30:'thirtieth', 100:'hundredth'}
+        if _round in c:
+            return c[_round]
+        
+        if _round < 20:
+            return f'{c[int(str(_round)[0])]}teenth'
+
+        #will add to this as necessary
+        
+
+
+    @classmethod
     def submit_side_reactions(cls, _payload:dict) -> dict:
         with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
             cl.executemany('insert into reactions values (%s, %s, %s, %s, %s)', [[int(i['id']), int(_payload['gid']), int(_payload['side']), int(_payload['round']), int(i['reaction'])] for i in _payload['reactions']])
@@ -186,9 +199,24 @@ class GameRun:
             *reactions, [_, status, _], [_actors, _payoffs, _] = cl
             actors, payoffs = json.loads(_actors), json.loads(_payoffs)
             print(reactions, status, actors, payoffs)
+            parent_response = {
+                **dict(zip(['a1', 'a2'], [b['name'] for b in actors.values()])),
+                'round_int':int(_payload['round']),
+                'round_text':cls.round_text(int(_payload['round'])),
+                'actor_move_next':[b['name'] for a, b in actors.items() if int(a) != int(_payload['side'])][0]
+            }
             if not status:
-                pass
-                
+                return {
+                    'status':True,
+                    'response':{
+                        **parent_response,
+                        'round_finished':False,
+                        'a':int(_payload['side']),
+                        'a_move':actors[str(_payload['side'])]['name'],
+                        'reaction':reactions[-1][-1][1:-1],
+                    }
+                }
+
         return {'success':True}
 
 
