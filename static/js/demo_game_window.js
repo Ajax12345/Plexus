@@ -278,7 +278,7 @@ $(document).ready(function(){
         if (!$(this.parentNode).hasClass('reaction-poll-disabled')){
             $(this).addClass('reaction-poll-chosen')
             $(this.parentNode).addClass('reaction-poll-disabled');
-            post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`Your selection has been recorded. Please wait while the rest of your team submit their choices.`, is_player:0, reply:null})
+            post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`Your selection has been recorded. Please wait while the rest of your team submits their choices.`, is_player:0, reply:null})
         }
     });
     $('body').on('click', '.game-content-close-top', function(){
