@@ -185,9 +185,11 @@ $(document).ready(function(){
                         <div class="message-post-datetime">Just now</div>
                     </div>
                     <div class="message-body-content">${payload.body}</div>
-                    ${matrix_payload.reactions[payload.actor].map(function(x){
-                        return `<div class="reaction-poll-option" data-rid='${x.id}'>${x.reaction}</div>`
-                    }).join('\n')}
+                    <div class='reaction-poll-outer'>
+                        ${matrix_payload.reactions[payload.actor].map(function(x){
+                            return `<div class="reaction-poll-option" data-rid='${x.id}'>${x.reaction}</div>`
+                        }).join('\n')}
+                    </div>
                     <div class="message-action-footer">
                         <div class="reply-message-outer">
                             <div class="reply-message-icon"></div>
@@ -272,6 +274,13 @@ $(document).ready(function(){
             closed_content = true;
         }
     }
+    $('body').on('click', '.reaction-poll-option', function(){
+        if (!$(this.parentNode).hasClass('reaction-poll-disabled')){
+            $(this).addClass('reaction-poll-chosen')
+            $(this.parentNode).addClass('reaction-poll-disabled');
+            post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`Your selection has been recorded. Please wait while the rest of your team submit their choices.`, is_player:0, reply:null})
+        }
+    });
     $('body').on('click', '.game-content-close-top', function(){
         $('.game-content-modal').css('display', 'none');
         on_content_close()

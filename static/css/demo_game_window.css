@@ -401,6 +401,33 @@ body{
     border-color:rgb(29, 142, 213);
     background-color:rgb(252, 252, 252);
 }
+.reaction-poll-option:active{
+    transition:0.2s;
+    transform:scale(1.05);
+}
+.reaction-poll-chosen{
+    background-color:rgb(27, 149, 224);
+    color:white;
+}
+.reaction-poll-chosen:hover{
+    background-color:rgb(27, 149, 224);
+    color:white;
+}
+.reaction-poll-disabled{
+    opacity:0.5;
+
+}
+.reaction-poll-disabled .reaction-poll-chosen:hover{
+    cursor:default !important;
+}
+.reaction-poll-disabled .reaction-poll-option:not(.reaction-poll-chosen):hover{
+    cursor:default !important;
+    color:  rgb(29, 161, 242) !important;
+    background-color:white !important;
+}
+.reaction-poll-disabled .reaction-poll-option:active{
+    transform:scale(1) !important;
+}
 .what-you-need-to-know{
     margin-top: 15px;
     font-family: 'Source Sans Pro', sans-serif;

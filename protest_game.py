@@ -204,17 +204,17 @@ class GameRun:
                 'round_int':int(_payload['round']),
                 'round_text':cls.round_text(int(_payload['round'])),
                 'round_finished':bool(int(status)),
-                'actor_move_next':[b['name'] for a, b in actors.items() if int(a) != int(_payload['side'])][0]
+                'actor_move_next':(n_actor:=[(a, b['name']) for a, b in actors.items() if int(a) != int(_payload['side'])][0])[-1],
+                'actor_move_next_id':n_actor[0]
             }
             if not int(status):
                 print('in this intermediary response')
                 return {
-                        **parent_response,
-                        'a':int(_payload['side']),
-                        'a_move':actors[str(_payload['side'])]['name'],
-                        'reaction':reactions[-1][-1][1:-1],
-                
-                    }
+                    **parent_response,
+                    'a':int(_payload['side']),
+                    'a_move':actors[str(_payload['side'])]['name'],
+                    'reaction':reactions[-1][-1][1:-1],
+                }
 
             return parent_response
 
