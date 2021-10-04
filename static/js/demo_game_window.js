@@ -163,20 +163,51 @@ $(document).ready(function(){
         console.log(start_template)
         $('.game-announcement-title').html(start_template.title);
         $('.game-announcement-body').html(start_template.description);
-        submit_side_reactions([...choose_reactions(opponent)], opponent);
+        //submit_side_reactions([...choose_reactions(opponent)], opponent);
         if (parseInt(player_role) === parseInt(matrix_payload.move)){
-            player_side_move();
+            player_side_move({actor:player_role, body:`<span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: the game has begun. Make your move now!`});
         }
         else{
             opponent_side_move();
         }
     }
-    function player_side_move(){
-        alert("player side move")
+    function player_side_move(payload){
+        $('#message-container1').prepend(`<div class="message-main">
+            <div class="message-body" id='reaction-poll-message'>
+                <div class="poster-icon-outer">
+                    <div class="main-game-icon"></div>
+                </div>
+                <div class="main-message-body">
+                    <div class="message-about-poster">
+                        <div class="message-poster-name">Instigator</div>
+                        <div class="message-poster-handle">@instigator</div>
+                        <div class="message-dot"></div>
+                        <div class="message-post-datetime">Just now</div>
+                    </div>
+                    <div class="message-body-content">${payload.body}</div>
+                    ${matrix_payload.reactions[payload.actor].map(function(x){
+                        return `<div class="reaction-poll-option" data-rid='${x.id}'>${x.reaction}</div>`
+                    }).join('\n')}
+                    <div class="message-action-footer">
+                        <div class="reply-message-outer">
+                            <div class="reply-message-icon"></div>
+                        </div>
+                        <div class="message-reply-count">0</div>
+                        <div></div>
+                        <div class="like-message-outer">
+                            <div class="like-message-icon"></div>
+                        </div>
+                        <div class="message-like-count">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>`)
     }
     function opponent_side_move(){
-        alert('opponent side move')
-        //submit_side_reactions([...choose_reactions(opponent)], opponent)
+        //alert('opponent side move')
+        setTimeout(function(){
+            submit_side_reactions([...choose_reactions(opponent)], opponent)
+        }, 5000)
     }
     function get_random_reaction(side){
         return matrix_payload.reactions[side][Math.floor(Math.random()*matrix_payload.reactions[side].length)].id;
@@ -186,13 +217,27 @@ $(document).ready(function(){
             yield {...x, reaction:get_random_reaction(side)}
         }   
     }
+    function analyze_reaction_response(response){
+        if (!response.round_finished){
+            console.log('basic response')
+            console.log(response)
+            console.log('response template')
+            console.log(response_template)
+            var start_template = response_template.actor_response.next().format(response)
+            console.log('start template here')
+            console.log(start_template)
+            $('.game-announcement-title').html(start_template.title);
+            $('.game-announcement-body').html(start_template.description);
+            player_side_move({actor:player_role, body:`<span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: ${response.a_move} were ${response.reaction}. Make your move now!`});
+        }
+    }
     function submit_side_reactions(reactions, side){
         $.ajax({
             url: "/submit-side-reactions",
             type: "post",
             data: {payload: JSON.stringify({id:game_payload.id, gid:gameplay_payload.id, side:side, reactions:reactions, round:running_round})},
             success: function(response) {
-                
+                analyze_reaction_response(JSON.parse(response.response));
             },
             error: function(xhr) {
                 //Do Something to handle error

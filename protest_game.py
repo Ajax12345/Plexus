@@ -203,21 +203,20 @@ class GameRun:
                 **dict(zip(['a1', 'a2'], [b['name'] for b in actors.values()])),
                 'round_int':int(_payload['round']),
                 'round_text':cls.round_text(int(_payload['round'])),
+                'round_finished':bool(int(status)),
                 'actor_move_next':[b['name'] for a, b in actors.items() if int(a) != int(_payload['side'])][0]
             }
-            if not status:
+            if not int(status):
+                print('in this intermediary response')
                 return {
-                    'status':True,
-                    'response':{
                         **parent_response,
-                        'round_finished':False,
                         'a':int(_payload['side']),
                         'a_move':actors[str(_payload['side'])]['name'],
                         'reaction':reactions[-1][-1][1:-1],
+                
                     }
-                }
 
-        return {'success':True}
+            return parent_response
 
 
 if __name__ == '__main__':
