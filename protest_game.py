@@ -183,24 +183,28 @@ class GameRun:
                     from all_reactions where i1 < json_length(al) or i2 < json_length(json_extract(rf, concat('$.', json_extract(al, concat('$[', i1, ']')))))
                 ),
                 round_results as (
-                    select distinct r.gid, r.actor, r.round from reactions r where r.gid = %s
+                    select distinct r.gid, r.actor from reactions r where r.gid = %s and r.round = %s
                 ),
                 reaction_freqs(a, r, f) as (
                     select r.actor, r.reaction, count(*) from reactions r where r.gid = %s and r.round = %s group by r.actor, r.reaction
                 ),
-                chosen_reactions(a, r) as (
-                    select f1.a, f1.r from reaction_freqs f1 where f1.f = (select max(f2.f) from reaction_freqs f2 where f2.a = f1.a)
+                chosen_reactions(a, r, agg_p) as (
+                    -- max is needed to ensure that only one result is returned in the event of a tie
+                    select f1.a, f1.r, max(f1.f) from reaction_freqs f1 where f1.f = (select max(f2.f) from reaction_freqs f2 where f2.a = f1.a) group by f1.a, f1.r
                 )
-                select distinct c.*, json_extract(all_r.r, '$.reaction') from chosen_reactions c join all_reactions all_r on c.r = json_extract(all_r.r, '$.id')
+                select distinct c.a, c.r, json_extract(all_r.r, '$.reaction') from chosen_reactions c join all_reactions all_r on c.r = json_extract(all_r.r, '$.id')
                 union all
                 select null, (select count(*) from round_results) = (select json_length(m.actors) from gameplays gpls join games g on gpls.gid = g.id join matrices m on m.id = g.matrix where gpls.id = %s), null
                 union all
                 select m.actors, m.payoffs, null from gameplays gpls join games g on gpls.gid = g.id join matrices m on m.id = g.matrix where gpls.id = %s
-            ''', [int(_payload['gid']), int(_payload['gid']), int(_payload['gid']), int(_payload['round']), int(_payload['gid']), int(_payload['gid'])])
+            ''', [int(_payload['gid']), int(_payload['gid']), int(_payload['round']), int(_payload['gid']), int(_payload['round']), int(_payload['gid']), int(_payload['gid'])])
             *reactions, [_, status, _], [_actors, _payoffs, _] = cl
             actors, payoffs = json.loads(_actors), json.loads(_payoffs)
             print(reactions, status, actors, payoffs)
             parent_response = {
+                'a':int(_payload['side']),
+                'a_move':actors[str(_payload['side'])]['name'],
+                'reaction':reactions[-1][-1][1:-1],
                 **dict(zip(['a1', 'a2'], [b['name'] for b in actors.values()])),
                 'round_int':int(_payload['round']),
                 'round_text':cls.round_text(int(_payload['round'])),
@@ -209,12 +213,8 @@ class GameRun:
                 'actor_move_next_id':n_actor[0]
             }
             if not int(status):
-                return {
-                    **parent_response,
-                    'a':int(_payload['side']),
-                    'a_move':actors[str(_payload['side'])]['name'],
-                    'reaction':reactions[-1][-1][1:-1],
-                }
+                return parent_response
+
             r_d, r_r1 = {int(a):int(b) for a, b, _ in reactions}, {int(a):c[1:-1] for a, _, c in reactions}
             print('r_d and r_r1', r_d, r_r1)
             payout = [i['payouts'] for i in payoffs if all(int(i['reactions'][str(a)]['id']) == int(b) for a, b in r_d.items())]
@@ -252,7 +252,7 @@ class GameRun:
                 'round_winner':actors[(ra_w:=(a_arr[0] if int(payout[a_arr[0]]) > int(payout[a_arr[1]]) else a_arr[1]))]['name'],
                 'round_winner_points':int(payout[ra_w]),
                 'round_winner_reaction':r_r1[int(ra_w)],
-                'round_loser':actors[(ra_l:=(a_arr[1] if int(payout[a_arr[1]]) > int(payout[a_arr[0]]) else a_arr[0]))]['name'],
+                'round_loser':actors[(ra_l:=(a_arr[0] if int(payout[a_arr[1]]) > int(payout[a_arr[0]]) else a_arr[1]))]['name'],
                 'round_loser_points':int(payout[ra_l]),
                 'round_loser_reaction':r_r1[int(ra_l)],
                 'round_transition_state':transition_state

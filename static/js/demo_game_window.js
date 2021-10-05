@@ -139,8 +139,8 @@ $(document).ready(function(){
         for (var i of document.querySelectorAll('.how-to-play-container how-to-play-desc > .adversary-hashtag')){
             $(i).html('#'+actors[opponent].name);
         }
-        $('.side-score-outer:nth-of-type(1) .side-score-name').html(matrix_payload.actors[player_role].name)
-        $('.side-score-outer:nth-of-type(3) .side-score-name').html(matrix_payload.actors[opponent].name)
+        $('.side-score-outer:nth-of-type(1) .side-score-name').html(matrix_payload.actors[1].name)
+        $('.side-score-outer:nth-of-type(3) .side-score-name').html(matrix_payload.actors[2].name)
         $('.role-container').css('display', 'block');
         $('.how-to-play-container').css('display', 'block')
         $('.score-box').css('display', 'block')
@@ -235,7 +235,7 @@ $(document).ready(function(){
         else{
             var round_result_template = parseInt(response.a1_points) === parseInt(response.a2_points) ? response_template.round_by_round.round_results_tie : response_template.round_by_round.round_results
             var round_score_standing_text = parseInt(response.a1_total_score) === parseInt(response.a2_total_score) ? response_template.round_score_standing_text.tie : response_template.round_score_standing_text.non_tie;
-            var start_template = round_result_template.next().format({...response, round_score_standing_text:round_score_standing_text.next().format(response)})
+            var start_template = round_result_template.next().format({...response, round_score_standing_text:round_score_standing_text.next().format(response).text})
             $('.side-score-outer:nth-of-type(1) .side-score-value').html(response.a1_total_score)
             $('.side-score-outer:nth-of-type(3) .side-score-value').html(response.a2_total_score)
             $('.game-announcement-title').html(start_template.title);
