@@ -207,7 +207,7 @@ class GameRun:
                 'reaction':reactions[-1][-1][1:-1],
                 **dict(zip(['a1', 'a2'], [b['name'] for b in actors.values()])),
                 'round_int':int(_payload['round']),
-                'round_text':cls.round_text(int(_payload['round'])),
+                'round_text':cls.round_text(int(_payload['round'])).capitalize(),
                 'round_finished':bool(int(status)),
                 'actor_move_next':(n_actor:=[(a, b['name']) for a, b in actors.items() if int(a) != int(_payload['side'])][0])[-1],
                 'actor_move_next_id':n_actor[0]

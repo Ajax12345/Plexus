@@ -16,7 +16,7 @@
         "round_results_tie":[
             {"title":"{a1} and {a2} Tie. {round_score_standing_text}.",
             "description":"{a1} was {a1_reaction} and {a2} was {a2_reaction}. {actor_move_next} move next."},
-            {"title":"{a1} and {a2} Both Score {a1_points} in Round {round_text}",
+            {"title":"{a1} and {a2} Both Score {a1_points} in {round_text} Round",
             "description":"{a1} was {a1_reaction} and {a2} was {a2_reaction}. {round_score_standing_text}."}
         ]
     },
@@ -35,7 +35,7 @@
         ],
         "non_tie":[
             {"text":"{actor_running_winner} leads {actor_running_loser}, {actor_running_winner_score} - {actor_running_loser_score}"},
-            {"text":"{actor_running_winner} {round_transition_state}leads {actor_running_loser}, {actor_running_winner_score} - {actor_running_loser_score}"},
+            {"text":"{actor_running_winner} {round_transition_state}lead {actor_running_loser}, {actor_running_winner_score} - {actor_running_loser_score}"},
             {"text":"Score is {round_transition_state}{a1_total_score} - {a2_total_score} {actor_running_winner}"},
             {"text":"Current Score Stands {a1_total_score} - {a2_total_score}"}
         ]
