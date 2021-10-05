@@ -172,6 +172,7 @@ $(document).ready(function(){
         }
     }
     function player_side_move(payload){
+        $("#reaction-poll-message").remove();
         $('#message-container1').prepend(`<div class="message-main">
             <div class="message-body" id='reaction-poll-message'>
                 <div class="poster-icon-outer">
@@ -220,17 +221,45 @@ $(document).ready(function(){
         }   
     }
     function analyze_reaction_response(response){
+        console.log('basic response')
+        console.log(response)
+        console.log('response template')
+        console.log(response_template)
         if (!response.round_finished){
-            console.log('basic response')
-            console.log(response)
-            console.log('response template')
-            console.log(response_template)
             var start_template = response_template.actor_response.next().format(response)
             console.log('start template here')
             console.log(start_template)
             $('.game-announcement-title').html(start_template.title);
             $('.game-announcement-body').html(start_template.description);
-            player_side_move({actor:player_role, body:`<span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: ${response.a_move} were ${response.reaction}. Make your move now!`});
+        }
+        else{
+            var round_result_template = parseInt(response.a1_points) === parseInt(response.a2_points) ? response_template.round_by_round.round_results_tie : response_template.round_by_round.round_results
+            var round_score_standing_text = parseInt(response.a1_total_score) === parseInt(response.a2_total_score) ? response_template.round_score_standing_text.tie : response_template.round_score_standing_text.non_tie;
+            var start_template = round_result_template.next().format({...response, round_score_standing_text:round_score_standing_text.next().format(response)})
+            $('.side-score-outer:nth-of-type(1) .side-score-value').html(response.a1_total_score)
+            $('.side-score-outer:nth-of-type(3) .side-score-value').html(response.a2_total_score)
+            $('.game-announcement-title').html(start_template.title);
+            $('.game-announcement-body').html(start_template.description);
+
+        }
+        if (!response.round_finished || (running_round + 1 <= parseInt(game_payload.rounds))){
+            if (response.round_finished){
+                running_round++;
+                $('.current-round').html(`Round ${running_round} of ${game_payload.rounds}`);
+            }
+            if (response.actor_move_next_id === player_role){
+                setTimeout(function(){
+                    player_side_move({actor:player_role, body:`<span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: ${response.a_move} were ${response.reaction}. Make your move now!`});
+                }, 500);
+            }
+            else{
+                setTimeout(function(){
+                    opponent_side_move();
+                }, 500);    
+            }
+        }
+        else{
+            alert("game over")
         }
     }
     function submit_side_reactions(reactions, side){

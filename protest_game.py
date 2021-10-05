@@ -215,24 +215,31 @@ class GameRun:
                     'a_move':actors[str(_payload['side'])]['name'],
                     'reaction':reactions[-1][-1][1:-1],
                 }
-            r_d, r_r1 = {a:b for a, b, _ in reactions}, {a:c[1:-1] for a, _, c in reactions}
-            payout = [i['payouts'] for i in payoffs if all(int(i['reactions'][a]['id']) == int(b) for a, b in r_d.items()) for i in payoffs]
-            cl.executemany('insert into rounds values (%s, %s, %s, %s, %s)', [[int(_payload['gid']), int(_payload['round']), int(a), int(b), int(payout[a])] for a, b in r_d])
+            r_d, r_r1 = {int(a):int(b) for a, b, _ in reactions}, {int(a):c[1:-1] for a, _, c in reactions}
+            print('r_d and r_r1', r_d, r_r1)
+            payout = [i['payouts'] for i in payoffs if all(int(i['reactions'][str(a)]['id']) == int(b) for a, b in r_d.items())]
+            print('payout1 ', payout)
+            payout = payout[0]
+            print('new payout', payout)
+            cl.executemany('insert into rounds values (%s, %s, %s, %s, %s)', [[int(_payload['gid']), int(_payload['round']), int(a), int(b), int(payout[str(a)])] for a, b in r_d.items()])
             cl.commit()
+            #order by pnts desc
             cl.execute('''
-                select r.actor, sum(r.payout) pnts from rounds r where r.gid = %s group by r.actor order by pnts desc
+                (select r.actor, sum(r.payout) pnts from rounds r where r.gid = %s group by r.actor order by pnts desc)
                 union all
-                select r.actor, sum(r.payout) pnts from rounds r where r.gid = %s and r.round = %s group by r.actor order by pnts desc
+                (select r.actor, sum(r.payout) pnts from rounds r where r.gid = %s and r.round = %s group by r.actor order by pnts desc)
                 ''', [int(_payload['gid']), int(_payload['gid']), int(_payload['round'])-1])
             [w_a, w_s], [l_a, l_s], *last_round = cl
+            print('winners and losers', [w_a, w_s], [l_a, l_s])
             [w_a1, w_s1], [l_a1, l_s1] = (last_round if last_round else [[None, None]]*2)
+            print('winners and losers last round',[w_a1, w_s1], [l_a1, l_s1])
             running_scores, a_arr, transition_state = {w_a:w_s, l_a:l_s}, list(actors), ''
             if w_a1 is not None:
                 if w_a == w_a1:
                     transition_state = 'still '
                 else:
                     transition_state = 'now '
-
+            print('detected transition', transition_state)
             return {
                 **parent_response,
                 **{f'a{i}_points':int(payout[a]) for i, a in enumerate(actors, 1)},
