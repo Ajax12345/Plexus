@@ -94,7 +94,7 @@ $(document).ready(function(){
             type: "post",
             data: {payload: JSON.stringify({poster:payload.poster, gid:gameplay_payload.id, is_player:payload.is_player, body:payload.body, reply:payload.reply, added:posted_date})},
             success: function(response) {
-                $(target).prepend(`<div class="message-main" id='game-message${response.id}'>
+                $(target).prepend(`<div class="message-main" id='${'target_m_id' in payload ? payload.target_m_id : `game-message${response.id}`}'>
                     <div class="message-body game-message" data-mid='${response.id}'>
                         <div class="poster-icon-outer">
                             <img class="message-poster-icon" src="https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon">
@@ -173,8 +173,9 @@ $(document).ready(function(){
     }
     function player_side_move(payload){
         $("#reaction-poll-message").remove();
-        $('#message-container1').prepend(`<div class="message-main">
-            <div class="message-body" id='reaction-poll-message'>
+        $("#wait-for-response").remove();
+        $('#message-container1').prepend(`<div class="message-main" id='reaction-poll-message'>
+            <div class="message-body">
                 <div class="poster-icon-outer">
                     <div class="main-game-icon"></div>
                 </div>
@@ -308,7 +309,7 @@ $(document).ready(function(){
             $(this).addClass('reaction-poll-chosen')
             $(this.parentNode).addClass('reaction-poll-disabled');
             var r_id = parseInt($(this).data('rid'));
-            post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`Your selection has been recorded. Please wait while the rest of your team submits their choices.`, is_player:0, reply:null})
+            post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`Your selection has been recorded. Please wait while the rest of your team submits their choices.`, is_player:0, reply:null, target_m_id:"wait-for-response"})
             setTimeout(function(){
                 submit_side_reactions([...choose_reactions(player_role)].map(function(x){
                     return parseInt(x.id) === parseInt(user_payload.id) ? {...x, reaction:r_id} : x
