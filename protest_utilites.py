@@ -21,4 +21,4 @@ def get_template_params(d):
 
 if __name__ == '__main__':
     with open('round_response_templates.json') as f:
-        print(set(get_template_params(json.load(f))))
+        print(sorted(set(get_template_params(json.load(f)))))

@@ -102,6 +102,9 @@ class GameRun:
 
         tablename: reactions
         columns: id int, gid int, actor int, round int, reaction int
+
+        tablename: rounds
+        columns: gid int, round int, actor int, reaction int, payout int
     """
     @classmethod
     def add_invitee(cls, _payload:dict) -> dict:
@@ -162,8 +165,6 @@ class GameRun:
 
         #will add to this as necessary
         
-
-
     @classmethod
     def submit_side_reactions(cls, _payload:dict) -> dict:
         with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
@@ -174,12 +175,12 @@ class GameRun:
                     select json_keys(m.actors), 0, 1, 
                         json_extract(m.reactions, concat('$.', json_extract(json_keys(m.actors), '$[0]'), '[0]')),
                         m.reactions
-                        from gameplays gpls join games g on gpls.gid = g.id join matrices m on m.id = g.matrix where gpls.id = %s
+                    from gameplays gpls join games g on gpls.gid = g.id join matrices m on m.id = g.matrix where gpls.id = %s
                     union all
                     select al, case when i2 + 1 >= json_length(json_extract(rf, concat('$.', json_extract(al, concat('$[', i1, ']'))))) then i1+1 else i1 end, case when i2 + 1 < json_length(json_extract(rf, concat('$.', json_extract(al, concat('$[', i1, ']'))))) then i2+1 else 0 end, 
                         json_extract(rf, concat('$.', json_extract(al, concat('$[', i1, ']')), concat('[', i2, ']'))),
                         rf
-                        from all_reactions where i1 < json_length(al) or i2 < json_length(json_extract(rf, concat('$.', json_extract(al, concat('$[', i1, ']')))))
+                    from all_reactions where i1 < json_length(al) or i2 < json_length(json_extract(rf, concat('$.', json_extract(al, concat('$[', i1, ']')))))
                 ),
                 round_results as (
                     select distinct r.gid, r.actor, r.round from reactions r where r.gid = %s
@@ -208,15 +209,36 @@ class GameRun:
                 'actor_move_next_id':n_actor[0]
             }
             if not int(status):
-                print('in this intermediary response')
                 return {
                     **parent_response,
                     'a':int(_payload['side']),
                     'a_move':actors[str(_payload['side'])]['name'],
                     'reaction':reactions[-1][-1][1:-1],
                 }
-
-            return parent_response
+            r_d, r_r1 = {a:b for a, b, _ in reactions}, {a:c[1:-1] for a, _, c in reactions}
+            payout = [i['payouts'] for i in payoffs if all(int(i['reactions'][a]['id']) == int(b) for a, b in r_d.items()) for i in payoffs]
+            cl.executemany('insert into rounds values (%s, %s, %s, %s, %s)', [[int(_payload['gid']), int(_payload['round']), int(a), int(b), int(payout[a])] for a, b in r_d])
+            cl.commit()
+            cl.execute('select r.actor, sum(r.payout) pnts from rounds r where r.gid = %s group by r.actor order by pnts desc', [int(_payload['gid'])])
+            [w_a, w_s], [l_a, l_s] = cl
+            running_scores, a_arr = {a1:s1, a2:s2}, list(actors)
+            return {
+                **parent_response,
+                **{f'a{i}_points':int(payout[a]) for i, a in enumerate(actors, 1)},
+                **{f'a{i}_reaction':c[1:-1] for i, (_, _, c) in enumerate(reactions, 1)},
+                **{f'a{i}_total_score':running_scores[int(a)] for i, a in enumerate(actors, 1)},
+                'actor_running_winner':actors[str(w_a)]['name'],
+                'actor_running_winner_score':int(w_s),
+                'actor_running_loser':actors[str(l_a)]['name'],
+                'actor_running_loser_score':int(l_s),
+                'round_winner':actors[(ra_w:=(a_arr[0] if int(payout[a_arr[0]]) > int(payout[a_arr[1]]) else a_arr[1]))]['name'],
+                'round_winner_points':int(payout[ra_w]),
+                'round_winner_reaction':r_r1[int(ra_w)],
+                'round_loser':actors[(ra_l:=(a_arr[1] if int(payout[a_arr[1]]) > int(payout[a_arr[0]]) else a_arr[0]))]['name'],
+                'round_loser_points':int(payout[ra_l]),
+                'round_loser_reaction':r_r1[int(ra_l)],
+                'round_transition_state':None
+            }
 
 
 if __name__ == '__main__':
