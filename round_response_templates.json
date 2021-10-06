@@ -37,7 +37,7 @@
             {"text":"{actor_running_winner} leads {actor_running_loser}, {actor_running_winner_score} - {actor_running_loser_score}"},
             {"text":"{actor_running_winner} {round_transition_state}lead {actor_running_loser}, {actor_running_winner_score} - {actor_running_loser_score}"},
             {"text":"Score is {round_transition_state}{a1_total_score} - {a2_total_score} {actor_running_winner}"},
-            {"text":"Current Score Stands {a1_total_score} - {a2_total_score}"}
+            {"text":"Current Score Stands {a1_total_score} - {a2_total_score} {actor_running_winner}"}
         ]
     }
 }

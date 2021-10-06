@@ -161,11 +161,11 @@ $(document).ready(function(){
         var start_template = response_template.round_by_round.start.next().format({first_move_actor:matrix_payload.actors[matrix_payload.move].name, second_move_actor:matrix_payload.actors[non_start].name})
         console.log('start template here')
         console.log(start_template)
-        $('.game-announcement-title').html(start_template.title);
-        $('.game-announcement-body').html(start_template.description);
+        $('.game-announcement-title').html(all_caps(start_template.title));
+        $('.game-announcement-body').html(only_start_caps(start_template.description));
         //submit_side_reactions([...choose_reactions(opponent)], opponent);
         if (parseInt(player_role) === parseInt(matrix_payload.move)){
-            player_side_move({actor:player_role, body:`<span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: the game has begun. Make your move now!`});
+            player_side_move({actor:player_role, body:`<span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span> players: the game has begun. Make your move now!`});
         }
         else{
             opponent_side_move();
@@ -221,6 +221,17 @@ $(document).ready(function(){
             yield {...x, reaction:get_random_reaction(side)}
         }   
     }
+    function all_caps(s){
+        var ignore = ['a', 'and', 'an', 'the', 'or', 'but', 'yet', 'were', 'was', 'while', 'to']
+        return s.replace(/^[a-zA-Z]|(?<=\s)[a-zA-Z]/g, function(match, ...p){
+            return !ignore.includes(match) ? match.toUpperCase() : match;
+        });
+    }
+    function only_start_caps(s){
+        return s.toLowerCase().replace(/^[a-zA-Z]|(?<=\.\s)[a-zA-Z]/g, function(match, ...p){
+            return match.toUpperCase()
+        });
+    }
     function analyze_reaction_response(response){
         console.log('basic response')
         console.log(response)
@@ -230,8 +241,8 @@ $(document).ready(function(){
             var start_template = response_template.actor_response.next().format(response)
             console.log('start template here')
             console.log(start_template)
-            $('.game-announcement-title').html(start_template.title);
-            $('.game-announcement-body').html(start_template.description);
+            $('.game-announcement-title').html(all_caps(start_template.title));
+            $('.game-announcement-body').html(only_start_caps(start_template.description));
         }
         else{
             var round_result_template = parseInt(response.a1_points) === parseInt(response.a2_points) ? response_template.round_by_round.round_results_tie : response_template.round_by_round.round_results
@@ -239,8 +250,8 @@ $(document).ready(function(){
             var start_template = round_result_template.next().format({...response, round_score_standing_text:round_score_standing_text.next().format(response).text})
             $('.side-score-outer:nth-of-type(1) .side-score-value').html(response.a1_total_score)
             $('.side-score-outer:nth-of-type(3) .side-score-value').html(response.a2_total_score)
-            $('.game-announcement-title').html(start_template.title);
-            $('.game-announcement-body').html(start_template.description);
+            $('.game-announcement-title').html(all_caps(start_template.title));
+            $('.game-announcement-body').html(only_start_caps(start_template.description));
 
         }
         if (!response.round_finished || (running_round + 1 <= parseInt(game_payload.rounds))){
@@ -250,7 +261,7 @@ $(document).ready(function(){
             }
             if (response.actor_move_next_id === player_role){
                 setTimeout(function(){
-                    player_side_move({actor:player_role, body:`<span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: ${response.a_move} were ${response.reaction}. Make your move now!`});
+                    player_side_move({actor:player_role, body:`<span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span> players: ${response.a_move} were ${response.reaction}. Make your move now!`});
                 }, 500);
             }
             else{
