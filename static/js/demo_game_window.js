@@ -228,8 +228,11 @@ $(document).ready(function(){
         });
     }
     function only_start_caps(s){
+        var actor_names = Object.keys(matrix_payload.actors).map(function(x){return matrix_payload.actors[x].name})
         return s.toLowerCase().replace(/^[a-zA-Z]|(?<=\.\s)[a-zA-Z]/g, function(match, ...p){
             return match.toUpperCase()
+        }).replace(/[a-zA-Z]+/g, function(match, ...p){
+            return actor_names.includes(match) ? match[0].toUpperCase() + match.substring(1).toLowerCase() : match
         });
     }
     function analyze_reaction_response(response){
