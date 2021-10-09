@@ -232,6 +232,7 @@ $(document).ready(function(){
         return s.toLowerCase().replace(/^[a-zA-Z]|(?<=\.\s)[a-zA-Z]/g, function(match, ...p){
             return match.toUpperCase()
         }).replace(/[a-zA-Z]+/g, function(match, ...p){
+            //this is a test
             return actor_names.includes(match) ? match[0].toUpperCase() + match.substring(1).toLowerCase() : match
         });
     }
