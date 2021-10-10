@@ -26,18 +26,18 @@
     ],
     "round_score_standing_text":{
         "tie":[
-            {"text":"{a1} tied with {a2}, {a1_total_score} - {a2_total_score}"},
-            {"text":"{a1} {round_transition_state}tied with {a2}, {a1_total_score} - {a2_total_score}"},
-            {"text":"{a1} and {a2} tied, {a1_total_score} - {a2_total_score}"},
-            {"text":"{a1} and {a2} {round_transition_state}tied, {a1_total_score} - {a2_total_score}"},
-            {"text":"Score is {round_transition_state}{a1_total_score} - {a2_total_score} {actor_running_winner}"},
-            {"text":"Current Score Stands {a1_total_score} - {a2_total_score} {actor_running_winner}"}
+            {"text":"{a1} tied with {a2}, {a1_total_score} : {a2_total_score}"},
+            {"text":"{a1} {round_transition_state}tied with {a2}, {a1_total_score} : {a2_total_score}"},
+            {"text":"{a1} and {a2} tied, {a1_total_score} : {a2_total_score}"},
+            {"text":"{a1} and {a2} {round_transition_state}tied, {a1_total_score} : {a2_total_score}"},
+            {"text":"Score is {round_transition_state}{a1_total_score} : {a2_total_score} {actor_running_winner}"},
+            {"text":"Current Score Stands {a1_total_score} : {a2_total_score} {actor_running_winner}"}
         ],
         "non_tie":[
-            {"text":"{actor_running_winner} leads {actor_running_loser}, {actor_running_winner_score} - {actor_running_loser_score}"},
-            {"text":"{actor_running_winner} {round_transition_state}lead {actor_running_loser}, {actor_running_winner_score} - {actor_running_loser_score}"},
-            {"text":"Score is {round_transition_state}{a1_total_score} - {a2_total_score} {actor_running_winner}"},
-            {"text":"Current Score Stands {a1_total_score} - {a2_total_score} {actor_running_winner}"}
+            {"text":"{actor_running_winner} leads {actor_running_loser}, {actor_running_winner_score} : {actor_running_loser_score}"},
+            {"text":"{actor_running_winner} {round_transition_state}lead {actor_running_loser}, {actor_running_winner_score} : {actor_running_loser_score}"},
+            {"text":"Score is {round_transition_state}{a1_total_score} : {a2_total_score} {actor_running_winner}"},
+            {"text":"Current Score Stands {a1_total_score} : {a2_total_score} {actor_running_winner}"}
         ]
     }
 }

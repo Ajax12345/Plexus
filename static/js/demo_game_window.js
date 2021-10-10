@@ -264,7 +264,36 @@ $(document).ready(function(){
             $('.side-score-outer:nth-of-type(3) .side-score-value').html(response.a2_total_score)
             $('.game-announcement-title').html(all_caps(start_template.title));
             $('.game-announcement-body').html(only_start_caps(start_template.description));
-
+            if ($('.round-by-round').css('display') === 'none'){
+                $('.round-by-round-header-entry > .round-by-round-actor:nth-of-type(1)').html(`#${matrix_payload.actors[1].name}`);
+                $('.round-by-round-header-entry > .round-by-round-actor:nth-of-type(2)').html(`#${matrix_payload.actors[2].name}`);
+                $('.round-by-round').css('display', 'block');
+                $('.round-by-round-spacer').css('display', 'block');
+            }
+            $('.round-by-round-main').prepend(`
+                <div class='round-by-round-entry'>
+                    <div class='round-reaction-points-entry'>
+                        <div class='actor-reaction-entry'>${response.a1_reaction}</div>
+                        <div style='height:5px'></div>
+                        <div class='actor-points-awarded-outer'>
+                            <div class='actor-points-prompt-entry'>points</div>
+                            <div class='actor-points-round-col'>
+                                <div class='actor-awarded-point-by-round'>${response.a1_points}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='round-reaction-points-entry'>
+                        <div class='actor-reaction-entry'>${response.a2_reaction}</div>
+                        <div style='height:5px'></div>
+                        <div class='actor-points-awarded-outer'>
+                            <div class='actor-points-prompt-entry'>points</div>
+                            <div class='actor-points-round-col'>
+                                <div class='actor-awarded-point-by-round'>${response.a2_points}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `);
         }
         if (!response.round_finished || (running_round + 1 <= parseInt(game_payload.rounds))){
             if (response.round_finished){

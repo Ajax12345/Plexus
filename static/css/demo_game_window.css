@@ -771,3 +771,70 @@ body{
     font-weight:400;
     color:rgb(133 133 133);
 }
+.round-by-round{
+    max-width:323px;
+    border:1px solid rgb(229, 229, 229);
+    border-radius:16px;
+}
+.round-by-round-header{
+    padding: 10px;
+    padding-left: 17px;
+    padding-right: 17px;
+}
+.round-by-round-text{
+    color: rgb(40, 40, 40);
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+}
+.round-by-round-main{
+    padding-left: 17px;
+    padding-right: 17px;
+}
+.round-by-round-header-entry{
+    display:grid;
+    grid-template-columns: 50% 50%;
+
+}
+.round-by-round-actor{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:16px;
+    font-weight:600;
+    /*color: rgb(104 104 104);*/
+    color:rgb(27, 149, 224);
+}
+.round-by-round-entry{
+    display:grid;
+    grid-template-columns: 50% 50%;
+    padding-top:10px;
+    padding-bottom:10px;
+    border-top: 1px solid rgb(229, 229, 229);
+}
+.actor-reaction-entry{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:16px;
+    font-weight:600;
+    color:rgb(40, 40, 40);
+}
+.actor-points-awarded-outer{
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+}
+.actor-points-prompt-entry{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: rgb(175, 175, 175);
+}
+.actor-points-round-col{
+    display:flex;
+    justify-content: flex-end;
+}
+.actor-awarded-point-by-round{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:16px;
+    font-weight:600;
+    color:rgb(40, 40, 40);
+    margin-right:20px;
+}
