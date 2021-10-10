@@ -250,12 +250,14 @@ class GameRun:
                 'actor_running_loser':actors[str(l_a)]['name'],
                 'actor_running_loser_score':int(l_s),
                 'round_winner':actors[(ra_w:=(a_arr[0] if int(payout[a_arr[0]]) > int(payout[a_arr[1]]) else a_arr[1]))]['name'],
-                'round_winner_points':int(payout[ra_w]),
+                'round_winner_points':(rw_points:=int(payout[ra_w])),
                 'round_winner_reaction':r_r1[int(ra_w)],
                 'round_loser':actors[(ra_l:=(a_arr[0] if int(payout[a_arr[1]]) > int(payout[a_arr[0]]) else a_arr[1]))]['name'],
-                'round_loser_points':int(payout[ra_l]),
+                'round_loser_points':(rl_points:=int(payout[ra_l])),
                 'round_loser_reaction':r_r1[int(ra_l)],
-                'round_transition_state':transition_state
+                'round_transition_state':transition_state,
+                'round_winner_point_desc_text':f'point{"s" if rw_points != 1 else ""}',
+                'round_loser_point_desc_text':f'point{"s" if rl_points != 1 else ""}'
             }
 
 

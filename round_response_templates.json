@@ -6,7 +6,7 @@
             "description":"{first_move_actor} will make the first move. {second_move_actor} await their choice."}
         ],
         "round_results":[
-            {"title":"{round_winner} Win the {round_text} Round, Gaining {round_winner_points} Points. {round_loser} Gain {round_loser_points} Points.",
+            {"title":"{round_winner} Win the {round_text} Round, Gaining {round_winner_points} {round_winner_point_desc_text}. {round_loser} Gain {round_loser_points} {round_loser_point_desc_text}.",
             "description":"In round {round_int}, the {round_winner} were {round_winner_reaction}, while the {round_loser} were {round_loser_reaction}. {round_score_standing_text}."},
             {"title":"{round_winner} Have Won Round {round_int}, {round_score_standing_text}.",
             "description":"{round_winner} Reaction is {round_winner_reaction} In Round {round_int}, {actor_move_next} Move Next."},
@@ -14,15 +14,15 @@
             "description":"The {round_winner} reaction was {round_winner_reaction}, and the {round_loser} were {round_loser_reaction}. {round_score_standing_text}."}
         ],
         "round_results_tie":[
-            {"title":"{a1} and {a2} Tie. {round_score_standing_text}.",
+            {"title":"{a1} and {a2} Tie in Round {round_int}. {round_score_standing_text}.",
             "description":"{a1} was {a1_reaction} and {a2} was {a2_reaction}. {actor_move_next} move next."},
-            {"title":"{a1} and {a2} Both Score {a1_points} in {round_text} Round",
+            {"title":"{a1} and {a2} Both Score {a1_points} {round_winner_point_desc_text} in {round_text} Round",
             "description":"{a1} was {a1_reaction} and {a2} was {a2_reaction}. {round_score_standing_text}."}
         ]
     },
     "actor_response":[
         {"title":"{a_move} were {reaction}. {actor_move_next} move next.",
-        "description":"In round {round_int}, {a_move} were {reaction}. Now, {actor_move_next} make their move"}
+        "description":"In round {round_int}, {a_move} were {reaction}. Now, {actor_move_next} make their move."}
     ],
     "round_score_standing_text":{
         "tie":[
