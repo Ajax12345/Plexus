@@ -171,7 +171,7 @@ $(document).ready(function(){
         $('.game-announcement-body').html(only_start_caps(start_template.description));
         //submit_side_reactions([...choose_reactions(opponent)], opponent);
         if (parseInt(player_role) === parseInt(matrix_payload.move)){
-            player_side_move({actor:player_role, body:`<span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span> players: the game has begun. Make your move now!`});
+            player_side_move({actor:player_role, body:`Team <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: the game has begun. Make your move now!`});
         }
         else{
             opponent_side_move();
@@ -273,7 +273,7 @@ $(document).ready(function(){
             }
             if (response.actor_move_next_id === player_role){
                 setTimeout(function(){
-                    player_side_move({actor:player_role, body:`<span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span> players: ${response.a_move} were ${response.reaction}. Make your move now!`});
+                    player_side_move({actor:player_role, body:`Team <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: ${response.a_move} were ${response.reaction}. Make your move now!`});
                 }, 500);
             }
             else{
