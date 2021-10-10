@@ -24,6 +24,13 @@
         </div>
         <div style='height:50px'></div>
         <div class='dashboard-main'>
+            <div class='breadcrumb-nav'>
+                <div class='breadcrumb-entry'><a href='/dashboard/games'>Dashboard</a></div>
+                <div class='breadcrumb-divider'>/</div>
+                <div class='breadcrumb-entry'><a href='/dashboard/content'>Content</a></div>
+                <div class='breadcrumb-divider'>/</div>
+                <div class='breadcrumb-entry breadcrumb-visting'>{{content.name}}</div>
+            </div>
             <div style='height:50px'></div>
             <div class='dashboard-name-header'>
                 <div class='dashboard-toggle-header' data-payload='{{content.to_json}}' data-cid='{{content.id}}'>{{content.name}}</div>
