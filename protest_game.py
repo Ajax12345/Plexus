@@ -201,10 +201,11 @@ class GameRun:
             *reactions, [_, status, _], [_actors, _payoffs, _] = cl
             actors, payoffs = json.loads(_actors), json.loads(_payoffs)
             print(reactions, status, actors, payoffs)
+            r_d, r_r1 = {int(a):int(b) for a, b, _ in reactions}, {int(a):c[1:-1] for a, _, c in reactions}
             parent_response = {
                 'a':int(_payload['side']),
                 'a_move':actors[str(_payload['side'])]['name'],
-                'reaction':reactions[-1][-1][1:-1],
+                'reaction':r_r1[int(_payload['side'])],
                 **dict(zip(['a1', 'a2'], [b['name'] for b in actors.values()])),
                 'round_int':int(_payload['round']),
                 'round_text':cls.round_text(int(_payload['round'])).capitalize(),
@@ -215,7 +216,6 @@ class GameRun:
             if not int(status):
                 return parent_response
 
-            r_d, r_r1 = {int(a):int(b) for a, b, _ in reactions}, {int(a):c[1:-1] for a, _, c in reactions}
             print('r_d and r_r1', r_d, r_r1)
             payout = [i['payouts'] for i in payoffs if all(int(i['reactions'][str(a)]['id']) == int(b) for a, b in r_d.items())]
             print('payout1 ', payout)
@@ -225,13 +225,14 @@ class GameRun:
             cl.commit()
             #order by pnts desc
             cl.execute('''
-                (select r.actor, sum(r.payout) pnts from rounds r where r.gid = %s group by r.actor order by pnts desc)
-                union all
-                (select r.actor, sum(r.payout) pnts from rounds r where r.gid = %s and r.round = %s group by r.actor order by pnts desc)
-                ''', [int(_payload['gid']), int(_payload['gid']), int(_payload['round'])-1])
-            [w_a, w_s], [l_a, l_s], *last_round = cl
+                (select t1.* from (select r.actor, sum(r.payout) pnts from rounds r where r.gid = %s group by r.actor) t1 order by t1.pnts desc)
+                ''', [int(_payload['gid'])])
+            [w_a, w_s], [l_a, l_s] = cl
             print('winners and losers', [w_a, w_s], [l_a, l_s])
-            [w_a1, w_s1], [l_a1, l_s1] = (last_round if last_round else [[None, None]]*2)
+            cl.execute('''
+                select t2.* from (select r.actor, sum(r.payout) pnts from rounds r where r.gid = %s and r.round = %s group by r.actor) t2 order by t2.pnts desc
+            ''', [int(_payload['gid']), int(_payload['round'])-1])
+            [w_a1, w_s1], [l_a1, l_s1] = (last_round if (last_round:=list(cl)) else [[None, None]]*2)
             print('winners and losers last round',[w_a1, w_s1], [l_a1, l_s1])
             running_scores, a_arr, transition_state = {w_a:w_s, l_a:l_s}, list(actors), ''
             if w_a1 is not None:
@@ -243,7 +244,7 @@ class GameRun:
             return {
                 **parent_response,
                 **{f'a{i}_points':int(payout[a]) for i, a in enumerate(actors, 1)},
-                **{f'a{i}_reaction':c[1:-1] for i, (_, _, c) in enumerate(reactions, 1)},
+                **{f'a{i}_reaction':r_r1[int(a)] for i, a in enumerate(actors, 1)},
                 **{f'a{i}_total_score':running_scores[int(a)] for i, a in enumerate(actors, 1)},
                 'actor_running_winner':actors[str(w_a)]['name'],
                 'actor_running_winner_score':int(w_s),
