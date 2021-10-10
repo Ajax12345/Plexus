@@ -295,6 +295,7 @@ body{
     border-top:none;
     top:0;
     position:sticky;
+    z-index:1005 !important;
 }
 .score-box{
     max-width:323px;

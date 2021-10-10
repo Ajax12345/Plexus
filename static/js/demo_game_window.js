@@ -107,7 +107,7 @@ $(document).ready(function(){
                                 <div class="message-dot"></div>
                                 <div class="message-post-datetime" data-posted='${posted_date}'>1 sec</div>
                             </div>
-                            <div class="message-body-content">${payload.body}</div>
+                            <div class="message-body-content">${find_handles(payload.body)}</div>
                             <div class="message-action-footer">
                                 <div class="reply-message-outer">
                                     <div class="reply-message-icon"></div>
@@ -162,7 +162,7 @@ $(document).ready(function(){
             </div>
         `);
         $('.current-round').html(`Round 1 of ${game_payload.rounds}`);
-        post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`The game has begun! Your team is <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>.`, is_player:0, reply:null, special_class:'message-pinned-stream'})
+        post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`The game has begun! Your team is #${matrix_payload.actors[player_role].name}.`, is_player:0, reply:null, special_class:'message-pinned-stream'})
         var non_start = Object.keys(matrix_payload.actors).filter(function(x){return parseInt(x) != parseInt(matrix_payload.move)})[0]
         var start_template = response_template.round_by_round.start.next().format({first_move_actor:matrix_payload.actors[matrix_payload.move].name, second_move_actor:matrix_payload.actors[non_start].name})
         console.log('start template here')
@@ -536,6 +536,6 @@ $(document).ready(function(){
     $('body').on('click', '.post-message-button', function(){
         var t = Array.from(get_all_message_text(document.querySelector('.message-compose-field'))).join('');
         $('.post-message-outer').css('display', 'none');
-        post_message({poster:user_payload.id, name:user_payload.name, handle:user_payload.name.replace(' ', '_').toLowerCase(), body:find_handles(t), is_player:1, reply:null}, '#message-container2')
+        post_message({poster:user_payload.id, name:user_payload.name, handle:user_payload.name.replace(' ', '_').toLowerCase(), body:t, is_player:1, reply:null}, '#message-container2')
     });
 });
