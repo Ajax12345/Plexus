@@ -95,7 +95,7 @@ $(document).ready(function(){
             data: {payload: JSON.stringify({poster:payload.poster, gid:gameplay_payload.id, is_player:payload.is_player, body:payload.body, reply:payload.reply, added:posted_date})},
             success: function(response) {
                 var message_id = 'target_m_id' in payload ? payload.target_m_id : `game-message${response.id}`
-                $(target).prepend(`<div class="message-main" id='${message_id}' style='margin-top:-100px'>
+                $(target).prepend(`<div class="message-main ${'special_class' in payload ? payload.special_class : ""}" id='${message_id}' style='margin-top:-100px'>
                     <div class="message-body game-message" data-mid='${response.id}'>
                         <div class="poster-icon-outer">
                             <img class="message-poster-icon" src="https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon">
@@ -162,7 +162,7 @@ $(document).ready(function(){
             </div>
         `);
         $('.current-round').html(`Round 1 of ${game_payload.rounds}`);
-        post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`The game has begun! Your team is <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>.`, is_player:0, reply:null})
+        post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`The game has begun! Your team is <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>.`, is_player:0, reply:null, special_class:'message-pinned-stream'})
         var non_start = Object.keys(matrix_payload.actors).filter(function(x){return parseInt(x) != parseInt(matrix_payload.move)})[0]
         var start_template = response_template.round_by_round.start.next().format({first_move_actor:matrix_payload.actors[matrix_payload.move].name, second_move_actor:matrix_payload.actors[non_start].name})
         console.log('start template here')
@@ -319,7 +319,7 @@ $(document).ready(function(){
     function on_content_close(){
         if (!closed_content){
             setTimeout(function(){
-                post_message({poster:10, name:"Protest Game", handle:'protest_game', body:'Preparing demo.... The game will begin in a moment.', is_player:0, reply:null})
+                post_message({poster:10, name:"Protest Game", handle:'protest_game', body:'Preparing demo.... The game will begin in a moment.', is_player:0, reply:null, special_class:'message-pinned-stream'})
                 setTimeout(function(){
                     assign_player_roles();
                 }, 600);
@@ -332,7 +332,7 @@ $(document).ready(function(){
             $(this).addClass('reaction-poll-chosen')
             $(this.parentNode).addClass('reaction-poll-disabled');
             var r_id = parseInt($(this).data('rid'));
-            post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`Your selection has been recorded. Please wait while the rest of your team submits their choices.`, is_player:0, reply:null, target_m_id:"wait-for-response"})
+            post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`Your selection has been recorded. Please wait while the rest of your team submits their choices.`, is_player:0, reply:null, target_m_id:"wait-for-response", special_class:'message-pinned-stream'})
             setTimeout(function(){
                 submit_side_reactions([...choose_reactions(player_role)].map(function(x){
                     return parseInt(x.id) === parseInt(user_payload.id) ? {...x, reaction:r_id} : x
@@ -485,4 +485,57 @@ $(document).ready(function(){
     }
     load_start();
     run_message_timestamp_updates()
+    $('body').on('click', '.add-message', function(){
+        $('.post-message-outer').css('display', 'block');
+        $('.message-compose-field').html(`<div class='message-body-placeholder' style="display: inline;" contentEditable="false">Message your team</div>`)
+        $('.message-compose-field').focus();
+    });
+    $('body').on('click', '.close-post-message', function(){
+        $('.post-message-outer').css('display', 'none');
+    });
+    function* get_all_message_text(elem){
+        if (elem.nodeType === 3){
+            yield elem.textContent;
+        }
+        else if (!$(this).hasClass('message-body-placeholder')){
+            for (var i of elem.childNodes){
+                yield* get_all_message_text(i);
+            }
+        }
+    }
+    function find_handles(message){
+        return message.replace(/#\w+|@\w+/g, function(match, ...p){
+            return `<span class='side-hashtag'>${match}</span>`
+        });
+    }
+    var hash_flag = false;
+    $('body').on('input', '.message-compose-field', function(e){
+        var t = Array.from(get_all_message_text(document.querySelector('.message-compose-field'))).join('');
+        if (t.length === 0){
+            $('.message-compose-field').html(`<div class='message-body-placeholder' style="display: inline;" contentEditable="false">Message your team</div>`)
+        }
+        else{
+            $('.message-body-placeholder').remove();
+            var change = false;
+            if (e.originalEvent.data === '#'){
+                hash_flag = true;
+            }
+            else if (e.originalEvent.data.match(/[^\w]+/)){
+                hash_flag = false;
+                change = true;
+            }
+            if (hash_flag || change){
+                t = Array.from(get_all_message_text(document.querySelector('.message-compose-field'))).join('');
+                $('.message-compose-field').html(find_handles(t))
+                document.querySelector('.message-compose-field').focus();
+                document.execCommand('selectAll', false, null);
+                document.getSelection().collapseToEnd();
+            }
+        }
+    });
+    $('body').on('click', '.post-message-button', function(){
+        var t = Array.from(get_all_message_text(document.querySelector('.message-compose-field'))).join('');
+        $('.post-message-outer').css('display', 'none');
+        post_message({poster:user_payload.id, name:user_payload.name, handle:user_payload.name.replace(' ', '_').toLowerCase(), body:find_handles(t), is_player:1, reply:null}, '#message-container2')
+    });
 });
