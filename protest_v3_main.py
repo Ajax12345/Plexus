@@ -29,7 +29,7 @@ def dashboard_games():
 @is_loggedin
 def dashboard_content():
     if not game_content.Content.has_content(flask.session['id']):
-        return flask.redirect('/dashboard')
+        return flask.redirect('/dashboard/games')
     return flask.render_template('dashboard_content.html', user = protest_users.User.get_user(flask.session['id']))
 
 @app.route('/get-all-content', methods=['POST'])
@@ -40,7 +40,7 @@ def get_all_content():
 @is_loggedin
 def dashboard_matrices():
     if not game_matrix.Matrix.has_matrices(flask.session['id']):
-        return flask.redirect('/dashboard')
+        return flask.redirect('/dashboard/games')
     return flask.render_template('dashboard_matrices.html', user = protest_users.User.get_user(flask.session['id']))
 
 @app.route('/get-all-matrices', methods=['POST'])

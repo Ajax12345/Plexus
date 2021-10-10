@@ -56,4 +56,3 @@ if __name__ == '__main__':
         cl.execute('create table users (id int, first_name text, last_name text, email text, password text, jdate datetime)')
         cl.commit()
         """
-    

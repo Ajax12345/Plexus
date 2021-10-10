@@ -14,7 +14,7 @@ class Matrix:
 
     @property
     def occurrence_text(self) -> str:
-        return f'Used in {int(self.g_count)} game{"s" if self.g_count != 1 else ""}'
+        return f'Used in {"0" if self.g_count is None else int(self.g_count)} game{"s" if self.g_count != 1 else ""}'
 
     @classmethod
     def create_matrix(cls, creator:int, payload:dict) -> dict:

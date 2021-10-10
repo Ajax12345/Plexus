@@ -12,6 +12,14 @@ $(document).ready(function(){
     $('body').on('input', '.content-title-field', function(){
         input_handlers[$(this).data('handler')](this);
     });
+    $('body').on('input', '.content-input-area, .content-title-field', function(){
+        if (content_block.title.length > 0 && content_block.text.length > 0){
+            $('.next-step-button.step-progress-button[data-step="3"]').html('Add slide and finish')
+        }
+        else{
+            $('.next-step-button.step-progress-button[data-step="3"]').html('Finish')
+        }
+    });
     function format_progress_bar(){
         for (var i of document.querySelectorAll('.step-listing-col')){
             if (!$(i).data('circle')){
@@ -253,6 +261,7 @@ $(document).ready(function(){
         }   
     }
     function step_2(){
+        $('.next-step-button.step-progress-button[data-step="3"]').html('Finish')
         if (content_block.title.length === 0){
             $("#content-slide-title-error").css('display', 'block');
             $("#content-slide-title-error").html('Please add a title for this content slide');
@@ -303,9 +312,14 @@ $(document).ready(function(){
         }
     }
     function step_3(){
+        if (content_block.title.length > 0 && content_block.text.length > 0){
+            step_2();
+        }
         $('.finish-loader-outer').html(`<div class="la-ball-clip-rotate" style='color:rgb(211, 61, 211);height: 10px;width: 10px;margin-top: -11px;margin-right: 17px;'><div></div></div>`);
         $('.finish-loader-outer + .next-step-button.step-progress-button').html('Creating content...')
         $('.finish-loader-outer + .next-step-button.step-progress-button').addClass('step-disabled')
+        console.log('full_content_payload')
+        console.log(full_content_payload)
         $.ajax({
             url: "/add-content",
             type: "post",
