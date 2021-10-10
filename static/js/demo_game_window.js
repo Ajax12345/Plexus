@@ -68,7 +68,7 @@ $(document).ready(function(){
         }, 60000);
     }
     function on_message_display(mid){
-        var o = document.querySelector(`#game-message${mid}`);
+        var o = document.querySelector(`#${mid}`);
         var t = o.offsetTop;
         var l = o.offsetLeft;
         var w = (parseInt($(o).css('width').match('\\d+'))+30).toString()+'px'
@@ -94,7 +94,8 @@ $(document).ready(function(){
             type: "post",
             data: {payload: JSON.stringify({poster:payload.poster, gid:gameplay_payload.id, is_player:payload.is_player, body:payload.body, reply:payload.reply, added:posted_date})},
             success: function(response) {
-                $(target).prepend(`<div class="message-main" id='${'target_m_id' in payload ? payload.target_m_id : `game-message${response.id}`}'>
+                var message_id = 'target_m_id' in payload ? payload.target_m_id : `game-message${response.id}`
+                $(target).prepend(`<div class="message-main" id='${message_id}' style='margin-top:-100px'>
                     <div class="message-body game-message" data-mid='${response.id}'>
                         <div class="poster-icon-outer">
                             <img class="message-poster-icon" src="https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon">
@@ -121,7 +122,12 @@ $(document).ready(function(){
                         </div>
                     </div>
                 </div>`);
-                on_message_display(response.id);
+                //$(`#${message_id}`).css('margin-top', `-${$(`#${message_id}`).css('height')}`);
+                setTimeout(function(){
+                    $(`#${message_id}`).css('margin-top', `0px`);
+                }, 50);
+                
+                //on_message_display(message_id);
                 
             },
             error: function(xhr) {
@@ -174,7 +180,7 @@ $(document).ready(function(){
     function player_side_move(payload){
         $("#reaction-poll-message").remove();
         $("#wait-for-response").remove();
-        $('#message-container1').prepend(`<div class="message-main" id='reaction-poll-message'>
+        $('#message-container1').prepend(`<div class="message-main" id='reaction-poll-message' style='margin-top:-100px'>
             <div class="message-body">
                 <div class="poster-icon-outer">
                     <div class="main-game-icon"></div>
@@ -205,7 +211,10 @@ $(document).ready(function(){
                     </div>
                 </div>
             </div>
-        </div>`)
+        </div>`);
+        setTimeout(function(){
+            $(`#reaction-poll-message`).css('margin-top', `0px`);
+        }, 50);
     }
     function opponent_side_move(){
         //alert('opponent side move')
