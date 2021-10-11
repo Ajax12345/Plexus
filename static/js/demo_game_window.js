@@ -155,6 +155,17 @@ $(document).ready(function(){
             }
         }
     }
+    function display_strategy_reminder(){
+        var optimal_payouts = matrix_payload.payoffs.filter(function(x){return x.payouts[player_role] > x.payouts[opponent]})
+        if (optimal_payouts.length === 0){
+            optimal_payouts = matrix_payload.payoffs.filter(function(x){return x.payouts[player_role] === x.payouts[opponent]})
+        }
+        if (optimal_payouts.length > 0){
+            given_strategy_hint = true;
+            var full_strings = optimal_payouts.map(function(x){return `${x.reactions[player_role].reaction} when the #${matrix_payload.actors[opponent].name.toLowerCase()} ${present_tense_to_be(matrix_payload.actors[opponent].name)} ${x.reactions[opponent].reaction}`})
+            post_message({poster:10, name:"Instigator", handle:'instigator', body:find_handles(`Remember, you have a scoring advantage when you are ${full_strings.length < 3 ? full_strings.join(' and ') : full_strings.slice(0, full_strings.length - 1).join(' , ')+' and '+full_strings[full_strings.length-1]}.`), is_player:0, reply:null, special_class:'message-pinned-stream'})
+        }
+    }
     function setup_play_stage(){
         player_role = Object.keys(roles).filter(function(x){return roles[x].some(function(y){return parseInt(y.id) === parseInt(user_payload.id)})})[0]
         opponent =  Object.keys(matrix_payload.actors).filter(function(x){return parseInt(x) != parseInt(player_role)})[0]
@@ -268,6 +279,13 @@ $(document).ready(function(){
             return actor_names.includes(match.toLowerCase()) ? match[0].toUpperCase() + match.substring(1).toLowerCase() : match
         });
     }
+    function analyze_round_performance(){
+        if (round_by_round_results.length > 1){
+            if (round_by_round_results.slice(round_by_round_results.length-2, round_by_round_results.length).every(function(x){return parseInt(x.round_loser_id) === parseInt(player_role)})){
+                display_strategy_reminder();
+            }
+        }
+    }
     function analyze_reaction_response(response){
         console.log('basic response')
         console.log(response)
@@ -319,6 +337,7 @@ $(document).ready(function(){
                 </div>
             `);
             round_by_round_results.push(JSON.parse(JSON.stringify(response)));
+            analyze_round_performance();
         }
         if (!response.round_finished || (running_round + 1 <= parseInt(game_payload.rounds))){
             if (response.round_finished){
@@ -356,7 +375,10 @@ $(document).ready(function(){
                 reaction_counts[1][i.a1_reaction] = i.a1_reaction in reaction_counts[1] ? reaction_counts[1][i.a1_reaction] + 1 : 1;
                 reaction_counts[2][i.a2_reaction] = i.a2_reaction in reaction_counts[2] ? reaction_counts[2][i.a2_reaction] + 1 : 1;
             }
-            var game_over_template = parseInt(response.a1_points) === parseInt(response.a2_points) ? response_template.game_over_responses.tie : response_template.game_over_responses.non_tie;
+            console.log('final response payload view')
+            console.log(response);
+            console.log(reaction_counts)
+            var game_over_template = parseInt(response.a1_total_score) === parseInt(response.a2_total_score) ? response_template.game_over_responses.tie : response_template.game_over_responses.non_tie;
             var game_over_text = game_over_template.next().format(response);
             $('.game-announcement-title').html(all_caps(game_over_text.title));
             $('.game-announcement-body').html(only_start_caps(game_over_text.description));
