@@ -139,6 +139,19 @@ $(document).ready(function(){
     function present_tense_to_be(name){
         return name[name.length-1] != 's' ? 'is' : "are"
     }
+    function display_strategy_hint(){
+        if (!given_strategy_hint){
+            var optimal_payouts = matrix_payload.payoffs.filter(function(x){return x.payouts[player_role] > x.payouts[opponent]})
+            if (optimal_payouts.length === 0){
+                optimal_payouts = matrix_payload.payoffs.filter(function(x){return x.payouts[player_role] === x.payouts[opponent]})
+            }
+            if (optimal_payouts.length > 0){
+                given_strategy_hint = true;
+                var full_strings = optimal_payouts.map(function(x){return `${x.reactions[player_role].reaction} and the #${matrix_payload.actors[opponent].name.toLowerCase()} ${present_tense_to_be(matrix_payload.actors[opponent].name)} ${x.reactions[opponent].reaction}`})
+                post_message({poster:10, name:"Instigator", handle:'instigator', body:find_handles(`Hint: you will have a scoring advantage when you are ${full_strings.length < 3 ? full_strings.join(' and ') : full_strings.slice(0, full_strings.length - 1).join(' , ')+' and '+full_strings[full_strings.length-1]}.`), is_player:0, reply:null, special_class:'message-pinned-stream'})
+            }
+        }
+    }
     function setup_play_stage(){
         player_role = Object.keys(roles).filter(function(x){return roles[x].some(function(y){return parseInt(y.id) === parseInt(user_payload.id)})})[0]
         opponent =  Object.keys(matrix_payload.actors).filter(function(x){return parseInt(x) != parseInt(player_role)})[0]
@@ -177,15 +190,9 @@ $(document).ready(function(){
         //submit_side_reactions([...choose_reactions(opponent)], opponent);
         if (parseInt(player_role) === parseInt(matrix_payload.move)){
             player_side_move({actor:player_role, body:`Team <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: the game has begun. Make your move now!`});
-            var optimal_payouts = matrix_payload.payoffs.filter(function(x){return x.payouts[player_role] > x.payouts[opponent]})
-            if (optimal_payouts.length === 0){
-                optimal_payouts = matrix_payload.payoffs.filter(function(x){return x.payouts[player_role] === x.payouts[opponent]})
-            }
-            if (optimal_payouts.length > 0){
-                given_strategy_hint = true;
-                var full_strings = optimal_payouts.map(function(x){return `${x.reactions[player_role].reaction} when the ${matrix_payload.actors[opponent].name} ${present_tense_to_be(matrix_payload.actors[opponent].name)} ${x.reactions[opponent].reaction}`})
-                post_message({poster:10, name:"Instigator", handle:'instigator', body:`Hint: you will have a scoring advantage when you are ${full_strings.length < 3 ? full_strings.join(' and ') : full_strings.slice(0, full_strings.length - 1).join(' , ')+' and '+full_strings[full_strings.length-1]}.`, is_player:0, reply:null, special_class:'message-pinned-stream'})
-            }
+            setTimeout(function(){
+                display_strategy_hint();
+            }, 200);
         }
         else{
             opponent_side_move();
@@ -317,6 +324,9 @@ $(document).ready(function(){
             if (response.actor_move_next_id === player_role){
                 setTimeout(function(){
                     player_side_move({actor:player_role, body:`Team <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: The ${response.a_move} ${response.a_past_to_be_tense} ${response.reaction}. Make your move now!`});
+                    setTimeout(function(){
+                        display_strategy_hint();
+                    }, 200);
                 }, 500);
             }
             else{
