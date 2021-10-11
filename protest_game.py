@@ -187,18 +187,7 @@ class GameRun:
             cl.executemany('insert into reactions values (%s, %s, %s, %s, %s)', [[int(i['id']), int(_payload['gid']), int(_payload['side']), int(_payload['round']), int(i['reaction'])] for i in _payload['reactions']])
             cl.commit()
             cl.execute('''
-                with recursive all_reactions(al, i1, i2, r, rf) as (
-                    select json_keys(m.actors), 0, 1, 
-                        json_extract(m.reactions, concat('$.', json_extract(json_keys(m.actors), '$[0]'), '[0]')),
-                        m.reactions
-                    from gameplays gpls join games g on gpls.gid = g.id join matrices m on m.id = g.matrix where gpls.id = %s
-                    union all
-                    select al, case when i2 + 1 >= json_length(json_extract(rf, concat('$.', json_extract(al, concat('$[', i1, ']'))))) then i1+1 else i1 end, case when i2 + 1 < json_length(json_extract(rf, concat('$.', json_extract(al, concat('$[', i1, ']'))))) then i2+1 else 0 end, 
-                        json_extract(rf, concat('$.', json_extract(al, concat('$[', i1, ']')), concat('[', i2, ']'))),
-                        rf
-                    from all_reactions where i1 < json_length(al) or i2 < json_length(json_extract(rf, concat('$.', json_extract(al, concat('$[', i1, ']')))))
-                ),
-                round_results as (
+                with round_results as (
                     select distinct r.gid, r.actor from reactions r where r.gid = %s and r.round = %s
                 ),
                 reaction_freqs(a, r, f) as (
@@ -208,16 +197,16 @@ class GameRun:
                     -- max is needed to ensure that only one result is returned in the event of a tie
                     select f1.a, f1.r, max(f1.f) from reaction_freqs f1 where f1.f = (select max(f2.f) from reaction_freqs f2 where f2.a = f1.a) group by f1.a, f1.r
                 )
-                select distinct c.a, c.r, json_extract(all_r.r, '$.reaction') from chosen_reactions c join all_reactions all_r on c.r = json_extract(all_r.r, '$.id')
+                select distinct c.a, c.r, null from chosen_reactions c
                 union all
                 select null, (select count(*) from round_results) = (select json_length(m.actors) from gameplays gpls join games g on gpls.gid = g.id join matrices m on m.id = g.matrix where gpls.id = %s), null
                 union all
-                select m.actors, m.payoffs, null from gameplays gpls join games g on gpls.gid = g.id join matrices m on m.id = g.matrix where gpls.id = %s
-            ''', [int(_payload['gid']), int(_payload['gid']), int(_payload['round']), int(_payload['gid']), int(_payload['round']), int(_payload['gid']), int(_payload['gid'])])
-            *reactions, [_, status, _], [_actors, _payoffs, _] = cl
-            actors, payoffs = json.loads(_actors), json.loads(_payoffs)
+                select m.actors, m.payoffs, m.reactions from gameplays gpls join games g on gpls.gid = g.id join matrices m on m.id = g.matrix where gpls.id = %s
+            ''', [int(_payload['gid']), int(_payload['round']), int(_payload['gid']), int(_payload['round']), int(_payload['gid']), int(_payload['gid'])])
+            *reactions, [_, status, _], [_actors, _payoffs, _reactions] = cl
+            actors, payoffs, rcts = json.loads(_actors), json.loads(_payoffs), {int(a):{int(j['id']):j['reaction'] for j in b} for a, b in json.loads(_reactions).items()}
             print(reactions, status, actors, payoffs)
-            r_d, r_r1 = {int(a):int(b) for a, b, _ in reactions}, {int(a):c[1:-1] for a, _, c in reactions}
+            r_d, r_r1 = {int(a):int(b) for a, b, _ in reactions}, {int(a):rcts[int(a)][int(b)] for a, b, _ in reactions}
             parent_response = {
                 'a':int(_payload['side']),
                 'a_move':(a_move:=actors[str(_payload['side'])]['name']),
