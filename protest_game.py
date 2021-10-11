@@ -164,6 +164,22 @@ class GameRun:
             return f'{c[int(str(_round)[0])]}teenth'
 
         #will add to this as necessary
+
+    @classmethod
+    def is_singular(cls, _name:str) -> bool:
+        return _name[-1] != 's'
+
+    @classmethod
+    def past_to_be(cls, _name:str) -> str:
+        return 'was' if cls.is_singular(_name) else 'were'
+
+    @classmethod
+    def possessive_tense(cls, _name:str) -> str:
+        return 'has' if cls.is_singular(_name) else 'have'
+    
+    @classmethod
+    def make_tense(cls, _name:str) -> str:
+        return 'makes' if cls.is_singular(_name) else 'make'
         
     @classmethod
     def submit_side_reactions(cls, _payload:dict) -> dict:
@@ -204,14 +220,17 @@ class GameRun:
             r_d, r_r1 = {int(a):int(b) for a, b, _ in reactions}, {int(a):c[1:-1] for a, _, c in reactions}
             parent_response = {
                 'a':int(_payload['side']),
-                'a_move':actors[str(_payload['side'])]['name'],
+                'a_move':(a_move:=actors[str(_payload['side'])]['name']),
+                'a_past_to_be_tense':cls.past_to_be(a_move),
                 'reaction':r_r1[int(_payload['side'])],
-                **dict(zip(['a1', 'a2'], [b['name'] for b in actors.values()])),
+                **dict(zip(['a1', 'a2'], (a_t:=[b['name'] for b in actors.values()]))),
                 'round_int':int(_payload['round']),
                 'round_text':cls.round_text(int(_payload['round'])).capitalize(),
                 'round_finished':bool(int(status)),
                 'actor_move_next':(n_actor:=[(a, b['name']) for a, b in actors.items() if int(a) != int(_payload['side'])][0])[-1],
-                'actor_move_next_id':n_actor[0]
+                'actor_move_next_id':n_actor[0],
+                'actor_move_next_make_tense':cls.make_tense(n_actor[-1]),
+                **{f'a{i}_past_to_be_tense':cls.past_to_be(a) for i, a in enumerate(a_t, 1)}
             }
             if not int(status):
                 return parent_response
@@ -246,19 +265,23 @@ class GameRun:
                 **{f'a{i}_points':int(payout[a]) for i, a in enumerate(actors, 1)},
                 **{f'a{i}_reaction':r_r1[int(a)] for i, a in enumerate(actors, 1)},
                 **{f'a{i}_total_score':running_scores[int(a)] for i, a in enumerate(actors, 1)},
-                'actor_running_winner':actors[str(w_a)]['name'],
+                'actor_running_winner':(a_rw:=actors[str(w_a)]['name']),
                 'actor_running_winner_score':int(w_s),
                 'actor_running_loser':actors[str(l_a)]['name'],
                 'actor_running_loser_score':int(l_s),
-                'round_winner':actors[(ra_w:=(a_arr[0] if int(payout[a_arr[0]]) > int(payout[a_arr[1]]) else a_arr[1]))]['name'],
+                'round_winner':(round_winner:=(actors[(ra_w:=(a_arr[0] if int(payout[a_arr[0]]) > int(payout[a_arr[1]]) else a_arr[1]))]['name'])),
                 'round_winner_points':(rw_points:=int(payout[ra_w])),
                 'round_winner_reaction':r_r1[int(ra_w)],
-                'round_loser':actors[(ra_l:=(a_arr[0] if int(payout[a_arr[1]]) > int(payout[a_arr[0]]) else a_arr[1]))]['name'],
+                'round_loser':(round_loser:=(actors[(ra_l:=(a_arr[0] if int(payout[a_arr[1]]) > int(payout[a_arr[0]]) else a_arr[1]))]['name'])),
                 'round_loser_points':(rl_points:=int(payout[ra_l])),
                 'round_loser_reaction':r_r1[int(ra_l)],
                 'round_transition_state':transition_state,
                 'round_winner_point_desc_text':f'point{"s" if rw_points != 1 else ""}',
-                'round_loser_point_desc_text':f'point{"s" if rl_points != 1 else ""}'
+                'round_loser_point_desc_text':f'point{"s" if rl_points != 1 else ""}',
+                'lead_text_winner':'leads' if cls.is_singular(a_rw) else "lead",
+                'round_winner_past_to_be_tense':cls.past_to_be(round_winner),
+                'round_loser_past_to_be_tense':cls.past_to_be(round_loser),
+                'round_winner_possessive':cls.possessive_tense(round_winner)
             }
 
 

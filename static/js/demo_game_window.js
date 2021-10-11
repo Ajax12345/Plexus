@@ -164,7 +164,9 @@ $(document).ready(function(){
         $('.current-round').html(`Round 1 of ${game_payload.rounds}`);
         post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`The game has begun! Your team is #${matrix_payload.actors[player_role].name}.`, is_player:0, reply:null, special_class:'message-pinned-stream'})
         var non_start = Object.keys(matrix_payload.actors).filter(function(x){return parseInt(x) != parseInt(matrix_payload.move)})[0]
-        var start_template = response_template.round_by_round.start.next().format({first_move_actor:matrix_payload.actors[matrix_payload.move].name, second_move_actor:matrix_payload.actors[non_start].name})
+        var first_move_a = matrix_payload.actors[matrix_payload.move].name;
+        var second_move_a = matrix_payload.actors[non_start].name;
+        var start_template = response_template.round_by_round.start.next().format({first_move_actor:first_move_a, second_move_actor:second_move_a, present_tense_to_be:first_move_a[first_move_a.length-1] != 's' ? 'is' : "are", await_tense:second_move_a[second_move_a.length-1] != "s" ? "awaits" : "await"})
         console.log('start template here')
         console.log(start_template)
         $('.game-announcement-title').html(all_caps(start_template.title));
@@ -302,7 +304,7 @@ $(document).ready(function(){
             }
             if (response.actor_move_next_id === player_role){
                 setTimeout(function(){
-                    player_side_move({actor:player_role, body:`Team <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: ${response.a_move} were ${response.reaction}. Make your move now!`});
+                    player_side_move({actor:player_role, body:`Team <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: The ${response.a_move} ${response.a_past_to_be_tense} ${response.reaction}. Make your move now!`});
                 }, 500);
             }
             else{
