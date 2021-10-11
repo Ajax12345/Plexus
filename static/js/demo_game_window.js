@@ -137,7 +137,10 @@ $(document).ready(function(){
         
     }
     function present_tense_to_be(name){
-        return name[name.length-1] != 's' ? 'is' : "are"
+        return name[name.length-1] != 's' ? 'is' : 'are'
+    }
+    function past_tense_to_be(name){
+        return name[name.length-1] != 's' ? 'was' : 'were'
     }
     function display_strategy_hint(){
         if (!given_strategy_hint){
@@ -258,11 +261,11 @@ $(document).ready(function(){
         });
     }
     function only_start_caps(s){
-        var actor_names = Object.keys(matrix_payload.actors).map(function(x){return matrix_payload.actors[x].name})
+        var actor_names = Object.keys(matrix_payload.actors).map(function(x){return matrix_payload.actors[x].name}).map(function(x){return x.toLowerCase()})
         return s.toLowerCase().replace(/^[a-zA-Z]|(?<=\.\s)[a-zA-Z]/g, function(match, ...p){
             return match.toUpperCase()
         }).replace(/[a-zA-Z]+/g, function(match, ...p){
-            return actor_names.includes(match) ? match[0].toUpperCase() + match.substring(1).toLowerCase() : match
+            return actor_names.includes(match.toLowerCase()) ? match[0].toUpperCase() + match.substring(1).toLowerCase() : match
         });
     }
     function analyze_reaction_response(response){
@@ -315,6 +318,7 @@ $(document).ready(function(){
                     </div>
                 </div>
             `);
+            round_by_round_results.push(JSON.parse(JSON.stringify(response)));
         }
         if (!response.round_finished || (running_round + 1 <= parseInt(game_payload.rounds))){
             if (response.round_finished){
@@ -336,7 +340,32 @@ $(document).ready(function(){
             }
         }
         else{
-            alert("game over")
+            function most_common_reaction(reactions){
+                var r_name = null;
+                var f_c = null;
+                for (var i of Object.keys(reactions)){
+                    if (f_c === null || reactions[i] > f_c){
+                        f_c = reactions[i];
+                        r_name = i;
+                    }
+                }
+                return r_name;
+            }
+            var reaction_counts = {1:{}, 2:{}};
+            for (var i of round_by_round_results){
+                reaction_counts[1][i.a1_reaction] = i.a1_reaction in reaction_counts[1] ? reaction_counts[1][i.a1_reaction] + 1 : 1;
+                reaction_counts[2][i.a2_reaction] = i.a2_reaction in reaction_counts[2] ? reaction_counts[2][i.a2_reaction] + 1 : 1;
+            }
+            var game_over_template = parseInt(response.a1_points) === parseInt(response.a2_points) ? response_template.game_over_responses.tie : response_template.game_over_responses.non_tie;
+            var game_over_text = game_over_template.next().format(response);
+            $('.game-announcement-title').html(all_caps(game_over_text.title));
+            $('.game-announcement-body').html(only_start_caps(game_over_text.description));
+            $('#message-container1').remove();
+            $('#message-container2').remove();
+            $("#section-block2").html(`
+                <div class="header-section-text">What you need to know</div>
+                <div class="what-you-need-to-know">-The ${matrix_payload.actors[1].name} ${past_tense_to_be(matrix_payload.actors[1].name)} mostly ${most_common_reaction(reaction_counts[1])} and the ${matrix_payload.actors[2].name} ${past_tense_to_be(matrix_payload.actors[2].name)} mostly ${most_common_reaction(reaction_counts[2])}.</div>
+            `)
         }
     }
     function submit_side_reactions(reactions, side){
@@ -459,6 +488,7 @@ $(document).ready(function(){
     var response_template = null;
     var running_round = 1;
     var given_strategy_hint = false;
+    var round_by_round_results = [];
     function render_content_block(block){
         var last_ind = 0;
         var build_string = '';

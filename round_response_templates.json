@@ -39,5 +39,15 @@
             {"text":"Score is {round_transition_state}{a1_total_score} : {a2_total_score} {actor_running_winner}"},
             {"text":"Current Score Stands {a1_total_score} : {a2_total_score} {actor_running_winner}"}
         ]
+    },
+    "game_over_responses":{
+        "non_tie":[
+            {"title":"The {actor_running_winner} {round_winner_possessive} Won the Protest.",
+            "description":"The {actor_running_winner} defeated the {actor_running_loser}, {actor_running_winner_score} : {actor_running_loser_score}."}
+        ],
+        "tie":[
+            {"title":"The Protest Has Ended in a Tie.",
+            "description":"Both the {a1} and the {a2} have finished the protest with {a1_total_score} {round_winner_point_desc_text}."}
+        ]
     }
 }
