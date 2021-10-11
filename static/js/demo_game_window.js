@@ -136,6 +136,9 @@ $(document).ready(function(){
         });
         
     }
+    function present_tense_to_be(name){
+        return name[name.length-1] != 's' ? 'is' : "are"
+    }
     function setup_play_stage(){
         player_role = Object.keys(roles).filter(function(x){return roles[x].some(function(y){return parseInt(y.id) === parseInt(user_payload.id)})})[0]
         opponent =  Object.keys(matrix_payload.actors).filter(function(x){return parseInt(x) != parseInt(player_role)})[0]
@@ -166,7 +169,7 @@ $(document).ready(function(){
         var non_start = Object.keys(matrix_payload.actors).filter(function(x){return parseInt(x) != parseInt(matrix_payload.move)})[0]
         var first_move_a = matrix_payload.actors[matrix_payload.move].name;
         var second_move_a = matrix_payload.actors[non_start].name;
-        var start_template = response_template.round_by_round.start.next().format({first_move_actor:first_move_a, second_move_actor:second_move_a, present_tense_to_be:first_move_a[first_move_a.length-1] != 's' ? 'is' : "are", await_tense:second_move_a[second_move_a.length-1] != "s" ? "awaits" : "await"})
+        var start_template = response_template.round_by_round.start.next().format({first_move_actor:first_move_a, second_move_actor:second_move_a, present_tense_to_be:present_tense_to_be(first_move_a), await_tense:second_move_a[second_move_a.length-1] != "s" ? "awaits" : "await"})
         console.log('start template here')
         console.log(start_template)
         $('.game-announcement-title').html(all_caps(start_template.title));
@@ -174,6 +177,15 @@ $(document).ready(function(){
         //submit_side_reactions([...choose_reactions(opponent)], opponent);
         if (parseInt(player_role) === parseInt(matrix_payload.move)){
             player_side_move({actor:player_role, body:`Team <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: the game has begun. Make your move now!`});
+            var optimal_payouts = matrix_payload.payoffs.filter(function(x){return x.payouts[player_role] > x.payouts[opponent]})
+            if (optimal_payouts.length === 0){
+                optimal_payouts = matrix_payload.payoffs.filter(function(x){return x.payouts[player_role] === x.payouts[opponent]})
+            }
+            if (optimal_payouts.length > 0){
+                given_strategy_hint = true;
+                var full_strings = optimal_payouts.map(function(x){return `${x.reactions[player_role].reaction} when the ${matrix_payload.actors[opponent].name} ${present_tense_to_be(matrix_payload.actors[opponent].name)} ${x.reactions[opponent].reaction}`})
+                post_message({poster:10, name:"Instigator", handle:'instigator', body:`Hint: you will have a scoring advantage when you are ${full_strings.length < 3 ? full_strings.join(' and ') : full_strings.slice(0, full_strings.length - 1).join(' , ')+' and '+full_strings[full_strings.length-1]}.`, is_player:0, reply:null, special_class:'message-pinned-stream'})
+            }
         }
         else{
             opponent_side_move();
@@ -436,6 +448,7 @@ $(document).ready(function(){
     var opponent = null;
     var response_template = null;
     var running_round = 1;
+    var given_strategy_hint = false;
     function render_content_block(block){
         var last_ind = 0;
         var build_string = '';
