@@ -137,11 +137,8 @@ class GameRun:
             players = list(cl)
             random.shuffle(players)
             cl.execute('''
-                with u_ids(id) as (
-                    {}
-                )
-                update waitingroom set status=1 where id in (select * from u_ids)
-            '''.format('\nunion all\n'.join(f'select {i["id"]}' for i in players)))
+                update waitingroom set status=1 where id in ({})
+            '''.format(', '.join(str(i['id']) for i in players)))
             cl.commit()
             cl.execute('select m.actors a from games g join matrices m on g.matrix = m.id where g.id = %s', [int(_payload['id'])])
             actors, p = json.loads(cl.fetchone()['a']), iter(players)
@@ -187,22 +184,20 @@ class GameRun:
             cl.executemany('insert into reactions values (%s, %s, %s, %s, %s)', [[int(i['id']), int(_payload['gid']), int(_payload['side']), int(_payload['round']), int(i['reaction'])] for i in _payload['reactions']])
             cl.commit()
             cl.execute('''
-                with round_results as (
-                    select distinct r.gid, r.actor from reactions r where r.gid = %s and r.round = %s
-                ),
-                reaction_freqs(a, r, f) as (
-                    select r.actor, r.reaction, count(*) from reactions r where r.gid = %s and r.round = %s group by r.actor, r.reaction
-                ),
-                chosen_reactions(a, r, agg_p) as (
-                    -- max is needed to ensure that only one result is returned in the event of a tie
-                    select f1.a, f1.r, max(f1.f) from reaction_freqs f1 where f1.f = (select max(f2.f) from reaction_freqs f2 where f2.a = f1.a) group by f1.a, f1.r
-                )
-                select distinct c.a, c.r, null from chosen_reactions c
+                -- note: not entirely my fault that this is so messy, pythonanywhere only supports mysql version 5.7, thus, no ctes allowed
+                select distinct c.a, c.r, null from (
+                    select f1.a a, f1.r r, max(f1.f) agg_p 
+                    from (select r.actor a, r.reaction r, count(*) f 
+                        from reactions r 
+                        where r.gid = %s and r.round = %s group by r.actor, r.reaction) f1 
+                    where f1.f = (select max(f2.f) from (select r.actor a, r.reaction r, count(*) f 
+                                    from reactions r where r.gid = %s and r.round = %s group by r.actor, r.reaction) f2 
+                                    where f2.a = f1.a) group by f1.a, f1.r) c
                 union all
-                select null, (select count(*) from round_results) = (select json_length(m.actors) from gameplays gpls join games g on gpls.gid = g.id join matrices m on m.id = g.matrix where gpls.id = %s), null
+                select null, (select count(*) from (select distinct r.gid, r.actor from reactions r where r.gid = %s and r.round = %s) round_results) = (select json_length(m.actors) from gameplays gpls join games g on gpls.gid = g.id join matrices m on m.id = g.matrix where gpls.id = %s), null
                 union all
                 select m.actors, m.payoffs, m.reactions from gameplays gpls join games g on gpls.gid = g.id join matrices m on m.id = g.matrix where gpls.id = %s
-            ''', [int(_payload['gid']), int(_payload['round']), int(_payload['gid']), int(_payload['round']), int(_payload['gid']), int(_payload['gid'])])
+            ''', [int(_payload['gid']), int(_payload['round']), int(_payload['gid']), int(_payload['round']), int(_payload['gid']), int(_payload['round']), int(_payload['gid']), int(_payload['gid'])])
             *reactions, [_, status, _], [_actors, _payoffs, _reactions] = cl
             actors, payoffs, rcts = json.loads(_actors), json.loads(_payoffs), {int(a):{int(j['id']):j['reaction'] for j in b} for a, b in json.loads(_reactions).items()}
             print(reactions, status, actors, payoffs)
