@@ -643,6 +643,36 @@ body{
     cursor:pointer;
     transition:0.2s;
 }
+.content-back-toggle{
+    padding: 8px;
+    width:100px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 600;
+    color: white;
+    font-size: 17px;
+    border-radius: 5px;
+    background-color:rgb(213 213 213);
+    border: 1px solid rgb(191, 191, 191);
+    display:inline-block;
+    text-align: center;
+}
+.content-back-toggle:hover{
+    cursor:pointer;
+    transition:0.2s;
+}
+.content-toggle-disabled{
+    opacity:0.5;
+
+}
+.content-toggle-disabled:hover{
+    cursor:default !important;
+}
+.content-modal-progress{
+    display:grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    column-gap: 20px;
+}
 .loader {
     border: 8px solid #f3f3f3;
     border-radius: 50%;
