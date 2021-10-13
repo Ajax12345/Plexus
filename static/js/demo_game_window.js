@@ -466,8 +466,7 @@ $(document).ready(function(){
             $('.content-slide-body').html(render_content_block(b))
         }
     });
-    $('body').on('click', '.content-next-toggle', function(){
-        var sid = parseInt($(Array.from(document.querySelectorAll('.content-slide-name')).filter(function(x){return $(x).hasClass('content-slide-chosen')})[0]).data('sid'))
+    function next_content_block(sid){
         var inds = [];
         var c = 0;
         var f = false;
@@ -480,16 +479,34 @@ $(document).ready(function(){
             }
             c++;
         }
-        var n_ind = inds.length === 0 ? 0 : Math.min(...inds);
-        for (var i of document.querySelectorAll(':is(.content-slide-marker, .content-slide-name)')){
-            $(i).removeClass('content-marker-chosen');
-            $(i).removeClass('content-slide-chosen');
+        return inds;
+    }
+    $('body').on('click', '.content-next-toggle', function(){
+        var sid = parseInt($(Array.from(document.querySelectorAll('.content-slide-name')).filter(function(x){return $(x).hasClass('content-slide-chosen')})[0]).data('sid'))
+        var inds = next_content_block(sid);
+        if (inds.length > 0){
+            var n_ind = Math.min(...inds);
+            for (var i of document.querySelectorAll(':is(.content-slide-marker, .content-slide-name)')){
+                $(i).removeClass('content-marker-chosen');
+                $(i).removeClass('content-slide-chosen');
+            }
+            $(`.content-slide-name[data-sid="${content_payload.content[n_ind].id}"]`).addClass('content-slide-chosen');
+            $(`.content-slide-marker[data-sid="${content_payload.content[n_ind].id}"]`).addClass('content-marker-chosen'); 
+            $('.content-slide-title').html(content_payload.content[n_ind].title);
+            $('.content-slide-body').html(render_content_block(content_payload.content[n_ind]))
+            if (next_content_block(content_payload.content[n_ind].id).length === 0){
+                if (!closed_content){
+                    $('.content-next-toggle').html('Start game');
+                }
+            }
         }
-        $(`.content-slide-name[data-sid="${content_payload.content[n_ind].id}"]`).addClass('content-slide-chosen');
-        $(`.content-slide-marker[data-sid="${content_payload.content[n_ind].id}"]`).addClass('content-marker-chosen'); 
-        $('.content-slide-title').html(content_payload.content[n_ind].title);
-        $('.content-slide-body').html(render_content_block(content_payload.content[n_ind]))
-
+        else{
+            if (!closed_content){
+                $('.game-content-modal').css('display', 'none');
+                on_content_close()
+            }
+        }
+        
     });
     $('body').on('click', '.resource-item', function(){
         if ($(this).data('resource') === 'content'){
@@ -524,6 +541,7 @@ $(document).ready(function(){
     }
     function load_content_modal(){
         console.log(content_payload)
+        $('.content-next-toggle').html('Next');
         $('.content-slides').html('');
         var c = 0;
         for (var i of content_payload.content){
