@@ -203,10 +203,13 @@ $(document).ready(function(){
         $('.game-announcement-body').html(only_start_caps(start_template.description));
         //submit_side_reactions([...choose_reactions(opponent)], opponent);
         if (parseInt(player_role) === parseInt(matrix_payload.move)){
-            player_side_move({actor:player_role, body:`Team <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: the game has begun. Make your move now!`});
             setTimeout(function(){
-                display_strategy_hint();
-            }, 200);
+                player_side_move({actor:player_role, body:`Team <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: the game has begun. Make your move now!`});
+                setTimeout(function(){
+                    display_strategy_hint();
+                }, 2000);
+            }, 3000);
+            
         }
         else{
             opponent_side_move();
@@ -413,7 +416,7 @@ $(document).ready(function(){
                 console.log(roles)
                 setTimeout(function(){
                     setup_play_stage();
-                }, 700);
+                }, 1000);
             },
             error: function(xhr) {
                 //Do Something to handle error
@@ -426,7 +429,7 @@ $(document).ready(function(){
                 post_message({poster:10, name:"Protest Game", handle:'protest_game', body:'Preparing demo.... The game will begin in a moment.', is_player:0, reply:null, special_class:'message-pinned-stream'})
                 setTimeout(function(){
                     assign_player_roles();
-                }, 600);
+                }, 1000);
             }, 500);
             closed_content = true;
         }
@@ -439,7 +442,8 @@ $(document).ready(function(){
             post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`Your selection has been recorded. Please wait while the rest of your team submits their choices.`, is_player:0, reply:null, target_m_id:"wait-for-response", special_class:'message-pinned-stream'})
             setTimeout(function(){
                 submit_side_reactions([...choose_reactions(player_role)].map(function(x){
-                    return parseInt(x.id) === parseInt(user_payload.id) ? {...x, reaction:r_id} : x
+                    //return parseInt(x.id) === parseInt(user_payload.id) ? {...x, reaction:r_id} : x
+                    return {...x, reaction:r_id}
                 }), player_role)
             }, 1000);
         }
