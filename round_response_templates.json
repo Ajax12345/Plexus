@@ -42,7 +42,7 @@
     },
     "game_over_responses":{
         "non_tie":[
-            {"title":"{game_personalize_message} The {actor_running_winner} {round_winner_possessive} Emerged Victorious in the Protest.",
+            {"title":"{game_personalize_message} The {actor_running_winner} {actor_running_winner_possessive} Emerged Victorious in the Protest.",
             "description":"The {actor_running_winner} defeated the {actor_running_loser}, {actor_running_winner_score} : {actor_running_loser_score}."}
         ],
         "tie":[

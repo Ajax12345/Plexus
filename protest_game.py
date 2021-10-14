@@ -269,7 +269,8 @@ class GameRun:
                 'lead_text_winner':'leads' if cls.is_singular(a_rw) else "lead",
                 'round_winner_past_to_be_tense':cls.past_to_be(round_winner),
                 'round_loser_past_to_be_tense':cls.past_to_be(round_loser),
-                'round_winner_possessive':cls.possessive_tense(round_winner)
+                'round_winner_possessive':cls.possessive_tense(round_winner),
+                'actor_running_winner_possessive':cls.possessive_tense(a_rw)
             }
 
 
