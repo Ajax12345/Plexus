@@ -382,7 +382,8 @@ $(document).ready(function(){
             console.log(response);
             console.log(reaction_counts)
             var game_over_template = parseInt(response.a1_total_score) === parseInt(response.a2_total_score) ? response_template.game_over_responses.tie : response_template.game_over_responses.non_tie;
-            var game_over_text = game_over_template.next().format(response);
+            var game_over_personalized = parseInt(player_role) === parseInt(response.actor_running_winner_id) ? response_template.game_over_personalize.player_wins : response_template.game_over_personalize.player_loses
+            var game_over_text = game_over_template.next().format({...response, game_personalize_message:game_over_personalized.next().format().text});
             $('.game-announcement-title').html(all_caps(game_over_text.title));
             $('.game-announcement-body').html(only_start_caps(game_over_text.description));
             $('#message-container1').remove();
