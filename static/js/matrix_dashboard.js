@@ -203,8 +203,20 @@ $(document).ready(function(){
             }
         }
     });
+    function cancel_block_1(){
+        $('.game-setting-field[data-fid="1"]').val(matrix_payload.name);
+        $(`#content-input-area1`).html(`${render_content_block(matrix_payload.dsc)}<div class="content-input-placeholder"></div>`);
+    }
+    function cancel_block_2(){
+        $('.game-setting-field[data-fid="2"][data-aid="1"]').val(matrix_payload.actors[1].name);
+        $('.game-setting-field[data-fid="2"][data-aid="2"]').val(matrix_payload.actors[2].name);
+    }
+    var cancel_handlers = {1:cancel_block_1, 2:cancel_block_2};
     $('body').on('click', '.cancel-edit', function(){
-        $(`#entry-control-edit${$(this).data('fid')}`).html(`
+        var fid = parseInt($(this).data('fid'));
+        cancel_handlers[fid]();
+        
+        $(`#entry-control-edit${fid}`).html(`
             <div class='edit-entries' data-fid='${$(this).data('fid')}'>
                 <div>Edit</div>
                 <div class='edit-entry'></div>
@@ -215,6 +227,7 @@ $(document).ready(function(){
             if ($(i).hasClass('game-setting-field')){
                 $(i).addClass('game-setting-field-disabled')
                 $(i).attr('readonly', true)
+                $(i).removeClass('input-entry-field-error');
             }
             else{
                 $(i).addClass('content-textarea-disabled')
@@ -223,7 +236,17 @@ $(document).ready(function(){
         }
     });
     function update_matrix_settings(){
-        //run ajax here
+        $.ajax({
+            url: "/update-matrix",
+            type: "post",
+            data: {payload: JSON.stringify({payload:matrix_payload, id:parseInt($('.matrix-settings-wrapper').data('mid'))})},
+            success: function(response) {
+                //pass
+            },
+            error: function(xhr) {
+                //Do Something to handle error
+            }
+        });
     }
     function save_updates(fid){
         if (parseInt(fid) === 1){
@@ -233,6 +256,7 @@ $(document).ready(function(){
                 return true;
             }
             matrix_payload.name = n_name;
+            $('.dashboard-toggle-header').html(n_name);
             if (content_block.text != null){
                 matrix_payload.dsc = content_block;
             }

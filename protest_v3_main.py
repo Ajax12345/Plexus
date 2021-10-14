@@ -162,6 +162,10 @@ def content_dashboard(cid):
 def update_content():
     return flask.jsonify(game_content.Content.update_content(flask.session['id'], json.loads(flask.request.form['payload'])))
 
+@app.route('/update-matrix', methods=['POST'])
+def update_matrix():
+    return flask.jsonify(game_matrix.Matrix.update_matrix(flask.session['id'], json.loads(flask.request.form['payload'])))
+
 @app.route('/SignUp', methods=['GET'])
 def sign_up():
     return flask.render_template('sign_up.html')

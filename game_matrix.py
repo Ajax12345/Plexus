@@ -50,6 +50,14 @@ class Matrix:
                 return {'status':True, 'matrix':cls.instantiate_matrix({a:loaders.get(a, lambda x:x)(b) for a, b in m.items()}, cl)}
         return {'status':False}
 
+    @classmethod
+    def update_matrix(cls, _owner:int, _payload:dict) -> dict:
+        print(_payload)
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
+            cl.execute('update matrices set name=%s, dsc = %s, actors=%s, reactions=%s, payoffs = %s where id=%s and creator=%s', [_payload['payload']['name'], json.dumps(_payload['payload']['dsc']), json.dumps(_payload['payload']['actors']), json.dumps(_payload['payload']['reactions']), json.dumps(_payload['payload']['payoffs']), int(_payload['id']), int(_owner)])
+            cl.commit()
+        return {'status':True}
+
 if __name__ == '__main__':
     with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
         cl.execute('create table matrices (id int, creator int, name text, dsc longtext, move int, actors longtext, reactions longtext, payoffs longtext, added datetime)')

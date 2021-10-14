@@ -234,6 +234,7 @@ $(document).ready(function(){
             if ($(i).hasClass('game-setting-field')){
                 $(i).addClass('game-setting-field-disabled')
                 $(i).attr('readonly', true)
+                $(i).removeClass('input-entry-field-error');
             }
             else{
                 $(i).addClass('content-textarea-disabled')
@@ -358,6 +359,8 @@ $(document).ready(function(){
     var content_payload = null;
     function load_payload(){
         content_payload = $('.dashboard-toggle-header').data('payload');
+        console.log('content payload')
+        console.log(content_payload)
         $('.content-settings').html(`
         <div class='game-settings-outer'>
         <div class='edit-section-outer'>
