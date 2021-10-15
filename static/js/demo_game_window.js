@@ -136,11 +136,18 @@ $(document).ready(function(){
         });
         
     }
+    var singularity = {'police':false};
+    function is_singular(name){
+        if (name.toLowerCase() in singularity){
+            return singularity[name.toLowerCase()];
+        }
+        return name[name.length - 1] != 's'
+    }
     function present_tense_to_be(name){
-        return name[name.length-1] != 's' ? 'is' : 'are'
+        return is_singular(name) ? 'is' : 'are'
     }
     function past_tense_to_be(name){
-        return name[name.length-1] != 's' ? 'was' : 'were'
+        return is_singular(name) ? 'was' : 'were'
     }
     function display_strategy_hint(){
         if (!given_strategy_hint){
@@ -196,7 +203,7 @@ $(document).ready(function(){
         var non_start = Object.keys(matrix_payload.actors).filter(function(x){return parseInt(x) != parseInt(matrix_payload.move)})[0]
         var first_move_a = matrix_payload.actors[matrix_payload.move].name;
         var second_move_a = matrix_payload.actors[non_start].name;
-        var start_template = response_template.round_by_round.start.next().format({first_move_actor:first_move_a, second_move_actor:second_move_a, present_tense_to_be:present_tense_to_be(first_move_a), await_tense:second_move_a[second_move_a.length-1] != "s" ? "awaits" : "await"})
+        var start_template = response_template.round_by_round.start.next().format({first_move_actor:first_move_a, second_move_actor:second_move_a, present_tense_to_be:present_tense_to_be(first_move_a), await_tense:is_singular(second_move_a) ? "awaits" : "await"})
         console.log('start template here')
         console.log(start_template)
         $('.game-announcement-title').html(all_caps(start_template.title));

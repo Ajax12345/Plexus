@@ -86,6 +86,9 @@ class Game:
 
 
 class GameRun:
+    singularity = {
+        'police':False
+    }
     """
     tables:
         tablename: waitingroom
@@ -164,7 +167,7 @@ class GameRun:
 
     @classmethod
     def is_singular(cls, _name:str) -> bool:
-        return _name[-1] != 's'
+        return cls.singularity.get(_name.lower(), _name[-1] != 's')
 
     @classmethod
     def past_to_be(cls, _name:str) -> str:
