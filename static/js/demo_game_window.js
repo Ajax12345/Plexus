@@ -324,6 +324,7 @@ $(document).ready(function(){
             }
             $('.round-by-round-main').prepend(`
                 <div class='round-by-round-entry'>
+                    <div class='round-by-round-num'>${response.round_int}</div>
                     <div class='round-reaction-points-entry'>
                         <div class='actor-reaction-entry'>${response.a1_reaction}</div>
                         <div style='height:5px'></div>

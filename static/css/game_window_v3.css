@@ -308,7 +308,7 @@ body{
 }
 .round-by-round-header-entry{
     display:grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 25px calc((100% - 25px) / 2) calc((100% - 25px) / 2);
 
 }
 .round-by-round-actor{
@@ -318,12 +318,19 @@ body{
     /*color: rgb(104 104 104);*/
     color:rgb(27, 149, 224);
 }
+.round-by-round-num{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:15px;
+    font-weight:600;
+    color:gray;
+}
 .round-by-round-entry{
     display:grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 25px calc((100% - 25px) / 2) calc((100% - 25px) / 2);
     padding-top:10px;
     padding-bottom:10px;
     border-top: 1px solid rgb(229, 229, 229);
+    align-items: center;
 }
 .actor-reaction-entry{
     font-family: 'Source Sans Pro', sans-serif;
