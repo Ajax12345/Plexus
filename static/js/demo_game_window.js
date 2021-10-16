@@ -179,8 +179,8 @@ $(document).ready(function(){
         console.log('player role')
         console.log(player_role);
         $('.role-container .team-about-large').html('#'+matrix_payload.actors[player_role].name);
-        for (var i of document.querySelectorAll('.how-to-play-container how-to-play-desc > .adversary-hashtag')){
-            $(i).html('#'+actors[opponent].name);
+        for (var i of document.querySelectorAll('.how-to-play-container .how-to-play-desc > .adversary-hashtag')){
+            $(i).html('#'+matrix_payload.actors[opponent].name);
         }
         $('.side-score-outer:nth-of-type(1) .side-score-name').html(matrix_payload.actors[1].name)
         $('.side-score-outer:nth-of-type(3) .side-score-name').html(matrix_payload.actors[2].name)
@@ -316,11 +316,12 @@ $(document).ready(function(){
             $('.side-score-outer:nth-of-type(3) .side-score-value').html(response.a2_total_score)
             $('.game-announcement-title').html(all_caps(start_template.title));
             $('.game-announcement-body').html(only_start_caps(start_template.description));
-            if ($('.round-by-round').css('display') === 'none'){
-                $('.round-by-round-header-entry > .round-by-round-actor:nth-of-type(1)').html(`#${matrix_payload.actors[1].name}`);
-                $('.round-by-round-header-entry > .round-by-round-actor:nth-of-type(2)').html(`#${matrix_payload.actors[2].name}`);
+            if (document.querySelector('.round-by-round-empty') != null){
+                $('.round-by-round-header-entry > .round-by-round-actor:nth-of-type(2)').html(`#${matrix_payload.actors[1].name}`);
+                $('.round-by-round-header-entry > .round-by-round-actor:nth-of-type(3)').html(`#${matrix_payload.actors[2].name}`);
                 $('.round-by-round').css('display', 'block');
                 $('.round-by-round-spacer').css('display', 'block');
+                $('.round-by-round-main').html('');
             }
             $('.round-by-round-main').prepend(`
                 <div class='round-by-round-entry'>
@@ -613,6 +614,16 @@ $(document).ready(function(){
         $('.what-you-need-to-know:nth-of-type(2)').html(`-In a moment, you will be assignmed to a team, either <span class="side-hashtag">#${matrix_payload.actors[1].name}</span> or <span class="side-hashtag">#${matrix_payload.actors[2].name}</span>`)
         $('.what-you-need-to-know:nth-of-type(3)').html(`-This game is ${game_payload.rounds} round${game_payload.rounds === 1 ? "" : "s"}. In each round, you and your teammates will choose a reaction as a response to your opponent's reaction`)
         $('.game-content-modal').css('display', 'block');
+        /*new addition*/
+        $('.side-score-outer:nth-of-type(1) .side-score-name').html(matrix_payload.actors[1].name)
+        $('.side-score-outer:nth-of-type(3) .side-score-name').html(matrix_payload.actors[2].name)
+        $('.score-box').css('display', 'block')
+        $('.scoreboard-spacer').css('display', 'block')
+        /*new addition*/
+        $('.round-by-round-header-entry > .round-by-round-actor:nth-of-type(2)').html(`#${matrix_payload.actors[1].name}`);
+        $('.round-by-round-header-entry > .round-by-round-actor:nth-of-type(3)').html(`#${matrix_payload.actors[2].name}`);
+        $('.round-by-round').css('display', 'block');
+        $('.round-by-round-spacer').css('display', 'block');
         load_content_modal();
         next_step();
 

@@ -88,12 +88,14 @@ $(document).ready(function(){
                 </div>`
         }
     }
+    var current_card = null;
     function render_walkthrough_step(s_step){
         $('.walkthrough-card').remove();
         $('.walkthrough-highlight').removeClass('walkthrough-highlight')
         var t_obj = document.querySelector(walkthrough_steps.steps[s_step].elem);
         $(t_obj).addClass('walkthrough-highlight');
         $('body').append(walkthrough_steps.cards[walkthrough_steps.steps[s_step].card]);
+        current_card = s_step;
         var t = t_obj.offsetTop;
         var l = t_obj.offsetLeft;
         var w = parseInt($(t_obj).css('width').match('\\d+'));
