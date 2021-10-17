@@ -107,6 +107,7 @@ body{
     padding:10px;
     padding-left:17px;
     padding-right:17px;
+    background-color:white;
 }
 .resource-item{
     color:rgb(40, 40, 40);
@@ -824,6 +825,36 @@ body{
     padding:20px;
 }
 .walkthrough-arrow-1{
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-left: 25px solid white;
+    border-bottom: 25px solid transparent;
+    position:absolute;
+    right:-15;
+    top:5;
+}
+.walkthrough-arrow-2{
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-left: 25px solid white;
+    border-bottom: 25px solid transparent;
+    position:absolute;
+    right:-15;
+    top:5;
+}
+.walkthrough-arrow-3{
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-left: 25px solid white;
+    border-bottom: 25px solid transparent;
+    position:absolute;
+    right:-15;
+    bottom:5;
+}
+.walkthrough-arrow-4{
     width: 0;
     height: 0;
     border-top: 20px solid transparent;

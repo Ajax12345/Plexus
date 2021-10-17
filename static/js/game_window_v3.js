@@ -67,6 +67,24 @@ $(document).ready(function(){
                 card:1,
                 orient:1,
                 next:2,
+            },
+            2:{
+                elem:'.round-by-round',
+                card:2,
+                orient:1,
+                next:3,
+            },
+            3:{
+                elem:'.resources-box',
+                card:3,
+                orient:1,
+                next:4,
+            },
+            4:{
+                elem:'.main-col-gameplay',
+                card:4,
+                orient:2,
+                next:null
             }
         },
         cards:{
@@ -85,10 +103,60 @@ $(document).ready(function(){
                         </div>
                     </div>
                     <div class='walkthrough-arrow-1'></div>
-                </div>`
+                </div>`,
+            2:`<div class='walkthrough-card'>
+                    <div class='walkthrough-card-inner'>
+                        <div class='w-card-title'>This is the round results box</div>
+                        <div style='height:20px'></div>
+                        <div class='w-card-desc'>The round results box displays the reactions and points earned by both sides after each round.</div>
+                        <div style='height:30px'></div>
+                        <div class='w-card-nav-outer'>
+                            <div class='hide-w-cards-toggle'>
+                                <div class='hide-w-card-icon'></div>
+                                <div class='hide-w-cards'>Hide these tips</div>
+                            </div>
+                            <div class='w-next-card-col'><div class='next-card-walkthrough'>Next</div></div>
+                        </div>
+                    </div>
+                    <div class='walkthrough-arrow-2'></div>
+                </div>`,
+            3:`<div class='walkthrough-card'>
+                    <div class='walkthrough-card-inner'>
+                        <div class='w-card-title'>Find help and resources here</div>
+                        <div style='height:20px'></div>
+                        <div class='w-card-desc'>In this box, you can find the game content (the background information on the game) and the scoring rules for your side.</div>
+                        <div style='height:30px'></div>
+                        <div class='w-card-nav-outer'>
+                            <div class='hide-w-cards-toggle'>
+                                <div class='hide-w-card-icon'></div>
+                                <div class='hide-w-cards'>Hide these tips</div>
+                            </div>
+                            <div class='w-next-card-col'><div class='next-card-walkthrough'>Next</div></div>
+                        </div>
+                    </div>
+                    <div class='walkthrough-arrow-3'></div>
+                </div>`,
+            4:`<div class='walkthrough-card'>
+                    <div class='walkthrough-card-inner'>
+                        <div class='w-card-title'>This is where you play the game</div>
+                        <div style='height:20px'></div>
+                        <div class='w-card-desc'>Here, you will recieve game updates and make your moves against your opponent.</div>
+                        <div style='height:30px'></div>
+                        <div class='w-card-nav-outer'>
+                            <div class='hide-w-cards-toggle'>
+                                <div class='hide-w-card-icon'></div>
+                                <div class='hide-w-cards'>Hide these tips</div>
+                            </div>
+                            <div class='w-next-card-col'><div class='next-card-walkthrough'>Next</div></div>
+                        </div>
+                    </div>
+                    <div class='walkthrough-arrow-4'></div>
+                </div>`,
+
         }
     }
     var current_card = null;
+    var walkthrough_disabled = false;
     function render_walkthrough_step(s_step){
         $('.walkthrough-card').remove();
         $('.walkthrough-highlight').removeClass('walkthrough-highlight')
@@ -106,8 +174,13 @@ $(document).ready(function(){
             //arrow tooltip centered vertically on the target
             $('.walkthrough-card').css('left', (l - w1-35).toString());
             var a_obj = document.querySelector(`.walkthrough-arrow-${s_step}`)
-            $('.walkthrough-card').css('top', (t+y/2 - parseInt($(a_obj).css('height').match('\\d+'))/2 - 25).toString());
+            $('.walkthrough-card').css('top', (t+y/2 - parseInt($(a_obj).css('top').match('\\d+')) - parseInt($(a_obj).css('height').match('\\d+'))/2 - 20).toString());
 
+        }
+        else if (walkthrough_steps.steps[s_step].orient === 2){
+            $('.walkthrough-card').css('left', (l - w1-35).toString());
+            var a_obj = document.querySelector(`.walkthrough-arrow-${s_step}`)
+            $('.walkthrough-card').css('top', (t+y/5 - parseInt($(a_obj).css('top').match('\\d+')) - parseInt($(a_obj).css('height').match('\\d+'))/2 - 20).toString());
         }
 
     }
@@ -115,5 +188,24 @@ $(document).ready(function(){
         $('.walkthrough-outer').css('display', 'block');
         render_walkthrough_step(s_step)
     }
+    function end_walkthrough(){
+        $('.walkthrough-card').remove();
+        $('.walkthrough-highlight').removeClass('walkthrough-highlight')
+        $('.walkthrough-outer').css('display', 'none');
+    }
     start_walkthrough(1);
+    $('body').on('click', '.next-card-walkthrough', function(){
+        if (walkthrough_steps.steps[current_card].next != null){
+            render_walkthrough_step(walkthrough_steps.steps[current_card].next);
+        }
+        else{
+            end_walkthrough();
+
+        }
+    });
+    $('body').on('click', '.hide-w-cards-toggle', function(){
+        end_walkthrough();
+        walkthrough_disabled = true;
+        current_card = null;
+    }); 
 });
