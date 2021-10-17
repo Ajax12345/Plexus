@@ -750,6 +750,12 @@ $(document).ready(function(){
                 card:4,
                 orient:2,
                 next:null
+            },
+            5:{
+                elem:'#reaction-poll-message',
+                card:5,
+                orient:1,
+                next:null
             }
         },
         cards:{
@@ -817,7 +823,22 @@ $(document).ready(function(){
                     </div>
                     <div class='walkthrough-arrow-4'></div>
                 </div>`,
-
+            5:`<div class='walkthrough-card'>
+                    <div class='walkthrough-card-inner'>
+                        <div class='w-card-title'>Make your move here</div>
+                        <div style='height:20px'></div>
+                        <div class='w-card-desc'>Choose one of the reactions from the poll here.</div>
+                        <div style='height:30px'></div>
+                        <div class='w-card-nav-outer'>
+                            <div class='hide-w-cards-toggle'>
+                                <div class='hide-w-card-icon'></div>
+                                <div class='hide-w-cards'>Hide these tips</div>
+                            </div>
+                            <div class='w-next-card-col'><div class='next-card-walkthrough'>Next</div></div>
+                        </div>
+                    </div>
+                    <div class='walkthrough-arrow-5'></div>
+                </div>`
         }
     }
     function render_walkthrough_step(s_step){

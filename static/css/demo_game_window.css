@@ -944,6 +944,16 @@ body{
     right:-15;
     top:5;
 }
+.walkthrough-arrow-5{
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-left: 25px solid white;
+    border-bottom: 25px solid transparent;
+    position:absolute;
+    right:-15;
+    top:5;
+}
 .w-card-title{
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 600;
