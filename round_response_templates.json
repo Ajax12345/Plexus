@@ -26,24 +26,24 @@
     ],
     "round_score_standing_text":{
         "tie":[
-            {"text":"{a1} tied with {a2}, {a1_total_score} : {a2_total_score}"},
-            {"text":"{a1} {round_transition_state}tied with {a2}, {a1_total_score} : {a2_total_score}"},
-            {"text":"{a1} and {a2} tied, {a1_total_score} : {a2_total_score}"},
-            {"text":"{a1} and {a2} {round_transition_state}tied, {a1_total_score} : {a2_total_score}"},
-            {"text":"Score is {round_transition_state}{a1_total_score} : {a2_total_score} {actor_running_winner}"},
-            {"text":"Current Score Stands {a1_total_score} : {a2_total_score} {actor_running_winner}"}
+            {"text":"{a1} tied with {a2}, {a1_total_score} to {a2_total_score}"},
+            {"text":"{a1} {round_transition_state}tied with {a2}, {a1_total_score} to {a2_total_score}"},
+            {"text":"{a1} and {a2} tied, {a1_total_score} to {a2_total_score}"},
+            {"text":"{a1} and {a2} {round_transition_state}tied, {a1_total_score} to {a2_total_score}"},
+            {"text":"Score is {round_transition_state}{a1_total_score} to {a2_total_score} {actor_running_winner}"},
+            {"text":"Current Score Stands {a1_total_score} to {a2_total_score} {actor_running_winner}"}
         ],
         "non_tie":[
-            {"text":"The {actor_running_winner} {lead_text_winner} the {actor_running_loser}, {actor_running_winner_score} : {actor_running_loser_score}"},
-            {"text":"The {actor_running_winner} {round_transition_state}{lead_text_winner} {actor_running_loser}, {actor_running_winner_score} : {actor_running_loser_score}"},
-            {"text":"Score is {round_transition_state}{a1_total_score} : {a2_total_score} {actor_running_winner}"},
-            {"text":"Current Score Stands {a1_total_score} : {a2_total_score} {actor_running_winner}"}
+            {"text":"The {actor_running_winner} {lead_text_winner} the {actor_running_loser}, {actor_running_winner_score} to {actor_running_loser_score}"},
+            {"text":"The {actor_running_winner} {round_transition_state}{lead_text_winner} {actor_running_loser}, {actor_running_winner_score} to {actor_running_loser_score}"},
+            {"text":"Score is {round_transition_state}{a1_total_score} to {a2_total_score} {actor_running_winner}"},
+            {"text":"Current Score Stands {a1_total_score} to {a2_total_score} {actor_running_winner}"}
         ]
     },
     "game_over_responses":{
         "non_tie":[
             {"title":"{game_personalize_message} The {actor_running_winner} {actor_running_winner_possessive} Emerged Victorious in the Protest.",
-            "description":"The {actor_running_winner} defeated the {actor_running_loser}, {actor_running_winner_score} : {actor_running_loser_score}."}
+            "description":"The {actor_running_winner} defeated the {actor_running_loser}, {actor_running_winner_score} to {actor_running_loser_score}."}
         ],
         "tie":[
             {"title":"The Protest Has Ended in a Tie.",
