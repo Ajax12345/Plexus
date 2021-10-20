@@ -570,6 +570,7 @@ $(document).ready(function(){
     var player_role = null;
     var opponent = null;
     var response_template = null;
+    var about_slide = null;
     var running_round = 1;
     var given_strategy_hint = false;
     var round_by_round_results = [];
@@ -654,8 +655,10 @@ $(document).ready(function(){
                 content_payload = payload.content;
                 matrix_payload = payload.matrix;
                 gameplay_payload = payload.gameplay;
-                response_template = payload .response_template;
+                response_template = payload.response_template;
+                about_slide = payload.about_slide;
                 ResponseTemplate.templatify(response_template);
+                content_payload.content.unshift(about_slide)
                 setup_start_screen(function(){
                     $('.game-loading-state-display').css('display', 'none');
                 

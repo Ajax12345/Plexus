@@ -81,8 +81,8 @@ class Game:
             cl.commit()
             full_payload['gameplay'] = {'id':gpid}
 
-        with open('round_response_templates.json') as f:
-            return {**{a:{j:loaders.get((a, j), lambda x:x)(k) if j != 'added' else str(k) for j, k in b.items()} for a, b in full_payload.items()}, 'response_template':json.load(f)}
+        with open('round_response_templates.json') as f, open('demo_1_about_slide.json') as f2:
+            return {**{a:{j:loaders.get((a, j), lambda x:x)(k) if j != 'added' else str(k) for j, k in b.items()} for a, b in full_payload.items()}, 'response_template':json.load(f), 'about_slide':json.load(f2)}
 
 
 class GameRun:
