@@ -838,7 +838,7 @@ body{
 }
 .round-by-round-num{
     font-family: 'Source Sans Pro', sans-serif;
-    font-size:15px;
+    font-size:18px;
     font-weight:600;
     color:gray;
 }
@@ -873,7 +873,7 @@ body{
 }
 .actor-awarded-point-by-round{
     font-family: 'Source Sans Pro', sans-serif;
-    font-size:16px;
+    font-size:15px;
     font-weight:600;
     color:rgb(40, 40, 40);
     margin-right:20px;

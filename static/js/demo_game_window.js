@@ -740,19 +740,19 @@ $(document).ready(function(){
                 elem:'.round-by-round',
                 card:2,
                 orient:1,
-                next:3,
+                next:4,
             },
             3:{
                 elem:'.resources-box',
                 card:3,
                 orient:1,
-                next:4,
+                next:null,
             },
             4:{
                 elem:'.main-col-gameplay',
                 card:4,
                 orient:2,
-                next:null
+                next:3
             },
             5:{
                 elem:'#reaction-poll-message',
