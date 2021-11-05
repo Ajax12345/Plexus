@@ -277,13 +277,13 @@ $(document).ready(function(){
     }
     function all_caps(s){
         var ignore = ['a', 'and', 'an', 'the', 'or', 'but', 'yet', 'were', 'was', 'while', 'to']
-        return s.replace(/^[a-zA-Z]|(?<=\s)[a-zA-Z]/g, function(match, ...p){
+        return s.replace(/^[a-zA-Z]|\b[a-zA-Z]/g, function(match, ...p){
             return !ignore.includes(match) ? match.toUpperCase() : match;
         });
     }
     function only_start_caps(s){
         var actor_names = Object.keys(matrix_payload.actors).map(function(x){return matrix_payload.actors[x].name}).map(function(x){return x.toLowerCase()})
-        return s.toLowerCase().replace(/^[a-zA-Z]|(?<=\.\s)[a-zA-Z]/g, function(match, ...p){
+        return s.toLowerCase().replace(/^[a-zA-Z]|(\.\s)[a-zA-Z]/g, function(match, ...p){
             return match.toUpperCase()
         }).replace(/[a-zA-Z]+/g, function(match, ...p){
             return actor_names.includes(match.toLowerCase()) ? match[0].toUpperCase() + match.substring(1).toLowerCase() : match
