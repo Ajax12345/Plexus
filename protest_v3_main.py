@@ -16,7 +16,7 @@ def is_loggedin(_f:typing.Callable) -> typing.Callable:
 
 @app.route('/', methods=['GET'])
 def main():
-    return flask.render_template('demo_landing.html')
+    return flask.render_template('landing_pagev1.html')
 
 @app.route('/dashboard/games', methods=['GET'])
 @is_loggedin
