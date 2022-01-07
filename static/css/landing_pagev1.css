@@ -60,3 +60,26 @@ body{
     background-color:rgb(200, 53, 200);
     transition:0.2s;
 }
+.main-content{
+    width:60%;
+    margin:0 auto;
+    margin-top: 100px;
+}
+.title-main{
+    text-align: center;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight:700;
+    color:rgb(40 40 40);
+    font-size:55px;
+    line-height: 1.4;
+}
+.sub-title{
+    width:50%;
+    margin:0 auto;
+    text-align: center;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight:400;
+    color:rgb(185 183 183);
+    font-size:18px;
+    line-height: 1.6;
+}
