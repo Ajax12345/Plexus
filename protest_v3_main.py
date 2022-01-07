@@ -172,6 +172,9 @@ def sign_up():
 
 @app.route('/SignIn', methods=['GET'])
 def sign_in():
+    if flask.session.get('id') is not None:
+        return flask.redirect('/dashboard/games')
+        
     return flask.render_template('sign_in.html')
 
 @app.route('/SignOut', methods=['GET'])
