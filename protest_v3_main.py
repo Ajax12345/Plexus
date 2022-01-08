@@ -174,7 +174,7 @@ def sign_up():
 def sign_in():
     if flask.session.get('id') is not None:
         return flask.redirect('/dashboard/games')
-        
+
     return flask.render_template('sign_in.html')
 
 @app.route('/SignOut', methods=['GET'])
@@ -229,6 +229,10 @@ def assign_roles():
 @app.route('/submit-side-reactions', methods=['POST'])
 def submit_side_reactions():
     return flask.jsonify({'status':True, 'response':json.dumps(protest_game.GameRun.submit_side_reactions(json.loads(flask.request.form['payload'])))})
+
+@app.route('/add-to-waitlist', methods=['POST'])
+def add_to_waitlist():
+    return flask.jsonify(protest_utilites.add_to_waitlist(json.loads(flask.request.form['payload'])))
 
 @app.after_request
 def add_header(r):
