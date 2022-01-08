@@ -216,3 +216,8 @@ body{
 .start-demo-col{
     white-space: nowrap;
 }
+@media screen and (min-width:1500px){
+    .demo-access-outer{
+        width:15%;
+    }
+}

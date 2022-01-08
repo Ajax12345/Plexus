@@ -168,9 +168,12 @@ def update_matrix():
 
 @app.route('/SignUp', methods=['GET'])
 def sign_up():
+    if flask.session.get('id') is not None:
+        return flask.redirect('/dashboard/games')
+        
     return flask.render_template('sign_up.html')
 
-@app.route('/SignIn', methods=['GET'])
+@app.route('/LogIn', methods=['GET'])
 def sign_in():
     if flask.session.get('id') is not None:
         return flask.redirect('/dashboard/games')
