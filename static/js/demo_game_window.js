@@ -158,7 +158,7 @@ $(document).ready(function(){
             if (optimal_payouts.length > 0){
                 given_strategy_hint = true;
                 var full_strings = optimal_payouts.map(function(x){return `${x.reactions[player_role].reaction} when the #${matrix_payload.actors[opponent].name.toLowerCase()} ${present_tense_to_be(matrix_payload.actors[opponent].name)} ${x.reactions[opponent].reaction}`})
-                post_message({poster:10, name:"Instigator", handle:'instigator', body:find_handles(`Hint: you will have a scoring advantage when you are ${full_strings.length < 3 ? full_strings.join(' and ') : full_strings.slice(0, full_strings.length - 1).join(' , ')+' and '+full_strings[full_strings.length-1]}.`), is_player:0, reply:null, special_class:'message-pinned-stream'})
+                post_message({poster:10, name:"Plexus", handle:'plexus', body:find_handles(`Hint: you will have a scoring advantage when you are ${full_strings.length < 3 ? full_strings.join(' and ') : full_strings.slice(0, full_strings.length - 1).join(' , ')+' and '+full_strings[full_strings.length-1]}.`), is_player:0, reply:null, special_class:'message-pinned-stream'})
             }
         }
     }
@@ -170,7 +170,7 @@ $(document).ready(function(){
         if (optimal_payouts.length > 0){
             given_strategy_hint = true;
             var full_strings = optimal_payouts.map(function(x){return `${x.reactions[player_role].reaction} when the #${matrix_payload.actors[opponent].name.toLowerCase()} ${present_tense_to_be(matrix_payload.actors[opponent].name)} ${x.reactions[opponent].reaction}`})
-            post_message({poster:10, name:"Instigator", handle:'instigator', body:find_handles(`Remember, you have a scoring advantage when you are ${full_strings.length < 3 ? full_strings.join(' and ') : full_strings.slice(0, full_strings.length - 1).join(' , ')+' and '+full_strings[full_strings.length-1]}.`), is_player:0, reply:null, special_class:'message-pinned-stream'})
+            post_message({poster:10, name:"Plexus", handle:'plexus', body:find_handles(`Remember, you have a scoring advantage when you are ${full_strings.length < 3 ? full_strings.join(' and ') : full_strings.slice(0, full_strings.length - 1).join(' , ')+' and '+full_strings[full_strings.length-1]}.`), is_player:0, reply:null, special_class:'message-pinned-stream'})
         }
     }
     function setup_play_stage(){
@@ -199,7 +199,7 @@ $(document).ready(function(){
             </div>
         `);
         $('.current-round').html(`Round 1 of ${game_payload.rounds}`);
-        post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`The game has begun! Your team is #${matrix_payload.actors[player_role].name}.`, is_player:0, reply:null, special_class:'message-pinned-stream'})
+        post_message({poster:10, name:"Plexus", handle:'plexus', body:`The game has begun! Your team is #${matrix_payload.actors[player_role].name}.`, is_player:0, reply:null, special_class:'message-pinned-stream'})
         var non_start = Object.keys(matrix_payload.actors).filter(function(x){return parseInt(x) != parseInt(matrix_payload.move)})[0]
         var first_move_a = matrix_payload.actors[matrix_payload.move].name;
         var second_move_a = matrix_payload.actors[non_start].name;
@@ -232,8 +232,8 @@ $(document).ready(function(){
                 </div>
                 <div class="main-message-body">
                     <div class="message-about-poster">
-                        <div class="message-poster-name">Instigator</div>
-                        <div class="message-poster-handle">@instigator</div>
+                        <div class="message-poster-name">Plexus</div>
+                        <div class="message-poster-handle">@plexus</div>
                         <div class="message-dot"></div>
                         <div class="message-post-datetime">Just now</div>
                     </div>
@@ -444,7 +444,7 @@ $(document).ready(function(){
             $(this).addClass('reaction-poll-chosen')
             $(this.parentNode).addClass('reaction-poll-disabled');
             var r_id = parseInt($(this).data('rid'));
-            post_message({poster:10, name:"Protest Game", handle:'protest_game', body:`Your selection has been recorded. Please wait while the rest of your team submits their choices.`, is_player:0, reply:null, target_m_id:"wait-for-response", special_class:'message-pinned-stream'})
+            post_message({poster:10, name:"Plexus", handle:'plexus', body:`Your selection has been recorded. Please wait while the rest of your team submits their choices.`, is_player:0, reply:null, target_m_id:"wait-for-response", special_class:'message-pinned-stream'})
             setTimeout(function(){
                 submit_side_reactions([...choose_reactions(player_role)].map(function(x){
                     //return parseInt(x.id) === parseInt(user_payload.id) ? {...x, reaction:r_id} : x
@@ -881,7 +881,7 @@ $(document).ready(function(){
         $('.walkthrough-outer').css('display', 'none');
         if (!closed_walkthrough){
             setTimeout(function(){
-                post_message({poster:10, name:"Protest Game", handle:'protest_game', body:'Preparing demo.... The game will begin in a moment.', is_player:0, reply:null, special_class:'message-pinned-stream'})
+                post_message({poster:10, name:"Plexus", handle:'plexus', body:'Preparing demo.... The game will begin in a moment.', is_player:0, reply:null, special_class:'message-pinned-stream'})
                 setTimeout(function(){
                     assign_player_roles();
                 }, 1000);
