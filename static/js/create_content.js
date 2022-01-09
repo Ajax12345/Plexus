@@ -278,6 +278,7 @@ $(document).ready(function(){
             selected_link_piece = null;
             content_block = {text:'', title:'', links:[]};
             var _c_b = document.querySelector('#content-input-area1');
+            /*
             for (var i of _c_b.childNodes){
                 if (i.nodeType === 3 || !$(i).hasClass('content-input-placeholder')){
                     _c_b.removeChild(i);
@@ -287,7 +288,8 @@ $(document).ready(function(){
                 $(this).remove();
             });
             $('.content-input-placeholder').text('Describe the outlay of this content...');
-            
+            */
+            $('#content-input-area1').html(`<div class="content-input-placeholder">Describe the outlay of this content...</div>`)
             if (full_content_payload.content.length === 1){
                 $('div[data-sid="7"].step-listing-col > .step-spacer').addClass('step-spacer-slide-display')
                 $("#step-progress-col7 .progress-bar").css('height', '20px')
