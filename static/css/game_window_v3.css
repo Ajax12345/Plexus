@@ -322,9 +322,9 @@ body{
 }
 .round-by-round-num{
     font-family: 'Source Sans Pro', sans-serif;
-    font-size:18px;
-    font-weight:600;
-    color:gray;
+    font-size: 19px;
+    font-weight: 700;
+    color: #525252;
 }
 .round-by-round-entry{
     display:grid;
