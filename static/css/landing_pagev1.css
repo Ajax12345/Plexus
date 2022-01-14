@@ -10,6 +10,82 @@ body{
     margin: 0 auto;
     height:100vh;
 }
+.second-container{
+    height:100vh;
+    background-color:rgb(249 248 248);
+    padding-top:80px;
+    padding-bottom:80px;
+}
+.explore-demo-games{
+    font-size:35px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 700;
+    color:rgb(70 69 69);
+    text-align: center;
+}
+.container-inner{
+    width:80%;
+    margin: 0 auto;
+}
+.explore-games-about{
+    width:55%;
+    margin:0 auto;
+    margin-top:40px;
+    text-align: center;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+    color: rgb(155 153 153);
+    font-size: 18px;
+    line-height: 1.6;
+}
+.demo-games{
+    width:900px;
+    margin:0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 280px);
+    column-gap:30px;
+    row-gap: 30px;
+}
+.demo-game{
+    width:280px;
+    height:380px;
+    background-color:white;
+    border-radius:20px;
+    padding:30px;
+    position: relative;
+}
+.game-title{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 600;
+    font-size:25px;
+    color: rgb(40 40 40);
+}
+.game-description{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 18px;
+    color: #9a9a9a;
+    line-height: 1.7;
+}
+.play-demo-button{
+    padding: 12px;
+    padding-left: 30px;
+    padding-right: 30px;
+    font-size: 16px;
+    color: white;
+    font-weight: 600;
+    font-family: 'Source Sans Pro', sans-serif;
+    text-align: center;
+    background-color: rgb(134 115 235);
+    white-space: nowrap;
+    border-radius: 5px;
+    position:absolute;
+    bottom:30;
+}
+.play-demo-button:hover{
+    cursor:pointer;
+    transform:scale(1.04);
+    transition:0.2s;
+}
 .header{
     margin-top:30px;
     display: grid;
@@ -318,6 +394,9 @@ body{
 }
 @media screen and (min-width:1500px){
     .main-container{
+        width:70%;
+    }
+    .container-inner{
         width:70%;
     }
 }
