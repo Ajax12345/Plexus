@@ -53,6 +53,8 @@ body{
     border-radius:20px;
     padding:30px;
     position: relative;
+    box-shadow: 0px 0px 16px 6px rgb(235 235 235 / 75%);
+    /*0px 0px 16px 6px rgb(229 229 229 / 75%)*/
 }
 .game-title{
     font-family: 'Source Sans Pro', sans-serif;
@@ -104,7 +106,7 @@ body{
 }
 .menu-options{
     display: grid;
-    grid-template-columns: repeat(3, min-content);
+    grid-template-columns: repeat(4, min-content);
     align-items: center;
     column-gap: 40px;
 }
