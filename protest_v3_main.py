@@ -213,6 +213,16 @@ def play_demo(id):
         return "<h1>404</h1>" #TODO: need 404 here
     return flask.render_template('demo_game_window.html', pld = json.dumps({'gid':int(id), 'uid':int(uid)}))
 
+@app.route('/game/play/<id>', methods=['GET'])
+def game_play(id):
+    if not protest_game.Game.has_game(int(id)) or (flask.session.get('id') is not None and not protest_game.Game.owns_game(flask.session['id'], id)):
+        return "<h1>404</h1>"
+
+    if flask.session.get('id') is not None:
+        return "<h1>user logged in, coming soon</h1>"
+    
+    return flask.render_template('game_signin.html', gid=id)
+
 @app.route('/load-full-game-instance', methods=['POST'])
 def load_full_game_instance():
     return flask.jsonify({'payload':json.dumps(protest_game.Game.load_full_game_instance(json.loads(flask.request.form['payload'])))})

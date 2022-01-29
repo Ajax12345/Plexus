@@ -84,6 +84,18 @@ class Game:
         with open('round_response_templates.json') as f, open('demo_1_about_slide.json') as f2:
             return {**{a:{j:loaders.get((a, j), lambda x:x)(k) if j != 'added' else str(k) for j, k in b.items()} for a, b in full_payload.items()}, 'response_template':json.load(f), 'about_slide':json.load(f2)}
 
+    @classmethod
+    def has_game(cls, _id:int) -> bool:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict = True) as cl:
+            cl.execute('select exists (select 1 from games where id = %s) result', [int(_id)])
+            return cl.fetchone()['result']
+
+    @classmethod
+    def owns_game(cls, _user:int, _id:int) -> bool:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict = True) as cl:
+            cl.execute('select exists (select 1 from games where id = %s and creator = %s) result', [int(_id), int(_user)])
+            return cl.fetchone()['result']
+
 
 class GameRun:
     singularity = {
@@ -283,4 +295,5 @@ if __name__ == '__main__':
         cl.execute('create table waitingroom (id int, gid int, name text, email text, status int, added datetime)')
         cl.commit()
     '''
-    print(GameRun.assign_roles({'id':1, 'gid':1}))
+    #print(GameRun.assign_roles({'id':1, 'gid':1}))
+    print(Game.has_game(2))
