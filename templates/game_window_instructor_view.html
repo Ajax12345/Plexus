@@ -14,52 +14,57 @@
         <div class='main' data-pld = '{{pld}}'>
             <div class='main-col main-col-former'>
                 <div class='instructor-controls-wrapper'>
-                    <div class='score-box'> 
-                        <div class='score-box-header'>
-                            <div class='score-text'>Score</div>
-                            
-                        </div>
-                        <div class='score-box-main'>
-                            <div class='score-display-outer'>
-                                <div class='score-col' id='score-col-main'>
-                                    <div class='side-score-outer'>
-                                        <div class='side-score-name'>Protestors</div>
-                                        <div class='side-score-value'>3</div>
+                    <div class='score-box-outer'>
+                        <div class='score-box'> 
+                            <div class='score-box-header'>
+                                <div class='score-text'>Score</div>
+                                
+                            </div>
+                            <div class='score-box-main'>
+                                <div class='score-display-outer'>
+                                    <div class='score-col' id='score-col-main'>
+                                        <div class='side-score-outer'>
+                                            <div class='side-score-name'>Protestors</div>
+                                            <div class='side-score-value'>3</div>
+                                        </div>
+                                        <div style='height:5px'></div>
+                                        <div class='side-score-outer'>
+                                            <div class='side-score-name'>Police</div>
+                                            <div class='side-score-value'>0</div>
+                                        </div>
                                     </div>
-                                    <div style='height:5px'></div>
-                                    <div class='side-score-outer'>
-                                        <div class='side-score-name'>Police</div>
-                                        <div class='side-score-value'>0</div>
+                                    <div class='score-col'>
+                                        <div class='score-box-divider'></div>
                                     </div>
-                                </div>
-                                <div class='score-col'>
-                                    <div class='score-box-divider'></div>
-                                </div>
-                                <div class='score-col'>
-                                    <div class='current-round'>Round 1 of 6</div>
+                                    <div class='score-col'>
+                                        <div class='current-round'>Round 1 of 6</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <div style="height:50px"></div>
                     </div>
-                    <div style="height:50px"></div>
-                    <div class='side-bar-header'>Game Controls</div>
-                    <div style='height:20px'></div>
-                    <div class='game-controls'>
-                        <div class='game-control-outer'>
-                            <div class='pause-game-icon'></div>
-                            <div class='game-control-option'>Pause Game</div>
-                        </div>
-                        <div style='height:15px'></div>
-                        <div class='game-control-outer'>
-                            <div class='mute-chat-icon'></div>
-                            <div class='game-control-option'>Mute Player Messaging</div>
-                        </div>
-                        <div style='height:15px'></div>
-                        <div class='game-control-outer'>
-                            <div class='remove-player-icon'></div>
-                            <div class='game-control-option'>Remove Players</div>
+                    <div class='game-controls-outer'>
+                        <div class='side-bar-header'>Game Controls</div>
+                        <div style='height:20px'></div>
+                        <div class='game-controls'>
+                            <div class='game-control-outer'>
+                                <div class='pause-game-icon'></div>
+                                <div class='game-control-option'>Pause Game</div>
+                            </div>
+                            <div style='height:15px'></div>
+                            <div class='game-control-outer'>
+                                <div class='mute-chat-icon'></div>
+                                <div class='game-control-option'>Mute Player Messaging</div>
+                            </div>
+                            <div style='height:15px'></div>
+                            <div class='game-control-outer'>
+                                <div class='remove-player-icon'></div>
+                                <div class='game-control-option'>Remove Players</div>
+                            </div>
                         </div>
                     </div>
+                    
                     <!--
                     <div class='game-controls-outer'>
                         <div class='game-control-button pause-play'>Pause Play</div>
@@ -68,16 +73,18 @@
                     </div>
                     -->
                     <div style='height:50px'></div>
-                    <div class='side-bar-header'>Actors</div>
-                    <div style='height:10px'></div>
-                    <div class='actor-listing-main'>
-                        <div class='team-about-large'>#Protestor</div>
-                        <div class='message-team'>Message</div>
-                    </div>
-                    <div style='height:5px'></div>
-                    <div class='actor-listing-main'>
-                        <div class='team-about-large'>#Police</div>
-                        <div class='message-team'>Message</div>
+                    <div class='actors-outer'>
+                        <div class='side-bar-header'>Actors</div>
+                        <div style='height:10px'></div>
+                        <div class='actor-listing-main'>
+                            <div class='team-about-large'>#Protestor</div>
+                            <div class='message-team'>Message</div>
+                        </div>
+                        <div style='height:5px'></div>
+                        <div class='actor-listing-main'>
+                            <div class='team-about-large'>#Police</div>
+                            <div class='message-team'>Message</div>
+                        </div>
                     </div>
                     <div class='resources-outer'>
                         <div class='side-bar-header'>Resources</div>
@@ -90,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            <div class='main-col main-col-former main-col-gameplay'>
+            <div class='main-col main-col-former main-col-gameplay gameplay-empty'>
                 <div class='game-play-main'>
                     <div class='section-block section-block-top'>
                         <div class='header-section-text'>Player Game View (Currently viewing <span class="side-hashtag side-hashtag-header">#Protestors</span>)</div>

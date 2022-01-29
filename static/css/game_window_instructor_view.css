@@ -28,13 +28,23 @@ body{
     bottom:50;
 }
 .instructor-controls-wrapper{
-    float:right;
+    /*float:right;*/
+    width:75%;
+    margin:0 auto;
     padding:50px;
     padding-top:60px;
+}
+.gameplay-empty{
+    border:none !important;
+    border-right:1px solid rgb(226, 226, 226) !important;
+}
+.gameplay-empty .game-play-main{
+    display: none;
 }
 .side-view-wrapper{
     padding:50px;
     padding-top:60px;
+    display: none;
 }
 .about-wrapper-inner{
     max-width: 323px;
@@ -299,6 +309,9 @@ body{
     top:0;
     position:sticky;
 }
+.score-box-outer{
+    display: none;
+}
 .score-box{
     width:370px;
     border:1px solid rgb(229, 229, 229);
@@ -440,9 +453,10 @@ body{
     background-color:rgb(229, 229, 229);
 }
 .game-controls-outer{
-    display: grid;
-    grid-template-columns: auto auto auto;
-    column-gap: 20px;;
+    display: none;
+}
+.actors-outer{
+    display: none;
 }
 .game-control-button{
     background-color: rgb(29, 161, 242);
