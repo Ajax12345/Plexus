@@ -16,6 +16,9 @@ def is_loggedin(_f:typing.Callable) -> typing.Callable:
 
 @app.route('/', methods=['GET'])
 def main():
+    if flask.session.get('id') is not None:
+        return flask.redirect('/dashboard/games')
+        
     return flask.render_template('landing_pagev1.html')
 
 @app.route('/dashboard/games', methods=['GET'])
@@ -219,7 +222,7 @@ def game_play(id):
         return "<h1>404</h1>"
 
     if flask.session.get('id') is not None:
-        return "<h1>user logged in, coming soon</h1>"
+        return flask.render_template('game_window_instructor_view.html', gid=id, uid=flask.session['id'])
     
     return flask.render_template('game_signin.html', gid=id)
 
