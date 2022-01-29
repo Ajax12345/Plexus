@@ -547,3 +547,73 @@ body{
     width:25px;
     height:25px;
 }
+.waitlist-background{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    z-index: 10000;
+    /* background-color: rgb(25 25 25 / 68%); */
+    background-color: rgb(0 0 0 / 68%);
+}
+.waiting-room-outer{
+    width:50%;
+    padding:20px;
+    padding-right:25px;
+    padding-left:25px;
+    border-radius:10px;
+    background-color:white;
+    margin: 0 auto;
+}
+.waiting-room-title{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:25px;
+    font-weight:600;
+    color:rgb(40 40 40);
+}
+.waiting-room-desc{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:16px;
+    font-weight:400;
+    color:rgb(70, 70, 70);
+}
+.model-underscore{
+    height:2px;
+    background-color:rgb(226 226 226);
+}
+.waitlist-main{
+    height:400px;
+    max-height: 400px;
+    overflow-y: scroll;
+}
+.waitlist-footer{
+    display: flex;
+    justify-content: flex-end;
+}
+.start-game{
+    font-size: 18px;
+    font-weight: 600;
+    font-family: 'Source Sans Pro', sans-serif;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgb(211, 61, 211);
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.start-game:hover{
+    cursor:pointer;
+    background-color: rgb(201, 49, 201);
+}
+.start-game-displayed{
+    opacity:0.4;
+}
+.start-game-displayed:hover{
+    cursor:default !important;
+}
+.waiting-room-empty{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:16px;
+    color:gray;
+}
