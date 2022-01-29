@@ -11,7 +11,7 @@
         <link rel='stylesheet' href='/static/css/game_window_instructor_view.css'>
     </head>
     <body>
-        <div class='main'>
+        <div class='main' data-pld = '{{pld}}'>
             <div class='main-col main-col-former'>
                 <div class='instructor-controls-wrapper'>
                     <div class='score-box'> 
@@ -79,13 +79,14 @@
                         <div class='team-about-large'>#Police</div>
                         <div class='message-team'>Message</div>
                     </div>
-                    <div style='height:50px'></div>
-                    <div class='side-bar-header'>Resources</div>
-                    <div style='height:12px'></div>
-                    <div class='resource-wrapper'>
-                        <div class='resource-item'>Game content</div>
-                        <div class='resource-item'>Rules</div>
-                        <div class='resource-item'>About Instigator</div>
+                    <div class='resources-outer'>
+                        <div class='side-bar-header'>Resources</div>
+                        <div style='height:12px'></div>
+                        <div class='resource-wrapper'>
+                            <div class='resource-item'>Game content</div>
+                            <div class='resource-item'>Rules</div>
+                            <div class='resource-item'>About Plexus</div>
+                        </div>
                     </div>
                 </div>
             </div>

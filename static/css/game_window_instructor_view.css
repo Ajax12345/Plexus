@@ -21,6 +21,11 @@ body{
 }
 .main-col-former{
     border-right:1px solid rgb(226, 226, 226);
+    position: relative;
+}
+.resources-outer{
+    position: absolute;
+    bottom:50;
 }
 .instructor-controls-wrapper{
     float:right;

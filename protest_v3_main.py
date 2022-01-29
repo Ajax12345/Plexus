@@ -222,13 +222,17 @@ def game_play(id):
         return "<h1>404</h1>"
 
     if flask.session.get('id') is not None:
-        return flask.render_template('game_window_instructor_view.html', gid=id, uid=flask.session['id'])
+        return flask.render_template('game_window_instructor_view.html', pld = json.dumps({'gid':int(id), 'uid':int(flask.session['id'])}))
     
     return flask.render_template('game_signin.html', gid=id)
 
 @app.route('/load-full-game-instance', methods=['POST'])
 def load_full_game_instance():
     return flask.jsonify({'payload':json.dumps(protest_game.Game.load_full_game_instance(json.loads(flask.request.form['payload'])))})
+
+@app.route('/load-game-instance-instructor', methods=['POST'])
+def load_game_instance_instructor():
+    return flask.jsonify({'payload':json.dumps(protest_game.Game.load_game_instance_instructor(json.loads(flask.request.form['payload'])))})
 
 @app.route('/invite-demo-players', methods=['POST'])
 def invite_demo_players():
