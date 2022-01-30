@@ -36,6 +36,26 @@ class Game:
         self.__dict__ = _d
 
     @property
+    def status_text(self) -> str:
+        if not any([self.players_waiting, self.has_started]):
+            return "Not started yet"
+        
+        if self.players_waiting:
+            return f'{self.players_waiting} player{"s" if self.players_waiting != 1 else ""} waiting'
+        
+        return "In progress"
+
+    @property
+    def status_class(self) -> str:
+        if not any([self.players_waiting, self.has_started]):
+            return ""
+        
+        if self.players_waiting:
+            return "game-status-players-waiting"
+        
+        return "game-status-in-progress"
+
+    @property
     def to_json(self) -> str:
         return json.dumps({a:str(b) if a == 'added' else b for a, b in self.__dict__.items()})
 
@@ -50,7 +70,7 @@ class Game:
     @classmethod
     def get_game(cls, creator:int, _id:int) -> dict:
         with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict = True) as cl:
-            cl.execute('select g.*, c.name content_name, m.name matrix_name from games g join content c on g.content = c.id join matrices m on g.matrix = m.id where g.id = %s and g.creator = %s', [int(_id), creator])
+            cl.execute('select g.*, c.name content_name, m.name matrix_name, (select count(*) from waitingroom w where w.gid = g.id and w.status = 0) players_waiting, exists (select 1 from gameplays gpls where gpls.gid = g.id and gpls.end is null and gpls.demo = 0) has_started from games g join content c on g.content = c.id join matrices m on g.matrix = m.id where g.id = %s and g.creator = %s', [int(_id), creator])
             if (g:=cl.fetchone()) is None:
                 return {'status':False}
             return {'status':True, 'game':cls(g)}

@@ -22,6 +22,12 @@ $(document).ready(function(){
                 </div>`)
         waitlist_counter++;
         $('.waitlist-size').html(`${waitlist_counter} player${waitlist_counter === 1 ? "" : "s"} waiting`)
+        start_game_check();
+    }
+    function start_game_check(){
+        if (waitlist_counter > 1){
+            $('.start-game').removeClass('start-game-displayed');
+        }
     }
     var response_handlers = {1:new_waiting_room_user};
     function setup_pusher_handlers(){
@@ -48,6 +54,7 @@ $(document).ready(function(){
         }
         waitlist_counter = waitingroom.length;
         $('.waitlist-size').html(`${waitlist_counter} player${waitlist_counter === 1 ? "" : "s"} waiting`)
+        start_game_check();
     }
     function load_start(){
         meta_payload = $('.main').data('pld')
