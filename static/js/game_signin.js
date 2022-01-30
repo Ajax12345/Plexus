@@ -16,9 +16,9 @@ $(document).ready(function(){
         $.ajax({
             url: "/add-invitee",
             type: "post",
-            data: {payload: JSON.stringify({..._payload, gid:gid})},
+            data: {payload: JSON.stringify({..._payload, gid:gid, is_demo:false})},
             success: function(response) {
-                //window.location.replace(`/play/demo/${gid}?uid=${response.id}`);
+                window.location.replace(`/play/game/${gid}?uid=${response.id}`);
             },
             error: function(xhr) {
                 //Do Something to handle error
@@ -36,6 +36,6 @@ $(document).ready(function(){
                 <div class='enter-game-col'></div>
             </div>
         `);
-        //enter_game();
+        enter_game();
     });
 });

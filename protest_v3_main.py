@@ -226,6 +226,13 @@ def game_play(id):
     
     return flask.render_template('game_signin.html', gid=id)
 
+@app.route('/play/game/<id>', methods=['GET'])
+def play_game(id):
+    if (uid:=flask.request.args.get('uid')) is None:
+        return "<h1>404</h1>"
+
+    return f"<h1>Coming soon ({id}, {uid})</h1>"
+
 @app.route('/load-full-game-instance', methods=['POST'])
 def load_full_game_instance():
     return flask.jsonify({'payload':json.dumps(protest_game.Game.load_full_game_instance(json.loads(flask.request.form['payload'])))})
@@ -264,6 +271,16 @@ def add_header(r):
     r.headers["Pragma"] = "no-cache"
     r.headers["Expires"] = "0"
     r.headers['Cache-Control'] = 'public, max-age=0'
+    '''
+    r.headers['_gcl_au'] = 'SameSite=None; Secure'
+    r.headers['_gid'] = 'SameSite=None; Secure'
+    r.headers['omni_authenticity_token'] = 'SameSite=None; Secure'
+    r.headers['_ga_V7TRZJDKDQ'] = 'SameSite=None; Secure'
+    r.headers['_ga'] = 'SameSite=None; Secure'
+    '''
+    for pusher_cookie in ['_gcl_au', '_gid', 'omni_authenticity_token', '_ga_V7TRZJDKDQ', '_ga']:
+        r.headers.add('Set-Cookie',f'cross-site-cookie={pusher_cookie}; SameSite=None; Secure')
+    
     r.headers.add('Access-Control-Allow-Origin', '*')
     r.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     r.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')

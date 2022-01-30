@@ -16,7 +16,7 @@ $(document).ready(function(){
         $.ajax({
             url: "/add-invitee",
             type: "post",
-            data: {payload: JSON.stringify({..._payload, gid:gid})},
+            data: {payload: JSON.stringify({..._payload, gid:gid, is_demo:true})},
             success: function(response) {
                 window.location.replace(`/play/demo/${gid}?uid=${response.id}`);
             },

@@ -588,6 +588,17 @@ body{
     overflow-y: scroll;
 }
 .waitlist-footer{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    align-items: center;
+}
+.waitlist-size{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:19px;
+    color:rgb(40 40 40);
+    font-weight: 600;
+}
+.waitlist-footer-col{
     display: flex;
     justify-content: flex-end;
 }
@@ -616,4 +627,23 @@ body{
     font-family: 'Source Sans Pro', sans-serif;
     font-size:16px;
     color:gray;
+}
+.user-waiting{
+    width:80%;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    align-items: center;
+    margin-top:10px;
+}
+.user-waiting-name{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:16px;
+    font-weight: 600;
+    color:rgb(40 40 40);
+}
+.user-waiting-email{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size:16px;
+    font-weight: 400;
+    color:rgb(40 40 40);
 }

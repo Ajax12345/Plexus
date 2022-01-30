@@ -1,5 +1,13 @@
 import typing, json, protest_db
-import time, random
+import time, random, pusher
+
+pusher_client = pusher.Pusher(
+  app_id='814342',
+  key='f7e3f6c14176cdde1625',
+  secret='5f4648c5a702b25bdb23',
+  cluster='us2',
+  ssl=True
+)
 
 class AllGames:
     def __init__(self, _games:typing.List['Game']) -> None:
@@ -78,8 +86,10 @@ class Game:
             full_payload['content'] = cl.fetchone()
             cl.execute('select id from gameplays where end is null and demo != 1 and gid=%s', [int(_payload['gid'])])
             full_payload['gameplay'] = {'id':None if (v:=cl.fetchone()) is None else v['id']}
+            cl.execute('select id, name, email from waitingroom where status = 0 and gid = %s', [int(_payload['gid'])])
+            waitingroom = list(cl)
 
-        return {a:{j:loaders.get((a, j), lambda x:x)(k) if j not in ['added', 'jdate'] else str(k) for j, k in b.items()} for a, b in full_payload.items()}
+        return {**{a:{j:loaders.get((a, j), lambda x:x)(k) if j not in ['added', 'jdate'] else str(k) for j, k in b.items()} for a, b in full_payload.items()}, 'waitingroom':waitingroom}
 
     @classmethod
     def load_full_game_instance(cls, _payload:dict) -> dict:
@@ -145,6 +155,10 @@ class GameRun:
             cl.execute('select max(id) from waitingroom')
             cl.execute('insert into waitingroom values (%s, %s, %s, %s, %s, now())', [(_id:=(1 if (v:=cl.fetchone()[0]) is None else int(v)+1)), int(_payload['gid']), _payload['name'], _payload['email'], 0])
             cl.commit()
+
+        if not _payload['is_demo']:
+            pusher_client.trigger('game-events', f'game-events-{_payload["gid"]}', {'handler':1, 'payload':{'uid':_id, 'name':_payload['name'], 'email':_payload['email']}})
+
         return {'status':True, 'id':_id}
 
     @classmethod
