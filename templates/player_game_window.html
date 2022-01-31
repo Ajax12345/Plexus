@@ -1,0 +1,221 @@
+<html>
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width">
+        <title>Protest Game | Plexus</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400;600;700&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src='/static/js/player_game_window.js'></script>
+        <link rel='stylesheet' href='/static/css/player_game_window.css'>
+    </head>
+    <body>
+        <div class='main'>
+            <div class='main-col main-col-former'>
+                <div class='about-player-wrapper'>
+                    <div class='side-bar-header'>About You</div>
+                    <div style='height:20px'></div>
+                    <div class='player-profile-main'>
+                        <div class='player-icon-outer'>
+                            <img class='avatar-img-about' src='https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon'>
+                        </div>
+                        <div class='player-name-outer'>
+                            <div class='user-name-about'>James Petullo</div>
+                            <div class='user-handle-about'>@james_petullo</div>
+                        </div>
+                    </div>
+                    <div style='height:50px'></div>
+                    <div class='role-container' style='display: none;'>
+                        <div class='side-bar-header'>Your Team</div>
+                        <div style='height:10px'></div>
+                        <div class='team-about-large'>#Protestors</div>
+                        <div style='height:50px'></div>
+                    </div>
+                    <div class='how-to-play-container' style='display: none;'>
+                        <div class='side-bar-header'>How to Play</div>
+                        <div style='height:12px'></div>
+                        <div class='how-to-play-desc'>Your team's objective is to engage your adversary (<span class='side-hashtag adversary-hashtag'>#police</span>) by choosing a move from a set of possible tactics. In response to <span class='side-hashtag adversary-hashtag'>#police</span>'s moves, you must communicate with your teammates in choosing the best counter move. At the end of each round, points are awarded based on tactics deployed by each side.</div>
+                    </div>
+                </div>
+            </div>
+            <div class='main-col main-col-former main-col-gameplay'>
+                <div class='game-play-main'>
+                    <div class='section-block section-block-top' id='section-block1'>
+                        <div class='header-section-text'>Live Game Feed</div>
+                    </div>
+                    <div class='game-announcement'>
+                        <div class='game-announcement-about'>
+                            <div class='game-announcement-poster'>Game Announcement</div>
+                            <div class="message-dot"></div>
+                            <div class="message-post-datetime">LIVE</div>
+                        </div>
+                        <div class='game-announcement-title'>Protest Set to Occur Between Protestors and Police.</div>
+                        <div class="game-announcement-body">Protestors and Police will face off in a pivotal confrontation.</div>
+                    </div>
+                    <div class='message-container' id='message-container1'>
+                        
+                    </div>
+                    <div class='game-feed-spacer'></div>
+                    <div class='section-block' id='section-block2'>
+                        <div class='header-section-text'>What you need to know</div>
+                        <div class='what-you-need-to-know'>-In a moment, you will be assigned to a team, either <span class='side-hashtag'>#Protestors</span> or <span class='side-hashtag'>#Police</span></div>
+                        <div class='what-you-need-to-know'>-This game is 6 rounds. In each round, you and your teammates will choose a reaction as a response to your opponent's reaction</div>
+                        <div class='what-you-need-to-know'>-Based on the reactions of both your team and your opponent, points will be awarded to both sides</div>
+                    </div>
+                    <div class='message-container' id='message-container2'>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            <div class='main-col'>
+                <div class='resources-wrapper'>
+                    <div class='score-box' style='display: none'> 
+                        <div class='score-box-header'>
+                            <div class='score-text'>Score</div>
+                            <div class='current-round'>--</div>
+                        </div>
+                        <div class='score-box-main'>
+                            <div class='side-score-outer'>
+                                <div class='side-score-name'>Protestors</div>
+                                <div class='side-score-value'>0</div>
+                            </div>
+                            <div style='height:5px'></div>
+                            <div class='side-score-outer'>
+                                <div class='side-score-name'>Police</div>
+                                <div class='side-score-value'>0</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style='height:40px; display: block;' class='scoreboard-spacer'></div>
+                    <div class='round-by-round'>
+                        <div class='round-by-round-header'>
+                            <div class='round-by-round-text'>Round by Round</div>
+                            <div style='height:10px'></div>
+                            <div class='round-by-round-header-entry'>
+                                <div></div>
+                                <div class='round-by-round-actor'></div>
+                                <div class='round-by-round-actor'></div>
+                            </div>
+                        </div>
+                        <div class='round-by-round-main'>
+                            <div class='round-by-round-entry round-by-round-empty'>
+                                <div class='round-by-round-num'>1</div>
+                                <div class='round-reaction-points-entry'>
+                                    <div class='actor-reaction-entry'>-</div>
+                                    
+                                </div>
+                                <div class='round-reaction-points-entry'>
+                                    <div class='actor-reaction-entry'>-</div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style='height:40px; display: block;' class='round-by-round-spacer'></div>
+                    <div class='resources-box'>
+                        <div class='resource-item' data-resource='content'>Game Content</div>
+                        <div class='resource-item-desc'>View the background information about this game</div>
+                        <!--
+                        <div style='height:20px'></div>
+                        <div class='resource-item'>Rules</div>
+                        <div class='resource-item-desc'>Learn how to play the game</div>
+                        <div style='height:20px'></div>
+                        <div class='resource-item'>About Instigator</div>
+                        <div class='resource-item-desc'>Find out what we are all about</div>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='game-content-modal'>
+            <div class='game-content-main'>
+                <div class='game-content-modal-header'>
+                    <div class='game-content-header-outer'>
+                        <div class='game-content-modal-title'>Game Instructional Content</div>
+                        <div class='game-content-modal-col'>
+                            <div class='game-content-close-top'></div>
+                        </div>
+                    </div>
+                </div>
+                <div class='game-content-modal-body'>
+                    <div class='content-navebar'>
+                        <div style='height:20px'></div>
+                        <div class='content-slides'>
+                            <div class='content-slide-marker content-marker-chosen'></div>
+                            <div class='content-slide-name content-slide-chosen'>Background</div>
+                            <div class='content-slide-marker'></div>
+                            <div class='content-slide-name'>About</div>
+                            <div class='content-slide-marker'></div>
+                            <div class='content-slide-name'>Instructions</div>
+                        </div>
+                    </div>
+                    <div class='content-body-main'>
+                        <div style='height:40px'></div>
+                        <div class='content-slide-display-outer'>
+                            <div class='content-slide-title'>Background</div>
+                            <div style='height:30px'></div>
+                            <div class='content-slide-body'>
+                                The Arab Spring was series of protests across North Africa and the Middle East during 2011
+                                and 2012 (see map <a href='/'>here</a>). These were popular uprisings by everyday citizens against their
+                                authoritarian, or non-democratic, governments (see timeline <a href='/'>here</a>). Their grievances included
+                                economic demands for less unemployment and inflation and political demands for greater freedom
+                                and inclusion. In some cases, these protests succeeded and revolutions occurred replacing autocrats.
+                                This happened in Tunisia early in the Arab Spring. In other instances, the protests failed and the
+                                dictators remained. Syria collapsed into civil war which continues today. What happened across the
+                                region varied and our particular focus will be Egypt. If you want to learn more about the Arab
+                                Spring go <a href='/'>here</a> and <a href='/'>here</a>. Note: Much has happened since 2012 but our focus will be on these two
+                                years in this one country.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class='game-content-modal-footer'>
+                    <div class='content-footer-outer'>
+                        <div class='content-footer-col'>
+                            <div class='close-content-modal'>Close</div>
+                        </div>
+                        <div class='content-footer-col content-footer-col-last'>
+                            <div class='content-modal-progress'>
+                                <div class='content-back-toggle content-toggle-disabled'>Back</div>
+                                <div class='content-next-toggle'>Next</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='game-loading-state-display'>
+            <div class='loader'></div>
+        </div>
+        <div class='post-message-outer'>
+            <div class='team-message-outer'>
+                <div class='team-message-header'>
+                    <div class='close-post-message'></div>
+                </div>
+                <div class='message-compose-main'>
+                    <div class='message-compose-outer'>
+                        <img src='https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon' class='message-poster-avatar'>
+                        <div class='message-manage-outer'>
+                            <div class='message-compose-field' contentEditable="true">
+                                <div class='message-body-placeholder' style="display: inline;" contentEditable="false">Message your team</div>
+                            </div>
+                            <div style='height:10px'></div>
+                            <div class='message-post-divider'></div>
+                            <div style='height:16px'></div>
+                            <div class='post-message-footer'>
+                                <div></div>
+                                <div class='post-message-button-col'>
+                                    <div class='post-message-button'>Post message</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class='walkthrough-outer'></div>
+    </body>
+</html>

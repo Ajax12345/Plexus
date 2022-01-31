@@ -231,7 +231,7 @@ def play_game(id):
     if (uid:=flask.request.args.get('uid')) is None:
         return "<h1>404</h1>"
 
-    return f"<h1>Coming soon ({id}, {uid})</h1>"
+    return flask.render_template('player_game_window.html')
 
 @app.route('/load-full-game-instance', methods=['POST'])
 def load_full_game_instance():
