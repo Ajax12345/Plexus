@@ -94,7 +94,7 @@ $(document).ready(function(){
                 $('.content-slide-body').html(render_content_block(content_payload.content[n_ind]))
                 if (next_content_block(content_payload.content[n_ind].id).length === 0){
                     if (!closed_content){
-                        $('.content-next-toggle').html('Start game');
+                        $('.content-next-toggle').html('Go to game');
                     }
                     else{
                         $('.content-next-toggle').addClass('content-toggle-disabled')
