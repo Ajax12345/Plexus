@@ -5,6 +5,122 @@ $(document).ready(function(){
     var content_payload = null;
     var matrix_payload = null;
     var gameplay_payload = null;
+    var closed_content = false;
+    var current_card = null;
+    var walkthrough_disabled = false;
+    var closed_walkthrough = false;
+    $('body').on('click', '.game-content-close-top', function(){
+        $('.game-content-modal').css('display', 'none');
+        on_content_close()
+    });
+    $('body').on('click', '.close-content-modal', function(){
+        $('.game-content-modal').css('display', 'none');
+        on_content_close()
+    });
+    $('body').on('click', '.content-slide-name', function(){
+        if (!$(this).hasClass('content-slide-chosen')){
+            var sid = parseInt($(this).data('sid'));
+            for (var i of document.querySelectorAll(':is(.content-slide-marker, .content-slide-name)')){
+                $(i).removeClass('content-marker-chosen');
+                $(i).removeClass('content-slide-chosen');
+            }
+            $(`.content-slide-name[data-sid="${sid}"]`).addClass('content-slide-chosen');
+            $(`.content-slide-marker[data-sid="${sid}"]`).addClass('content-marker-chosen');
+            var b = content_payload.content.filter(function(x){return parseInt(x.id) === sid})[0]
+            $('.content-slide-title').html(b.title);
+            $('.content-slide-body').html(render_content_block(b))
+        }
+    });
+    function next_content_block(sid){
+        var inds = [];
+        var c = 0;
+        var f = false;
+        for (var i of content_payload.content){
+            if (parseInt(i.id) === sid){
+                f = true;
+            }
+            else if (f){
+                inds.push(c);
+            }
+            c++;
+        }
+        return inds;
+    }
+    function previous_slide(sid){
+        var slide = null;
+        for (var i of content_payload.content){
+            if (parseInt(i.id) === sid){
+                return slide
+            }
+            slide = i;
+        }
+        return slide;
+    }
+    $('body').on('click', '.content-back-toggle', function(){
+        if (!$(this).hasClass('content-toggle-disabled')){
+            var sid = parseInt($(Array.from(document.querySelectorAll('.content-slide-name')).filter(function(x){return $(x).hasClass('content-slide-chosen')})[0]).data('sid'))
+            $('.content-next-toggle').removeClass('content-toggle-disabled');
+            $('.content-next-toggle').html('Next');
+            var slide = previous_slide(sid);
+            if (slide != null){
+                for (var i of document.querySelectorAll(':is(.content-slide-marker, .content-slide-name)')){
+                    $(i).removeClass('content-marker-chosen');
+                    $(i).removeClass('content-slide-chosen');
+                }
+                $(`.content-slide-name[data-sid="${slide.id}"]`).addClass('content-slide-chosen');
+                $(`.content-slide-marker[data-sid="${slide.id}"]`).addClass('content-marker-chosen'); 
+                $('.content-slide-title').html(slide.title);
+                $('.content-slide-body').html(render_content_block(slide))
+            }
+            if (previous_slide(parseInt(slide.id)) === null){
+                $('.content-back-toggle').addClass('content-toggle-disabled')
+            }
+        }
+    });
+    $('body').on('click', '.content-next-toggle', function(){
+        if (!$(this).hasClass('content-toggle-disabled')){
+            $('.content-back-toggle').removeClass('content-toggle-disabled')
+            var sid = parseInt($(Array.from(document.querySelectorAll('.content-slide-name')).filter(function(x){return $(x).hasClass('content-slide-chosen')})[0]).data('sid'))
+            var inds = next_content_block(sid);
+            if (inds.length > 0){
+                var n_ind = Math.min(...inds);
+                for (var i of document.querySelectorAll(':is(.content-slide-marker, .content-slide-name)')){
+                    $(i).removeClass('content-marker-chosen');
+                    $(i).removeClass('content-slide-chosen');
+                }
+                $(`.content-slide-name[data-sid="${content_payload.content[n_ind].id}"]`).addClass('content-slide-chosen');
+                $(`.content-slide-marker[data-sid="${content_payload.content[n_ind].id}"]`).addClass('content-marker-chosen'); 
+                $('.content-slide-title').html(content_payload.content[n_ind].title);
+                $('.content-slide-body').html(render_content_block(content_payload.content[n_ind]))
+                if (next_content_block(content_payload.content[n_ind].id).length === 0){
+                    if (!closed_content){
+                        $('.content-next-toggle').html('Start game');
+                    }
+                    else{
+                        $('.content-next-toggle').addClass('content-toggle-disabled')
+                    }
+                }
+            }
+            else{
+                if (!closed_content){
+                    $('.game-content-modal').css('display', 'none');
+                    on_content_close()
+                }
+            }
+        }
+    });
+    $('body').on('click', '.resource-item', function(){
+        if ($(this).data('resource') === 'content'){
+            $('.game-content-modal').css('display', 'block');
+            load_content_modal();
+        }
+    }); 
+    function on_content_close(){
+        if (!closed_content){
+            start_walkthrough(1);
+            closed_content = true;
+        }
+    }
     function render_content_block(block){
         var last_ind = 0;
         var build_string = '';
@@ -81,4 +197,183 @@ $(document).ready(function(){
         });
     }
     load_start();
+    var walkthrough_steps = {
+        path:[1],
+        start:1,
+        steps:{
+            1:{
+                elem:'.score-box',
+                card:1,
+                orient:1,
+                next:2,
+            },
+            2:{
+                elem:'.round-by-round',
+                card:2,
+                orient:1,
+                next:4,
+            },
+            3:{
+                elem:'.resources-box',
+                card:3,
+                orient:1,
+                next:null,
+            },
+            4:{
+                elem:'.main-col-gameplay',
+                card:4,
+                orient:2,
+                next:3
+            },
+            5:{
+                elem:'#reaction-poll-message',
+                card:5,
+                orient:1,
+                next:null
+            }
+        },
+        cards:{
+            1:`<div class='walkthrough-card'>
+                    <div class='walkthrough-card-inner'>
+                        <div class='w-card-title'>This is the game scoreboard</div>
+                        <div style='height:20px'></div>
+                        <div class='w-card-desc'>The scoreboard displays the current round and points for both sides during the game.</div>
+                        <div style='height:30px'></div>
+                        <div class='w-card-nav-outer'>
+                            <div class='hide-w-cards-toggle'>
+                                <div class='hide-w-card-icon'></div>
+                                <div class='hide-w-cards'>Hide these tips</div>
+                            </div>
+                            <div class='w-next-card-col'><div class='next-card-walkthrough'>Next</div></div>
+                        </div>
+                    </div>
+                    <div class='walkthrough-arrow-1'></div>
+                </div>`,
+            2:`<div class='walkthrough-card'>
+                    <div class='walkthrough-card-inner'>
+                        <div class='w-card-title'>This is the round results box</div>
+                        <div style='height:20px'></div>
+                        <div class='w-card-desc'>The round results box displays the reactions and points earned by both sides after each round.</div>
+                        <div style='height:30px'></div>
+                        <div class='w-card-nav-outer'>
+                            <div class='hide-w-cards-toggle'>
+                                <div class='hide-w-card-icon'></div>
+                                <div class='hide-w-cards'>Hide these tips</div>
+                            </div>
+                            <div class='w-next-card-col'><div class='next-card-walkthrough'>Next</div></div>
+                        </div>
+                    </div>
+                    <div class='walkthrough-arrow-2'></div>
+                </div>`,
+            3:`<div class='walkthrough-card'>
+                    <div class='walkthrough-card-inner'>
+                        <div class='w-card-title'>Find help and resources here</div>
+                        <div style='height:20px'></div>
+                        <div class='w-card-desc'>In this box, you can find the game content (the background information on the game) and the scoring rules for your side.</div>
+                        <div style='height:30px'></div>
+                        <div class='w-card-nav-outer'>
+                            <div class='hide-w-cards-toggle'>
+                                <div class='hide-w-card-icon'></div>
+                                <div class='hide-w-cards'>Hide these tips</div>
+                            </div>
+                            <div class='w-next-card-col'><div class='next-card-walkthrough'>Next</div></div>
+                        </div>
+                    </div>
+                    <div class='walkthrough-arrow-3'></div>
+                </div>`,
+            4:`<div class='walkthrough-card'>
+                    <div class='walkthrough-card-inner'>
+                        <div class='w-card-title'>This is where you play the game</div>
+                        <div style='height:20px'></div>
+                        <div class='w-card-desc'>Here, you will recieve game updates and make your moves against your opponent.</div>
+                        <div style='height:30px'></div>
+                        <div class='w-card-nav-outer'>
+                            <div class='hide-w-cards-toggle'>
+                                <div class='hide-w-card-icon'></div>
+                                <div class='hide-w-cards'>Hide these tips</div>
+                            </div>
+                            <div class='w-next-card-col'><div class='next-card-walkthrough'>Next</div></div>
+                        </div>
+                    </div>
+                    <div class='walkthrough-arrow-4'></div>
+                </div>`,
+            5:`<div class='walkthrough-card'>
+                    <div class='walkthrough-card-inner'>
+                        <div class='w-card-title'>Make your move here</div>
+                        <div style='height:20px'></div>
+                        <div class='w-card-desc'>Choose one of the reactions from the poll here.</div>
+                        <div style='height:30px'></div>
+                        <div class='w-card-nav-outer'>
+                            <div class='hide-w-cards-toggle'>
+                                <div class='hide-w-card-icon'></div>
+                                <div class='hide-w-cards'>Hide these tips</div>
+                            </div>
+                            <div class='w-next-card-col'><div class='next-card-walkthrough'>Next</div></div>
+                        </div>
+                    </div>
+                    <div class='walkthrough-arrow-5'></div>
+                </div>`
+        }
+    }
+    function render_walkthrough_step(s_step){
+        $('.walkthrough-card').remove();
+        $('.walkthrough-highlight').removeClass('walkthrough-highlight')
+        var t_obj = document.querySelector(walkthrough_steps.steps[s_step].elem);
+        $(t_obj).addClass('walkthrough-highlight');
+        $('body').append(walkthrough_steps.cards[walkthrough_steps.steps[s_step].card]);
+        current_card = s_step;
+        var t = t_obj.offsetTop;
+        var l = t_obj.offsetLeft;
+        var w = parseInt($(t_obj).css('width').match('\\d+'));
+        var y = parseInt($(t_obj).css('height').match('\\d+'));
+        var w1 = parseInt($('.walkthrough-card').css('width').match('\\d+'));
+        var y1 = parseInt($('.walkthrough-card').css('height').match('\\d+'));
+        if (walkthrough_steps.steps[s_step].orient === 1){
+            //arrow tooltip centered vertically on the target
+            $('.walkthrough-card').css('left', (l - w1-35).toString());
+            var a_obj = document.querySelector(`.walkthrough-arrow-${s_step}`)
+            $('.walkthrough-card').css('top', (t+y/2 - parseInt($(a_obj).css('top').match('\\d+')) - parseInt($(a_obj).css('height').match('\\d+'))/2 - 20).toString());
+
+        }
+        else if (walkthrough_steps.steps[s_step].orient === 2){
+            $('.walkthrough-card').css('left', (l - w1-35).toString());
+            var a_obj = document.querySelector(`.walkthrough-arrow-${s_step}`)
+            $('.walkthrough-card').css('top', (t+y/5 - parseInt($(a_obj).css('top').match('\\d+')) - parseInt($(a_obj).css('height').match('\\d+'))/2 - 20).toString());
+        }
+
+    }
+    function start_walkthrough(s_step){
+        $('.walkthrough-outer').css('display', 'block');
+        render_walkthrough_step(s_step)
+    }
+    function end_walkthrough(){
+        $('.walkthrough-card').remove();
+        $('.walkthrough-highlight').removeClass('walkthrough-highlight')
+        $('.walkthrough-outer').css('display', 'none');
+        if (!closed_walkthrough){
+            /*
+            setTimeout(function(){
+                post_message({poster:10, name:"Plexus", handle:'plexus', body:'Preparing demo.... The game will begin in a moment.', is_player:0, reply:null, special_class:'message-pinned-stream'})
+                setTimeout(function(){
+                    assign_player_roles();
+                }, 1000);
+            }, 500);
+            */
+            closed_walkthrough = true;
+        }
+    }
+    $('body').on('click', '.next-card-walkthrough', function(){
+        if (walkthrough_steps.steps[current_card].next != null){
+            render_walkthrough_step(walkthrough_steps.steps[current_card].next);
+        }
+        else{
+            end_walkthrough();
+
+        }
+    });
+    $('body').on('click', '.hide-w-cards-toggle', function(){
+        end_walkthrough();
+        walkthrough_disabled = true;
+        current_card = null;
+    }); 
 });
