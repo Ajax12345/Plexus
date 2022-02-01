@@ -7,6 +7,7 @@ $(document).ready(function(){
     var gameplay_payload = null;
     var waitingroom = null;
     var waitlist_counter = 0;
+    var roles = null;
     $('.score-box-divider').css('height', $("#score-col-main").css('height'));
     Pusher.logToConsole = true;
 
@@ -26,10 +27,16 @@ $(document).ready(function(){
     }
     function start_game_check(){
         if (waitlist_counter > 1){
-            $('.start-game').removeClass('start-game-displayed');
+            $('.start-game').removeClass('start-game-disabled');
         }
     }
-    var response_handlers = {1:new_waiting_room_user};
+    function start_game(payload){
+        console.log('in start game handler')
+        roles = payload.roles;
+        gameplay_payload.id = payload.gpid;
+        $('.waitlist-background').css('display', 'none')
+    }
+    var response_handlers = {1:new_waiting_room_user, 2:start_game};
     function setup_pusher_handlers(){
         var channel = pusher.subscribe('game-events');
         channel.bind(`game-events-${game_payload.id}`, function(data) {
@@ -85,4 +92,20 @@ $(document).ready(function(){
         });
     }
     load_start();
+    $('body').on('click', '.start-game', function(){
+        if (!$(this).hasClass('start-game-delayed')){
+            $(this).html('Starting game...')
+            $.ajax({
+                url: "/start-game",
+                type: "post",
+                data: {payload: JSON.stringify(meta_payload)},
+                success: function(response) {
+                    //pass
+                },
+                error: function(xhr) {
+                    //Do Something to handle error
+                }
+            });
+        }
+    }); 
 });

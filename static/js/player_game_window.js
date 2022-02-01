@@ -9,6 +9,28 @@ $(document).ready(function(){
     var current_card = null;
     var walkthrough_disabled = false;
     var closed_walkthrough = false;
+    var roles = null;
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('f7e3f6c14176cdde1625', {
+      cluster: 'us2'
+    });
+    function start_game(payload){
+        roles = payload.roles;
+        gameplay_payload.id = payload.gpid;
+        console.log('in start game handler')
+    }
+    var response_handlers = {2:start_game};
+    function setup_pusher_handlers(){
+        var channel = pusher.subscribe('game-events');
+        channel.bind(`game-events-${game_payload.id}`, function(data) {
+            console.log('got data from pusher game-events')
+            console.log(data)
+            if (data.handler in response_handlers){
+                response_handlers[data.handler](data.payload)
+            }
+        });
+    }
     $('body').on('click', '.game-content-close-top', function(){
         $('.game-content-modal').css('display', 'none');
         on_content_close()
@@ -171,7 +193,94 @@ $(document).ready(function(){
         next_step();
 
     }
+    function post_message(payload, target='#message-container1'){
+        var posted_date = utc_now();
+        $.ajax({
+            url: "/post-message",
+            type: "post",
+            data: {payload: JSON.stringify({poster:payload.poster, gid:gameplay_payload.id, is_player:payload.is_player, body:payload.body, reply:payload.reply, added:posted_date})},
+            success: function(response) {
+                var message_id = 'target_m_id' in payload ? payload.target_m_id : `game-message${response.id}`
+                $(target).prepend(`<div class="message-main ${'special_class' in payload ? payload.special_class : ""}" id='${message_id}' style='margin-top:-100px'>
+                    <div class="message-body game-message" data-mid='${response.id}'>
+                        <div class="poster-icon-outer">
+                            <img class="message-poster-icon" src="https://www.gravatar.com/avatar/e527e2038eb5c6671be2820348cb72b2?d=identicon">
+                        </div>
+                        <div class="main-message-body">
+                            <div class="message-about-poster">
+                                <div class="message-poster-name">${payload.name}</div>
+                                <div class="message-poster-handle">@${payload.handle}</div>
+                                <div class="message-dot"></div>
+                                <div class="message-post-datetime" data-posted='${posted_date}'>1 sec</div>
+                            </div>
+                            <div class="message-body-content">${find_handles(payload.body)}</div>
+                            <div class="message-action-footer">
+                                <div class="reply-message-outer">
+                                    <div class="reply-message-icon"></div>
+                                </div>
+                                <div class="message-reply-count">0</div>
+                                <div></div>
+                                <div class="like-message-outer">
+                                    <div class="like-message-icon"></div>
+                                </div>
+                                <div class="message-like-count">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>`);
+                //$(`#${message_id}`).css('margin-top', `-${$(`#${message_id}`).css('height')}`);
+                setTimeout(function(){
+                    $(`#${message_id}`).css('margin-top', `0px`);
+                }, 50);
+                
+                //on_message_display(message_id);
+                
+            },
+            error: function(xhr) {
+                //Do Something to handle error
+            }
+        });
+        
+    }
+    var singularity = {'police':false};
+    function is_singular(name){
+        if (name.toLowerCase() in singularity){
+            return singularity[name.toLowerCase()];
+        }
+        return name[name.length - 1] != 's'
+    }
+    function present_tense_to_be(name){
+        return is_singular(name) ? 'is' : 'are'
+    }
+    function past_tense_to_be(name){
+        return is_singular(name) ? 'was' : 'were'
+    }
+    function display_strategy_hint(){
+        if (!given_strategy_hint){
+            var optimal_payouts = matrix_payload.payoffs.filter(function(x){return x.payouts[player_role] > x.payouts[opponent]})
+            if (optimal_payouts.length === 0){
+                optimal_payouts = matrix_payload.payoffs.filter(function(x){return x.payouts[player_role] === x.payouts[opponent]})
+            }
+            if (optimal_payouts.length > 0){
+                given_strategy_hint = true;
+                var full_strings = optimal_payouts.map(function(x){return `${x.reactions[player_role].reaction} when the #${matrix_payload.actors[opponent].name.toLowerCase()} ${present_tense_to_be(matrix_payload.actors[opponent].name)} ${x.reactions[opponent].reaction}`})
+                post_message({poster:10, name:"Plexus", handle:'plexus', body:find_handles(`Hint: you will have a scoring advantage when you are ${full_strings.length < 3 ? full_strings.join(' and ') : full_strings.slice(0, full_strings.length - 1).join(' , ')+' and '+full_strings[full_strings.length-1]}.`), is_player:0, reply:null, special_class:'message-pinned-stream'})
+            }
+        }
+    }
+    function display_strategy_reminder(){
+        var optimal_payouts = matrix_payload.payoffs.filter(function(x){return x.payouts[player_role] > x.payouts[opponent]})
+        if (optimal_payouts.length === 0){
+            optimal_payouts = matrix_payload.payoffs.filter(function(x){return x.payouts[player_role] === x.payouts[opponent]})
+        }
+        if (optimal_payouts.length > 0){
+            given_strategy_hint = true;
+            var full_strings = optimal_payouts.map(function(x){return `${x.reactions[player_role].reaction} when the #${matrix_payload.actors[opponent].name.toLowerCase()} ${present_tense_to_be(matrix_payload.actors[opponent].name)} ${x.reactions[opponent].reaction}`})
+            post_message({poster:10, name:"Plexus", handle:'plexus', body:find_handles(`Remember, you have a scoring advantage when you are ${full_strings.length < 3 ? full_strings.join(' and ') : full_strings.slice(0, full_strings.length - 1).join(' , ')+' and '+full_strings[full_strings.length-1]}.`), is_player:0, reply:null, special_class:'message-pinned-stream'})
+        }
+    }
     function load_start(){
+        setup_pusher_handlers();
         meta_payload = $('.main').data('pld')
         $.ajax({
             url: "/load-game-instance-player",

@@ -617,10 +617,10 @@ body{
     cursor:pointer;
     background-color: rgb(201, 49, 201);
 }
-.start-game-displayed{
+.start-game-delayed{
     opacity:0.4;
 }
-.start-game-displayed:hover{
+.start-game-delayed:hover{
     cursor:default !important;
 }
 .waiting-room-empty{

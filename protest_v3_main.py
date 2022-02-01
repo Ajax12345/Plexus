@@ -245,6 +245,10 @@ def load_game_instance_instructor():
 def load_game_instance_player():
     return flask.jsonify({'payload':json.dumps(protest_game.Game.load_game_instance_player(json.loads(flask.request.form['payload'])))})
 
+@app.route('/start-game', methods=['POST'])
+def start_game():
+    return flask.jsonify({'payload':json.dumps(protest_game.GameRun.start_game(json.loads(flask.request.form['payload'])))})
+
 @app.route('/invite-demo-players', methods=['POST'])
 def invite_demo_players():
     return flask.jsonify(protest_game.GameRun.invite_demo_players(json.loads(flask.request.form['payload'])))
