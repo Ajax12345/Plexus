@@ -8,6 +8,50 @@ $(document).ready(function(){
     var waitingroom = null;
     var waitlist_counter = 0;
     var roles = null;
+    var response_template = null;
+    var running_round = 1;
+    var given_strategy_hint = false;
+    
+    class Template{
+        constructor(template){
+            this.template = template;
+        }
+        render_text(str, params){
+            return str.replace(/\{\w+\}/g, function(match, ...p){
+                return params[match.substring(1, match.length-1)];
+            });
+        }
+        format(params){
+            var self = this;
+            return Object.fromEntries(Object.keys(self.template).map(function(x){return [x, self.render_text(self.template[x], params)]}))
+        }
+    }
+    class TemplateCycle{
+        constructor(options){
+            this.options = options;
+            this.ind = 0;
+        }
+        next(){
+            var self = this;
+            if (self.ind >= self.options.length){
+                self.ind = 0;
+            }
+            self.ind++;
+            return new Template(self.options[self.ind-1])
+        }
+    }
+    class ResponseTemplate{
+        static templatify(template){
+            for (var i of Object.keys(template)){
+                if (Array.isArray(template[i])){
+                    template[i] = new TemplateCycle(template[i]);
+                }
+                else{
+                    ResponseTemplate.templatify(template[i])
+                }
+            }
+        }
+    }
     $('.score-box-divider').css('height', $("#score-col-main").css('height'));
     Pusher.logToConsole = true;
 
@@ -78,6 +122,8 @@ $(document).ready(function(){
                 matrix_payload = payload.matrix;
                 gameplay_payload = payload.gameplay;
                 waitingroom = payload.waitingroom;
+                response_template = payload.response_template;
+                ResponseTemplate.templatify(response_template);
                 if (gameplay_payload.id === null){
                     setup_pusher_handlers();
                     setup_waiting_room();

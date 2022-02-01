@@ -10,6 +10,50 @@ $(document).ready(function(){
     var walkthrough_disabled = false;
     var closed_walkthrough = false;
     var roles = null;
+    var response_template = null;
+    var running_round = 1;
+    var given_strategy_hint = false;
+    
+    class Template{
+        constructor(template){
+            this.template = template;
+        }
+        render_text(str, params){
+            return str.replace(/\{\w+\}/g, function(match, ...p){
+                return params[match.substring(1, match.length-1)];
+            });
+        }
+        format(params){
+            var self = this;
+            return Object.fromEntries(Object.keys(self.template).map(function(x){return [x, self.render_text(self.template[x], params)]}))
+        }
+    }
+    class TemplateCycle{
+        constructor(options){
+            this.options = options;
+            this.ind = 0;
+        }
+        next(){
+            var self = this;
+            if (self.ind >= self.options.length){
+                self.ind = 0;
+            }
+            self.ind++;
+            return new Template(self.options[self.ind-1])
+        }
+    }
+    class ResponseTemplate{
+        static templatify(template){
+            for (var i of Object.keys(template)){
+                if (Array.isArray(template[i])){
+                    template[i] = new TemplateCycle(template[i]);
+                }
+                else{
+                    ResponseTemplate.templatify(template[i])
+                }
+            }
+        }
+    }
     Pusher.logToConsole = true;
 
     var pusher = new Pusher('f7e3f6c14176cdde1625', {
@@ -19,6 +63,7 @@ $(document).ready(function(){
         roles = payload.roles;
         gameplay_payload.id = payload.gpid;
         console.log('in start game handler')
+        setup_play_stage();
     }
     var response_handlers = {2:start_game};
     function setup_pusher_handlers(){
@@ -137,6 +182,94 @@ $(document).ready(function(){
             load_content_modal();
         }
     }); 
+    function player_side_move(payload){
+        $("#reaction-poll-message").remove();
+        $("#wait-for-response").remove();
+        $('#message-container1').prepend(`<div class="message-main" id='reaction-poll-message' style='margin-top:-100px'>
+            <div class="message-body">
+                <div class="poster-icon-outer">
+                    <div class="main-game-icon"></div>
+                </div>
+                <div class="main-message-body">
+                    <div class="message-about-poster">
+                        <div class="message-poster-name">Plexus</div>
+                        <div class="message-poster-handle">@plexus</div>
+                        <div class="message-dot"></div>
+                        <div class="message-post-datetime">Just now</div>
+                    </div>
+                    <div class="message-body-content">${payload.body}</div>
+                    <div class='reaction-poll-outer'>
+                        ${matrix_payload.reactions[payload.actor].map(function(x){
+                            return `<div class="reaction-poll-option" data-rid='${x.id}'>${x.reaction}</div>`
+                        }).join('\n')}
+                    </div>
+                    <div class="message-action-footer">
+                        <div class="reply-message-outer">
+                            <div class="reply-message-icon"></div>
+                        </div>
+                        <div class="message-reply-count">0</div>
+                        <div></div>
+                        <div class="like-message-outer">
+                            <div class="like-message-icon"></div>
+                        </div>
+                        <div class="message-like-count">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>`);
+        setTimeout(function(){
+            $(`#reaction-poll-message`).css('margin-top', `0px`);
+        }, 50);
+    }
+    function setup_play_stage(){
+        player_role = Object.keys(roles).filter(function(x){return roles[x].some(function(y){return parseInt(y.id) === parseInt(user_payload.id)})})[0]
+        opponent =  Object.keys(matrix_payload.actors).filter(function(x){return parseInt(x) != parseInt(player_role)})[0]
+        console.log('player role')
+        console.log(player_role);
+        $('.role-container .team-about-large').html('#'+matrix_payload.actors[player_role].name);
+        for (var i of document.querySelectorAll('.how-to-play-container .how-to-play-desc > .adversary-hashtag')){
+            $(i).html('#'+matrix_payload.actors[opponent].name);
+        }
+        $('.side-score-outer:nth-of-type(1) .side-score-name').html(matrix_payload.actors[1].name)
+        $('.side-score-outer:nth-of-type(3) .side-score-name').html(matrix_payload.actors[2].name)
+        $('.role-container').css('display', 'block');
+        $('.how-to-play-container').css('display', 'block')
+        $('.score-box').css('display', 'block')
+        $('.scoreboard-spacer').css('display', 'block')
+        $("#section-block2").html(`
+            <div class="message-team-outer">
+                <div class="message-team-prompt-outer">
+                    <div class="team-messages-text"><span class="side-hashtag side-hashtag-header">#${matrix_payload.actors[player_role].name}</span> messages</div>
+                </div>
+                <div class="message-button-outer">
+                    <div class="add-message">Message</div>
+                </div>
+            </div>
+        `);
+        $('.current-round').html(`Round 1 of ${game_payload.rounds}`);
+        post_message({poster:10, name:"Plexus", handle:'plexus', body:`The game has begun! Your team is #${matrix_payload.actors[player_role].name}.`, is_player:0, reply:null, special_class:'message-pinned-stream'})
+        var non_start = Object.keys(matrix_payload.actors).filter(function(x){return parseInt(x) != parseInt(matrix_payload.move)})[0]
+        var first_move_a = matrix_payload.actors[matrix_payload.move].name;
+        var second_move_a = matrix_payload.actors[non_start].name;
+        var start_template = response_template.round_by_round.start.next().format({first_move_actor:first_move_a, second_move_actor:second_move_a, present_tense_to_be:present_tense_to_be(first_move_a), await_tense:is_singular(second_move_a) ? "awaits" : "await"})
+        console.log('start template here')
+        console.log(start_template)
+        $('.game-announcement-title').html(all_caps(start_template.title));
+        $('.game-announcement-body').html(only_start_caps(start_template.description));
+        //submit_side_reactions([...choose_reactions(opponent)], opponent);
+        if (parseInt(player_role) === parseInt(matrix_payload.move)){
+            setTimeout(function(){
+                player_side_move({actor:player_role, body:`Team <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: the game has begun. Make your move now!`});
+                setTimeout(function(){
+                    display_strategy_hint();
+                }, 2000);
+            }, 3000);
+            
+        }
+        else{
+            //opponent_side_move();
+        }
+    }
     function on_content_close(){
         if (!closed_content){
             start_walkthrough(1);
@@ -193,6 +326,31 @@ $(document).ready(function(){
         next_step();
 
     }
+    function utc_now(){
+        var d = new Date();
+        return Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes(), d.getSeconds(), d.getMilliseconds());
+    }
+    function all_caps(s){
+        var ignore = ['a', 'and', 'an', 'the', 'or', 'but', 'yet', 'were', 'was', 'while', 'to']
+        return s.replace(/^[a-zA-Z]|\b[a-zA-Z]/g, function(match, ...p){
+            return !ignore.includes(match) ? match.toUpperCase() : match;
+        });
+    }
+    function only_start_caps(s){
+        var actor_names = Object.keys(matrix_payload.actors).map(function(x){return matrix_payload.actors[x].name}).map(function(x){return x.toLowerCase()})
+        return s.toLowerCase().replace(/^[a-zA-Z]|(\.\s)[a-zA-Z]/g, function(match, ...p){
+            return match.toUpperCase()
+        }).replace(/[a-zA-Z]+/g, function(match, ...p){
+            return actor_names.includes(match.toLowerCase()) ? match[0].toUpperCase() + match.substring(1).toLowerCase() : match
+        });
+    }
+    function analyze_round_performance(){
+        if (round_by_round_results.length > 1){
+            if (round_by_round_results.slice(round_by_round_results.length-2, round_by_round_results.length).every(function(x){return parseInt(x.round_loser_id) === parseInt(player_role)})){
+                display_strategy_reminder();
+            }
+        }
+    }
     function post_message(payload, target='#message-container1'){
         var posted_date = utc_now();
         $.ajax({
@@ -242,6 +400,84 @@ $(document).ready(function(){
         });
         
     }
+    function update_message_timestamps(){
+        for (var i of document.querySelectorAll('.game-message .message-post-datetime')){
+            var d1 = $(i).data('posted');
+            var d2 = utc_now();
+            var factors = [[1000, 'sec'], [1000*60, 'min']];
+            var last = null;
+            for (var [interval, t] of factors){
+                var v = Math.floor((d2 - d1)/interval)
+                if (v > 0){
+                    last = {val:v, t_int:t};
+                }
+            }
+            if (last != null){
+                $(i).html(`${last.val} ${last.t_int}`);
+            }
+
+        }
+    }
+    function run_message_timestamp_updates(){
+        setTimeout(function(){
+            update_message_timestamps();
+            run_message_timestamp_updates();
+        }, 60000);
+    }
+    run_message_timestamp_updates()
+    $('body').on('click', '.add-message', function(){
+        $('.post-message-outer').css('display', 'block');
+        $('.message-compose-field').html(`<div class='message-body-placeholder' style="display: inline;" contentEditable="false">Message your team</div>`)
+        $('.message-compose-field').focus();
+    });
+    $('body').on('click', '.close-post-message', function(){
+        $('.post-message-outer').css('display', 'none');
+    });
+    function* get_all_message_text(elem){
+        if (elem.nodeType === 3){
+            yield elem.textContent;
+        }
+        else if (!$(this).hasClass('message-body-placeholder')){
+            for (var i of elem.childNodes){
+                yield* get_all_message_text(i);
+            }
+        }
+    }
+    function find_handles(message){
+        return message.replace(/#\w+|@\w+/g, function(match, ...p){
+            return `<span class='side-hashtag'>${match}</span>`
+        });
+    }
+    var hash_flag = false;
+    $('body').on('input', '.message-compose-field', function(e){
+        var t = Array.from(get_all_message_text(document.querySelector('.message-compose-field'))).join('');
+        if (t.length === 0){
+            $('.message-compose-field').html(`<div class='message-body-placeholder' style="display: inline;" contentEditable="false">Message your team</div>`)
+        }
+        else{
+            $('.message-body-placeholder').remove();
+            var change = false;
+            if (e.originalEvent.data === '#'){
+                hash_flag = true;
+            }
+            else if (e.originalEvent.data.match(/[^\w]+/)){
+                hash_flag = false;
+                change = true;
+            }
+            if (hash_flag || change){
+                t = Array.from(get_all_message_text(document.querySelector('.message-compose-field'))).join('');
+                $('.message-compose-field').html(find_handles(t))
+                document.querySelector('.message-compose-field').focus();
+                document.execCommand('selectAll', false, null);
+                document.getSelection().collapseToEnd();
+            }
+        }
+    });
+    $('body').on('click', '.post-message-button', function(){
+        var t = Array.from(get_all_message_text(document.querySelector('.message-compose-field'))).join('');
+        $('.post-message-outer').css('display', 'none');
+        post_message({poster:user_payload.id, name:user_payload.name, handle:user_payload.name.replace(' ', '_').toLowerCase(), body:t, is_player:1, reply:null}, '#message-container2')
+    });
     var singularity = {'police':false};
     function is_singular(name){
         if (name.toLowerCase() in singularity){
@@ -293,6 +529,8 @@ $(document).ready(function(){
                 content_payload = payload.content;
                 matrix_payload = payload.matrix;
                 gameplay_payload = payload.gameplay;
+                response_template = payload.response_template;
+                ResponseTemplate.templatify(response_template);
                 setup_pusher_handlers();
                 setup_start_screen(function(){
                     $('.game-loading-state-display').css('display', 'none');

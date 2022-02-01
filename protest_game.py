@@ -109,7 +109,8 @@ class Game:
             cl.execute('select id, name, email from waitingroom where status = 0 and gid = %s', [int(_payload['gid'])])
             waitingroom = list(cl)
 
-        return {**{a:{j:loaders.get((a, j), lambda x:x)(k) if j not in ['added', 'jdate'] else str(k) for j, k in b.items()} for a, b in full_payload.items()}, 'waitingroom':waitingroom}
+        with open('round_response_templates.json') as f:
+            return {**{a:{j:loaders.get((a, j), lambda x:x)(k) if j not in ['added', 'jdate'] else str(k) for j, k in b.items()} for a, b in full_payload.items()}, 'waitingroom':waitingroom, 'response_template':json.load(f)}
 
     @classmethod
     def load_game_instance_player(cls, _payload:dict) -> dict:
@@ -126,7 +127,8 @@ class Game:
             cl.execute('select id from gameplays where end is null and demo != 1 and gid=%s', [int(_payload['gid'])])
             full_payload['gameplay'] = {'id':None if (v:=cl.fetchone()) is None else v['id']}
 
-        return {a:{j:loaders.get((a, j), lambda x:x)(k) if j not in ['added', 'jdate'] else str(k) for j, k in b.items()} for a, b in full_payload.items()}
+        with open('round_response_templates.json') as f:
+            return {**{a:{j:loaders.get((a, j), lambda x:x)(k) if j not in ['added', 'jdate'] else str(k) for j, k in b.items()} for a, b in full_payload.items()}, 'response_template':json.load(f)}
 
     @classmethod
     def load_full_game_instance(cls, _payload:dict) -> dict:
