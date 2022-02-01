@@ -93,7 +93,7 @@ $(document).ready(function(){
     }
     load_start();
     $('body').on('click', '.start-game', function(){
-        if (!$(this).hasClass('start-game-delayed')){
+        if (!$(this).hasClass('start-game-disabled')){
             $(this).html('Starting game...')
             $.ajax({
                 url: "/start-game",

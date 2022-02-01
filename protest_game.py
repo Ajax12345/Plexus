@@ -219,19 +219,17 @@ class GameRun:
         with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict = True) as cl:
             cl.execute('select max(id) gpid from gameplays')
             cl.execute('insert into gameplays values (%s, %s, now(), null, 0)', [(gpid:=(1 if (cid:=cl.fetchone()['gpid']) is None else int(cid)+1)), int(_payload['gid'])])
-            cl.execute('select id, name, email from waitingroom where gid = %s and status=0', [int(_payload['id'])])
+            cl.execute('select id, name, email from waitingroom where gid = %s and status=0', [int(_payload['gid'])])
             players = list(cl)
             random.shuffle(players)
             cl.execute('''
                 update waitingroom set status=1 where id in ({})
             '''.format(', '.join(str(i['id']) for i in players)))
             cl.commit()
-            cl.execute('select m.actors a from games g join matrices m on g.matrix = m.id where g.id = %s', [int(_payload['id'])])
+            cl.execute('select m.actors a from games g join matrices m on g.matrix = m.id where g.id = %s', [int(_payload['gid'])])
             actors, p = json.loads(cl.fetchone()['a']), iter(players)
             roles = {int(a):list(filter(None, [next(p, None) for _ in range(len(players)//len(actors))])) for a in actors}
-            if demo:
-                assert len(set([len(b) for b in roles.values()])) == 1
-            
+            #assert len(set([len(b) for b in roles.values()])) == 1
             cl.executemany('insert into roles values (%s, %s, %s)', [[int(j['id']), int(_payload['gid']), a] for a, b in roles.items() for j in b])
             cl.commit()
             pusher_client.trigger('game-events', f'game-events-{_payload["gid"]}', {'handler':2, 'payload':(_pld:={'gpid':gpid, 'roles':roles})})

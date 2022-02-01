@@ -280,7 +280,6 @@ $(document).ready(function(){
         }
     }
     function load_start(){
-        setup_pusher_handlers();
         meta_payload = $('.main').data('pld')
         $.ajax({
             url: "/load-game-instance-player",
@@ -294,6 +293,7 @@ $(document).ready(function(){
                 content_payload = payload.content;
                 matrix_payload = payload.matrix;
                 gameplay_payload = payload.gameplay;
+                setup_pusher_handlers();
                 setup_start_screen(function(){
                     $('.game-loading-state-display').css('display', 'none');
                 
