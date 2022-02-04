@@ -82,7 +82,7 @@
                         <div class='game-name'>{{game.name}}</div>
                     </div>
                     <div class='game-col game-col-td'>
-                        <div class='game-status-pill'>Not started yet</div>
+                        <div class='game-status-pill {{game.status_class}}'>{{game.status_text}}</div>
                     </div>
                     <div class='game-col game-col-td'>
                         <a href='/game/{{game.id}}' style='text-decoration:none'>

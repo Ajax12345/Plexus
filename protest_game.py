@@ -89,7 +89,7 @@ class Game:
     @classmethod
     def get_all_games(cls, _id:int) -> AllGames:
         with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict = True) as cl:
-            cl.execute('select g.* from games g where g.creator = %s order by added desc', [int(_id)])
+            cl.execute('select g.*, (select count(*) from waitingroom w where w.gid = g.id and w.status = 0) players_waiting, exists (select 1 from gameplays gpls where gpls.gid = g.id and gpls.end is null and gpls.demo = 0) has_started from games g where g.creator = %s order by added desc', [int(_id)])
             return AllGames([cls.instantiate_game(i, cl) for i in cl])
 
     @classmethod
