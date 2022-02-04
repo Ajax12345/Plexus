@@ -46,6 +46,21 @@ body{
     padding-top:60px;
     display: none;
 }
+.side-responses-view-wrapper{
+    padding:50px;
+    padding-top:0px;
+    display: none;
+}
+.round-player-reactions-container{
+    max-height:40%;
+    overflow-y:scroll;
+}
+.round-player-reactions-counter{
+    color:rgb(40, 40, 40);
+    font-size:17px;
+    font-weight:600;
+    font-family: 'Source Sans Pro', sans-serif;
+}
 .about-wrapper-inner{
     max-width: 323px;
     border: 1px solid rgb(229, 229, 229);

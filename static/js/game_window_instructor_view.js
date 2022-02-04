@@ -79,6 +79,7 @@ $(document).ready(function(){
         roles = payload.roles;
         gameplay_payload.id = payload.gpid;
         $('.waitlist-background').css('display', 'none')
+        setup_play_stage()
     }
     var response_handlers = {1:new_waiting_room_user, 2:start_game};
     function setup_pusher_handlers(){
@@ -88,6 +89,21 @@ $(document).ready(function(){
             console.log(data)
             response_handlers[data.handler](data.payload)
         });
+    }
+    function setup_play_stage(){
+        $('.current-round').html(`Round 1 of ${game_payload.rounds}`);
+        $('.side-score-outer:nth-of-type(1) .side-score-name').html(matrix_payload.actors[1].name)
+        $('.side-score-outer:nth-of-type(3) .side-score-name').html(matrix_payload.actors[2].name)
+        $('.actors-outer .actor-listing-main:nth-of-type(3) .team-about-large').html(`#${matrix_payload.actors[1].name}`);
+        $('.actors-outer .actor-listing-main:nth-of-type(5) .team-about-large').html(`#${matrix_payload.actors[2].name}`);
+        $('.side-view-wrapper .observe-side:nth-of-type(3)').html(`Observe ${matrix_payload.actors[1].name}`);
+        $('.side-view-wrapper .observe-side:nth-of-type(5)').html(`Observe ${matrix_payload.actors[2].name}`);
+        $('.round-player-reactions-counter').html(`0 of ${roles[matrix_payload.move].length} ${matrix_payload.actors[matrix_payload.move].name} have moved`)
+        $('.game-controls-outer').css('display', 'block');
+        $('.actors-outer').css('display', 'block');
+        $('.score-box-outer').css('display', 'block');
+        $('.side-view-wrapper').css('display', 'block');
+        $('.side-responses-view-wrapper').css('display', 'block');
     }
     function setup_waiting_room(){
         $('.waitlist-main').html(``);
@@ -146,7 +162,7 @@ $(document).ready(function(){
                 type: "post",
                 data: {payload: JSON.stringify(meta_payload)},
                 success: function(response) {
-                    //pass
+
                 },
                 error: function(xhr) {
                     //Do Something to handle error
