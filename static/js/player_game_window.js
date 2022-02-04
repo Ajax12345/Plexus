@@ -13,7 +13,7 @@ $(document).ready(function(){
     var response_template = null;
     var running_round = 1;
     var given_strategy_hint = false;
-    
+    var round_by_round_results = [];
     class Template{
         constructor(template){
             this.template = template;
@@ -65,7 +65,12 @@ $(document).ready(function(){
         console.log('in start game handler')
         setup_play_stage();
     }
-    var response_handlers = {2:start_game};
+    function round_result_handler(payload){
+        console.log('got in round result handler')
+        console.log(payload)
+        analyze_reaction_response(payload);
+    }
+    var response_handlers = {2:start_game, 4:round_result_handler};
     function setup_pusher_handlers(){
         var channel = pusher.subscribe('game-events');
         channel.bind(`game-events-${game_payload.id}`, function(data) {
@@ -181,7 +186,155 @@ $(document).ready(function(){
             $('.game-content-modal').css('display', 'block');
             load_content_modal();
         }
-    }); 
+    });
+    function analyze_reaction_response(response){
+        console.log('basic response')
+        console.log(response)
+        console.log('response template')
+        console.log(response_template)
+        if (!response.round_finished){
+            var start_template = response_template.actor_response.next().format(response)
+            console.log('start template here')
+            console.log(start_template)
+            $('.game-announcement-title').html(all_caps(start_template.title));
+            $('.game-announcement-body').html(only_start_caps(start_template.description));
+        }
+        else{
+            var round_result_template = parseInt(response.a1_points) === parseInt(response.a2_points) ? response_template.round_by_round.round_results_tie : response_template.round_by_round.round_results
+            var round_score_standing_text = parseInt(response.a1_total_score) === parseInt(response.a2_total_score) ? response_template.round_score_standing_text.tie : response_template.round_score_standing_text.non_tie;
+            var start_template = round_result_template.next().format({...response, round_score_standing_text:round_score_standing_text.next().format(response).text})
+            $('.side-score-outer:nth-of-type(1) .side-score-value').html(response.a1_total_score)
+            $('.side-score-outer:nth-of-type(3) .side-score-value').html(response.a2_total_score)
+            $('.game-announcement-title').html(all_caps(start_template.title));
+            $('.game-announcement-body').html(only_start_caps(start_template.description));
+            if (document.querySelector('.round-by-round-empty') != null){
+                $('.round-by-round-header-entry > .round-by-round-actor:nth-of-type(2)').html(`#${matrix_payload.actors[1].name}`);
+                $('.round-by-round-header-entry > .round-by-round-actor:nth-of-type(3)').html(`#${matrix_payload.actors[2].name}`);
+                $('.round-by-round').css('display', 'block');
+                $('.round-by-round-spacer').css('display', 'block');
+                $('.round-by-round-main').html('');
+            }
+            $('.round-by-round-main').prepend(`
+                <div class='round-by-round-entry'>
+                    <div class='round-by-round-num'>${response.round_int}</div>
+                    <div class='round-reaction-points-entry'>
+                        <div class='actor-reaction-entry'>${response.a1_reaction}</div>
+                        <div style='height:5px'></div>
+                        <div class='actor-points-awarded-outer'>
+                            <div class='actor-points-prompt-entry'>points</div>
+                            <div class='actor-points-round-col'>
+                                <div class='actor-awarded-point-by-round'>${response.a1_points}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='round-reaction-points-entry'>
+                        <div class='actor-reaction-entry'>${response.a2_reaction}</div>
+                        <div style='height:5px'></div>
+                        <div class='actor-points-awarded-outer'>
+                            <div class='actor-points-prompt-entry'>points</div>
+                            <div class='actor-points-round-col'>
+                                <div class='actor-awarded-point-by-round'>${response.a2_points}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `);
+            round_by_round_results.push(JSON.parse(JSON.stringify(response)));
+            analyze_round_performance();
+        }
+        if (!response.round_finished || (running_round + 1 <= parseInt(game_payload.rounds))){
+            if (response.round_finished){
+                running_round++;
+                $('.current-round').html(`Round ${running_round} of ${game_payload.rounds}`);
+            }
+            if (response.actor_move_next_id === player_role){
+                setTimeout(function(){
+                    player_side_move({actor:player_role, body:`Team <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: The ${response.a_move} ${response.a_past_to_be_tense} ${response.reaction}. Make your move now!`});
+                    setTimeout(function(){
+                        display_strategy_hint();
+                    }, 200);
+                }, 500);
+            }
+            else{
+                /*
+                setTimeout(function(){
+                    opponent_side_move();
+                }, 500); 
+                */   
+            }
+        }
+        else{
+            function most_common_reaction(reactions){
+                var r_name = null;
+                var f_c = null;
+                for (var i of Object.keys(reactions)){
+                    if (f_c === null || reactions[i] > f_c){
+                        f_c = reactions[i];
+                        r_name = i;
+                    }
+                }
+                return r_name;
+            }
+            var reaction_counts = {1:{}, 2:{}};
+            for (var i of round_by_round_results){
+                reaction_counts[1][i.a1_reaction] = i.a1_reaction in reaction_counts[1] ? reaction_counts[1][i.a1_reaction] + 1 : 1;
+                reaction_counts[2][i.a2_reaction] = i.a2_reaction in reaction_counts[2] ? reaction_counts[2][i.a2_reaction] + 1 : 1;
+            }
+            console.log('final response payload view')
+            console.log(response);
+            console.log(reaction_counts)
+            var game_over_template = parseInt(response.a1_total_score) === parseInt(response.a2_total_score) ? response_template.game_over_responses.tie : response_template.game_over_responses.non_tie;
+            var game_over_personalized = parseInt(player_role) === parseInt(response.actor_running_winner_id) ? response_template.game_over_personalize.player_wins : response_template.game_over_personalize.player_loses
+            var game_over_text = game_over_template.next().format({...response, game_personalize_message:game_over_personalized.next().format().text});
+            $('.game-announcement-title').html(all_caps(game_over_text.title));
+            $('.game-announcement-body').html(only_start_caps(game_over_text.description));
+            $('#message-container1').remove();
+            $('#message-container2').remove();
+            $("#section-block2").html(`
+                <div class="header-section-text">What you need to know</div>
+                <div class="what-you-need-to-know">-The ${matrix_payload.actors[1].name} ${past_tense_to_be(matrix_payload.actors[1].name)} mostly ${most_common_reaction(reaction_counts[1])} and the ${matrix_payload.actors[2].name} ${past_tense_to_be(matrix_payload.actors[2].name)} mostly ${most_common_reaction(reaction_counts[2])}.</div>
+            `)
+        }
+    }
+    function submit_side_reactions(reactions, side){
+        $.ajax({
+            url: "/submit-side-reactions",
+            type: "post",
+            data: {payload: JSON.stringify({id:game_payload.id, gid:gameplay_payload.id, side:side, reactions:reactions, round:running_round})},
+            success: function(response) {
+                analyze_reaction_response(JSON.parse(response.response));
+            },
+            error: function(xhr) {
+                //Do Something to handle error
+            }
+        });
+    } 
+    function submit_reaction(reaction, side){
+        console.log('submitting reaction')
+        console.log(reaction)
+        console.log(side)
+        $.ajax({
+            url: "/submit-reaction",
+            type: "post",
+            data: {payload: JSON.stringify({id:game_payload.id, gid:gameplay_payload.id, side:side, reaction:reaction, round:running_round})},
+            success: function(response) {
+                //analyze_reaction_response(JSON.parse(response.response));
+            },
+            error: function(xhr) {
+                //Do Something to handle error
+            }
+        });
+    }
+    $('body').on('click', '.reaction-poll-option', function(){
+        if (!$(this.parentNode).hasClass('reaction-poll-disabled')){
+            $(this).addClass('reaction-poll-chosen')
+            $(this.parentNode).addClass('reaction-poll-disabled');
+            var r_id = parseInt($(this).data('rid'));
+            var r_name = $(this).data('rname')
+            post_message({poster:10, name:"Plexus", handle:'plexus', body:`Your selection has been recorded. Please wait while the rest of your team submits their choices.`, is_player:0, reply:null, target_m_id:"wait-for-response", special_class:'message-pinned-stream', broadcast:0})
+            submit_reaction({...roles[player_role].filter(function(x){return parseInt(x.id) === parseInt(user_payload.id)})[0], name:user_payload.name, reaction:r_id, reaction_name:r_name}, player_role);
+        }
+    });
     function player_side_move(payload){
         $("#reaction-poll-message").remove();
         $("#wait-for-response").remove();
@@ -200,7 +353,7 @@ $(document).ready(function(){
                     <div class="message-body-content">${payload.body}</div>
                     <div class='reaction-poll-outer'>
                         ${matrix_payload.reactions[payload.actor].map(function(x){
-                            return `<div class="reaction-poll-option" data-rid='${x.id}'>${x.reaction}</div>`
+                            return `<div class="reaction-poll-option" data-rid='${x.id}' data-rname='${x.reaction}'>${x.reaction}</div>`
                         }).join('\n')}
                     </div>
                     <div class="message-action-footer">
@@ -356,7 +509,7 @@ $(document).ready(function(){
         $.ajax({
             url: "/post-message",
             type: "post",
-            data: {payload: JSON.stringify({poster:payload.poster, gid:gameplay_payload.id, is_player:payload.is_player, body:payload.body, reply:payload.reply, added:posted_date})},
+            data: {payload: JSON.stringify({poster:payload.poster, gid:gameplay_payload.id, is_player:payload.is_player, body:payload.body, reply:payload.reply, added:posted_date, broadcast:'broadcast' in payload ? payload.broadcast : 0})},
             success: function(response) {
                 var message_id = 'target_m_id' in payload ? payload.target_m_id : `game-message${response.id}`
                 $(target).prepend(`<div class="message-main ${'special_class' in payload ? payload.special_class : ""}" id='${message_id}' style='margin-top:-100px'>

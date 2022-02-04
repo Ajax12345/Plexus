@@ -265,6 +265,10 @@ def assign_roles():
 def submit_side_reactions():
     return flask.jsonify({'status':True, 'response':json.dumps(protest_game.GameRun.submit_side_reactions(json.loads(flask.request.form['payload'])))})
 
+@app.route('/submit-reaction', methods=['POST'])
+def submit_reaction():
+    return flask.jsonify({'status':True, 'response':json.dumps(protest_game.GameRun.submit_reaction(json.loads(flask.request.form['payload'])))})
+
 @app.route('/add-to-waitlist', methods=['POST'])
 def add_to_waitlist():
     return flask.jsonify(protest_utilites.add_to_waitlist(json.loads(flask.request.form['payload'])))

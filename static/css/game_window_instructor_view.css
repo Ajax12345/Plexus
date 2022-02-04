@@ -55,6 +55,18 @@ body{
     max-height:40%;
     overflow-y:scroll;
 }
+.round-move-missing{
+    color:rgb(40, 40, 40);
+    font-size:17px;
+    font-weight:400;
+    font-family: 'Source Sans Pro', sans-serif;
+}
+.round-move-reaction{
+    color:rgb(40, 40, 40);
+    font-size:17px;
+    font-weight:400;
+    font-family: 'Source Sans Pro', sans-serif;
+}
 .round-player-reactions-counter{
     color:rgb(40, 40, 40);
     font-size:17px;

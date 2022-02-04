@@ -92,7 +92,7 @@ $(document).ready(function(){
         $.ajax({
             url: "/post-message",
             type: "post",
-            data: {payload: JSON.stringify({poster:payload.poster, gid:gameplay_payload.id, is_player:payload.is_player, body:payload.body, reply:payload.reply, added:posted_date})},
+            data: {payload: JSON.stringify({poster:payload.poster, gid:gameplay_payload.id, is_player:payload.is_player, body:payload.body, reply:payload.reply, added:posted_date, broadcast:0})},
             success: function(response) {
                 var message_id = 'target_m_id' in payload ? payload.target_m_id : `game-message${response.id}`
                 $(target).prepend(`<div class="message-main ${'special_class' in payload ? payload.special_class : ""}" id='${message_id}' style='margin-top:-100px'>

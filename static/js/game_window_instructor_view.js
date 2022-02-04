@@ -81,7 +81,26 @@ $(document).ready(function(){
         $('.waitlist-background').css('display', 'none')
         setup_play_stage()
     }
-    var response_handlers = {1:new_waiting_room_user, 2:start_game};
+    function new_reaction_made(payload){
+        console.log('in new_reaction_made handler')
+        $('.round-player-reactions-container').append(`<div class='round-move-reaction'>${payload.name}(${payload.reaction_name})</div>`)
+        $('.round-player-reactions-counter').html(`${payload.num_reactions} of ${payload.total_actors} ${matrix_payload.actors[parseInt(payload.side)].name} have moved`)
+        $('.round-move-missing').html(`Not moved: ${payload.not_moved}`)
+    }
+    function update_reactions_notification_panel(payload){
+        if (payload.round_finished){
+            $('.round-player-reactions-container').html('');
+            $('.round-player-reactions-counter').html(`0 of ${roles[parseInt(payload.actor_move_next_id)].length} ${matrix_payload.actors[parseInt(payload.actor_move_next_id)].name} have moved`)
+            $('.round-move-missing').html(`Not moved: `)
+        }
+    }
+    function round_result_handler(payload){
+        console.log('got in round result handler')
+        console.log(payload)
+        //analyze_reaction_response(payload);
+        update_reactions_notification_panel(payload)
+    }
+    var response_handlers = {1:new_waiting_room_user, 2:start_game, 3:new_reaction_made, 4:round_result_handler};
     function setup_pusher_handlers(){
         var channel = pusher.subscribe('game-events');
         channel.bind(`game-events-${game_payload.id}`, function(data) {
