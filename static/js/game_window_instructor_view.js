@@ -89,11 +89,9 @@ $(document).ready(function(){
         $('.round-move-missing').html(`Not moved: ${payload.not_moved}`)
     }
     function update_reactions_notification_panel(payload){
-        if (payload.round_finished){
-            $('.round-player-reactions-container').html('');
-            $('.round-player-reactions-counter').html(`0 of ${roles[parseInt(payload.actor_move_next_id)].length} ${matrix_payload.actors[parseInt(payload.actor_move_next_id)].name} have moved`)
-            $('.round-move-missing').html(`Not moved: `)
-        }
+        $('.round-player-reactions-container').html('');
+        $('.round-player-reactions-counter').html(`0 of ${roles[parseInt(payload.actor_move_next_id)].length} ${matrix_payload.actors[parseInt(payload.actor_move_next_id)].name} have moved`)
+        $('.round-move-missing').html(`Not moved: `)
     }
     function round_result_handler(payload){
         console.log('got in round result handler')
@@ -305,6 +303,8 @@ $(document).ready(function(){
             if (response.round_finished){
                 running_round++;
                 $('.current-round').html(`Round ${running_round} of ${game_payload.rounds}`);
+                $('.round-by-round-reaction-header').html(`Round ${running_round} Player Reactions`)
+                
             }
         }
         else{
