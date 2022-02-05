@@ -251,7 +251,7 @@ $(document).ready(function(){
                 setTimeout(function(){
                     player_side_move({actor:player_role, body:`Team <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: The ${response.a_move} ${response.a_past_to_be_tense} ${response.reaction}. Make your move now!`});
                     setTimeout(function(){
-                        display_strategy_hint();
+                        //display_strategy_hint();
                     }, 200);
                 }, 500);
             }
@@ -653,7 +653,7 @@ $(document).ready(function(){
             if (optimal_payouts.length > 0){
                 given_strategy_hint = true;
                 var full_strings = optimal_payouts.map(function(x){return `${x.reactions[player_role].reaction} when the #${matrix_payload.actors[opponent].name.toLowerCase()} ${present_tense_to_be(matrix_payload.actors[opponent].name)} ${x.reactions[opponent].reaction}`})
-                post_message({poster:10, name:"Plexus", handle:'plexus', body:find_handles(`Hint: you will have a scoring advantage when you are ${full_strings.length < 3 ? full_strings.join(' and ') : full_strings.slice(0, full_strings.length - 1).join(' , ')+' and '+full_strings[full_strings.length-1]}.`), is_player:0, reply:null, special_class:'message-pinned-stream'})
+                post_message({poster:10, name:"Plexus", handle:'plexus', body:find_handles(`Hint: you will have a scoring advantage when you are ${full_strings.length < 3 ? full_strings.join(' and ') : full_strings.slice(0, full_strings.length - 1).join(' , ')+' and '+full_strings[full_strings.length-1]}.`), is_player:0, reply:null, special_class:'message-pinned-stream', broadcast:0})
             }
         }
     }
