@@ -305,7 +305,7 @@ class GameRun:
             
             num_reactions, total_actors = cl.fetchone()
             cl.execute('''
-                select group_concat(w.name, ', ') from roles r join waitingroom w on r.id = w.id 
+                select group_concat(w.name) from roles r join waitingroom w on r.id = w.id 
                 where r.gid = %s and r.actor = %s and 
                     r.id not in (select r1.id from reactions r1 where r1.gid = %s and r1.actor = %s and r1.round = %s)
             ''', [int(_payload['gid']), int(_payload['side']), int(_payload['gid']), int(_payload['side']), int(_payload['round'])])
@@ -403,6 +403,12 @@ class GameRun:
                 'round_winner_possessive':cls.possessive_tense(round_winner),
                 'actor_running_winner_possessive':cls.possessive_tense(a_rw)
             }
+            cl.execute('select rounds from games where id = %s', [int(_payload['id'])])
+            if int(_payload['round']) == int(cl.fetchone()[0]):
+                print('game ends here', int(_payload['round']), int(_payload['round'])+1)
+                cl.execute('update gameplays set end = now() where id = %s', [int(_payload['gid'])])
+                cl.commit()
+
             pusher_client.trigger('game-events', f'game-events-{_payload["id"]}', {'handler':4, 'payload':full_response})
             return full_response
         

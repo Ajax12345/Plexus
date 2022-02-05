@@ -133,6 +133,8 @@ $(document).ready(function(){
         $('.side-view-wrapper .observe-side:nth-of-type(3)').html(`Observe ${matrix_payload.actors[1].name}`);
         $('.side-view-wrapper .observe-side:nth-of-type(5)').html(`Observe ${matrix_payload.actors[2].name}`);
         $('.round-player-reactions-counter').html(`0 of ${roles[matrix_payload.move].length} ${matrix_payload.actors[matrix_payload.move].name} have moved`)
+        $('.round-by-round-header-entry > .round-by-round-actor:nth-of-type(2)').html(`#${matrix_payload.actors[1].name}`);
+        $('.round-by-round-header-entry > .round-by-round-actor:nth-of-type(3)').html(`#${matrix_payload.actors[2].name}`);
         display_start_game_feed();
         $('.game-controls-outer').css('display', 'block');
         $('.actors-outer').css('display', 'block');
@@ -338,4 +340,10 @@ $(document).ready(function(){
             `)
         }
     }
+    $('body').on('click', '.round-by-round-toggle', function(){
+        $('.round-by-round-modal').css('display', 'block');
+    });
+    $('body').on('click', '.close-round-by-round-modal', function(){
+        $('.round-by-round-modal').css('display', 'none');
+    });
 });
