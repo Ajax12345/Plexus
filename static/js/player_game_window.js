@@ -251,7 +251,9 @@ $(document).ready(function(){
                 setTimeout(function(){
                     player_side_move({actor:player_role, body:`Team <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: The ${response.a_move} ${response.a_past_to_be_tense} ${response.reaction}. Make your move now!`});
                     setTimeout(function(){
-                        //display_strategy_hint();
+                        if (running_round===1 || running_round%3 === 0){
+                            display_strategy_hint();
+                        }
                     }, 200);
                 }, 500);
             }
@@ -434,7 +436,7 @@ $(document).ready(function(){
         var build_string = '';
         for (var {link:l_link, start:_start, end:_end, lid:_lid} of block.links){
             build_string += block.text.substring(last_ind, _start)
-            build_string += `<a href='${l_link}' class='content-block-link' id='content-block-link${_lid}' data-lid='${_lid}'>${block.text.substring(_start, _end)}</a>`;
+            build_string += `<a href='${l_link}' class='content-block-link' id='content-block-link${_lid}' data-lid='${_lid}' target='_blank'>${block.text.substring(_start, _end)}</a>`;
             last_ind = _end;
         }
         build_string += block.text.substring(last_ind);
