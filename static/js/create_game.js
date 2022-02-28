@@ -166,7 +166,7 @@ $(document).ready(function(){
                                     <div style='height:10px'></div>
                                     <div class='matrix-actor-header'>Actors</div>
                                     <div style='height:5px'></div>
-                                    <div class='matrix-actor-outer'><span class='matrix-actor'>#Police</span>, <span class='matrix-actor'>#Protestors</span></div>
+                                    <div class='matrix-actor-outer'><span class='matrix-actor'>#${i.actors[1].name}</span>, <span class='matrix-actor'>#${i.actors[2].name}</span></div>
                                     <div style='height:10px'></div>
                                     <div class='content-description' id='content-description${i.id}'>${render_content_block(i.dsc)}</div>
                                     <div class='content-spacer' style="height:10px"></div>

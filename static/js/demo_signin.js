@@ -25,16 +25,20 @@ $(document).ready(function(){
             }
         });
     }
+    var signing_in = false;
     $('body').on('click', '.start-demo', function(){
-        $('.start-demo').html(`
-            <div class='start-demo-loading'>
-                <div class='start-demo-col'><div class="la-ball-clip-rotate" style='color:white;height: 10px;width: 10px;margin-top: -11px;margin-right: 17px;'><div></div></div></div>
-                <div class='start-demo-col'>
-                    Starting demo...
+        if (!signing_in){
+            signing_in = true;
+            $('.start-demo').html(`
+                <div class='start-demo-loading'>
+                    <div class='start-demo-col'><div class="la-ball-clip-rotate" style='color:white;height: 10px;width: 10px;margin-top: -11px;margin-right: 17px;'><div></div></div></div>
+                    <div class='start-demo-col'>
+                        Starting demo...
+                    </div>
+                    <div class='start-demo-col'></div>
                 </div>
-                <div class='start-demo-col'></div>
-            </div>
-        `);
-        start_demo();
+            `);
+            start_demo();
+        }
     });
 });

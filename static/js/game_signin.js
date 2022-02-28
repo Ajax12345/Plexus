@@ -26,16 +26,20 @@ $(document).ready(function(){
         });
 
     }
+    var signing_in = false;
     $('body').on('click', '.enter-game', function(){
-        $('.enter-game').html(`
-            <div class='enter-game-loading'>
-                <div class='enter-game-col'><div class="la-ball-clip-rotate" style='color:white;height: 10px;width: 10px;margin-top: -11px;margin-right: 17px;'><div></div></div></div>
-                <div class='enter-game-col'>
-                    Entering game...
+        if (!signing_in){
+            signing_in = true
+            $('.enter-game').html(`
+                <div class='enter-game-loading'>
+                    <div class='enter-game-col'><div class="la-ball-clip-rotate" style='color:white;height: 10px;width: 10px;margin-top: -11px;margin-right: 17px;'><div></div></div></div>
+                    <div class='enter-game-col'>
+                        Entering game...
+                    </div>
+                    <div class='enter-game-col'></div>
                 </div>
-                <div class='enter-game-col'></div>
-            </div>
-        `);
-        enter_game();
+            `);
+            enter_game();
+        }
     });
 });
