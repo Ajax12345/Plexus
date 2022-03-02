@@ -14,6 +14,7 @@ Plexus Pusher Handler ID descriptions:
     2: instructor and player game start notification
     3: alerts instructor/game owner that a new reaction has been made
     4: instructor and player round/game result update
+    5: stops game
 """
 
 class AllGames:
@@ -244,6 +245,16 @@ class GameRun:
             cl.commit()
             pusher_client.trigger('game-events', f'game-events-{_payload["gid"]}', {'handler':2, 'payload':(_pld:={'gpid':gpid, 'roles':roles})})
             return _pld
+
+    @classmethod
+    def stop_game(cls, _payload:dict) -> dict:
+        print('payload in stop_game', _payload)
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict = True) as cl:
+            cl.execute('update gameplays set end = now() where id = %s', [int(_payload['gpid'])])
+            cl.commit()
+            pusher_client.trigger('game-events', f'game-events-{_payload["id"]}', {'handler':5, 'payload':{}})
+        
+        return {'success':True}
 
     @classmethod
     def assign_roles(cls, _payload:dict, demo:typing.Optional[bool] = True) -> dict:

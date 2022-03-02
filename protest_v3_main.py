@@ -273,6 +273,10 @@ def submit_reaction():
 def add_to_waitlist():
     return flask.jsonify(protest_utilites.add_to_waitlist(json.loads(flask.request.form['payload'])))
 
+@app.route('/stop-game', methods=['POST'])
+def stop_game():
+    return flask.jsonify(protest_game.GameRun.stop_game(json.loads(flask.request.form['payload'])))
+
 @app.after_request
 def add_header(r):
     """

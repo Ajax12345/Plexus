@@ -560,6 +560,9 @@ body{
     column-gap: 15px;
     align-items: center;
 }
+.game-control-outer:hover{
+    cursor:pointer;
+}
 .game-control-option{
     font-size:20px;
     font-weight:600;
@@ -582,6 +585,12 @@ body{
 .remove-player-icon{
     background-size:cover;
     background-image: url(/static/img/remove-user.svg);
+    width:25px;
+    height:25px;
+}
+.stop-game-icon{
+    background-size:cover;
+    background-image: url(/static/img/stop.png);
     width:25px;
     height:25px;
 }

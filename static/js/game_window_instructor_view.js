@@ -100,7 +100,10 @@ $(document).ready(function(){
         update_reactions_notification_panel(payload);
         analyze_reaction_response(payload);
     }
-    var response_handlers = {1:new_waiting_room_user, 2:start_game, 3:new_reaction_made, 4:round_result_handler};
+    function stop_game_handler(payload){
+        //pass
+    }
+    var response_handlers = {1:new_waiting_room_user, 2:start_game, 3:new_reaction_made, 4:round_result_handler, 5:stop_game_handler};
     function setup_pusher_handlers(){
         var channel = pusher.subscribe('game-events');
         channel.bind(`game-events-${game_payload.id}`, function(data) {
@@ -345,5 +348,31 @@ $(document).ready(function(){
     });
     $('body').on('click', '.close-round-by-round-modal', function(){
         $('.round-by-round-modal').css('display', 'none');
+    });
+    function remove_players(){
+        alert('in remove players')
+
+    }
+    function pause_game(){
+        alert('in pause game')
+    }
+    function stop_game(){
+        alert('in stop game')
+        $('.game-control-outer[data-control="stop"] .game-control-option').html('Stopping Game...')
+        $.ajax({
+            url: "/stop-game",
+            type: "post",
+            data: {payload: JSON.stringify({id:game_payload.id, gpid:gameplay_payload.id})},
+            success: function(response) {
+                $('.game-control-outer[data-control="stop"] .game-control-option').html('Game Stopped')
+            },
+            error: function(xhr) {
+                //Do Something to handle error
+            }
+        });
+    }
+    var game_control_handlers = {remove:remove_players, pause:pause_game, stop:stop_game}
+    $('body').on('click', '.game-control-outer', function(){
+        game_control_handlers[$(this).data('control')]()
     });
 });

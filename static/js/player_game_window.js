@@ -70,7 +70,10 @@ $(document).ready(function(){
         console.log(payload)
         analyze_reaction_response(payload);
     }
-    var response_handlers = {2:start_game, 4:round_result_handler};
+    function stop_game_handler(payload){
+        window.location.replace('/')
+    }
+    var response_handlers = {2:start_game, 4:round_result_handler, 5:stop_game_handler};
     function setup_pusher_handlers(){
         var channel = pusher.subscribe('game-events');
         channel.bind(`game-events-${game_payload.id}`, function(data) {
