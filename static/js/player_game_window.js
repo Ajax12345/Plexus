@@ -14,6 +14,14 @@ $(document).ready(function(){
     var running_round = 1;
     var given_strategy_hint = false;
     var round_by_round_results = [];
+    var allow_page_exit = false;
+    window.onbeforeunload = on_exit_popup;
+
+    function on_exit_popup() {
+        if (!allow_page_exit){
+            return 'Are you sure you want to leave the game?';
+        }
+    }
     class Template{
         constructor(template){
             this.template = template;
@@ -71,6 +79,7 @@ $(document).ready(function(){
         analyze_reaction_response(payload);
     }
     function stop_game_handler(payload){
+        allow_page_exit = true
         window.location.replace('/')
     }
     function game_instructor_message_handler(payload){
