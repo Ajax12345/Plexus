@@ -13,6 +13,7 @@ $(document).ready(function(){
     var given_strategy_hint = false;
     var round_by_round_results = [];
     var player_role = null;
+    var message_side = null;
     class Template{
         constructor(template){
             this.template = template;
@@ -103,7 +104,10 @@ $(document).ready(function(){
     function stop_game_handler(payload){
         //pass
     }
-    var response_handlers = {1:new_waiting_room_user, 2:start_game, 3:new_reaction_made, 4:round_result_handler, 5:stop_game_handler};
+    function game_instructor_message_handler(payload){
+        //pass
+    }
+    var response_handlers = {1:new_waiting_room_user, 2:start_game, 3:new_reaction_made, 4:round_result_handler, 5:stop_game_handler, 6:game_instructor_message_handler};
     function setup_pusher_handlers(){
         var channel = pusher.subscribe('game-events');
         channel.bind(`game-events-${game_payload.id}`, function(data) {
@@ -357,7 +361,6 @@ $(document).ready(function(){
         alert('in pause game')
     }
     function stop_game(){
-        alert('in stop game')
         $('.game-control-outer[data-control="stop"] .game-control-option').html('Stopping Game...')
         $.ajax({
             url: "/stop-game",
@@ -374,5 +377,37 @@ $(document).ready(function(){
     var game_control_handlers = {remove:remove_players, pause:pause_game, stop:stop_game}
     $('body').on('click', '.game-control-outer', function(){
         game_control_handlers[$(this).data('control')]()
+    });
+    $('body').on('click', '.message-team', function(){
+        message_side = parseInt($(this).data('aid'));
+        $('.post-message-outer').css('display', 'block');
+        $('.message-compose-field').html(`<span class='side-hashtag' style="display: inline;padding-right:10px;font-size:22px">#${matrix_payload.actors[message_side].name}<span class='message-colon'>:</span></span><span class='message-compose-span' contentEditable="true"></span>`)
+        $('.message-compose-span').focus();
+    });
+    $('body').on('click', '.post-message-button', function(){
+        if (message_side != null){
+            var message = $('.message-compose-span').html();
+            if (message.length > 0){
+                $('.post-message-outer').css('display', 'none');
+                $.ajax({
+                    url: "/game-instructor-message",
+                    type: "post",
+                    data: {payload: JSON.stringify({id:game_payload.id, gpid:gameplay_payload.id, message:message, actor:message_side})},
+                    success: function(response) {
+                        message_side = null;
+                    },
+                    error: function(xhr) {
+                        //Do Something to handle error
+                    }
+                });
+            }
+        }
+    });
+    $('body').on('click', '.message-compose-main', function(){
+        $('.message-compose-span').focus();
+    });
+    $('body').on('click', '.close-post-message', function(){
+        message_side = null;
+        $('.post-message-outer').css('display', 'none');
     });
 });

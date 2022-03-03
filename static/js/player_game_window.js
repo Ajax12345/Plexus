@@ -73,7 +73,13 @@ $(document).ready(function(){
     function stop_game_handler(payload){
         window.location.replace('/')
     }
-    var response_handlers = {2:start_game, 4:round_result_handler, 5:stop_game_handler};
+    function game_instructor_message_handler(payload){
+        if (parseInt(payload.actor) === parseInt(player_role)){
+            $('.instructor-message-outer').css('display', 'block');
+            $('.instructor-message-inner').html(`<span class="side-hashtag" style='font-size:22px'>#${matrix_payload.actors[player_role].name}</span>: ${payload.message}`)
+        }
+    }
+    var response_handlers = {2:start_game, 4:round_result_handler, 5:stop_game_handler, 6:game_instructor_message_handler};
     function setup_pusher_handlers(){
         var channel = pusher.subscribe('game-events');
         channel.bind(`game-events-${game_payload.id}`, function(data) {
@@ -881,4 +887,7 @@ $(document).ready(function(){
         walkthrough_disabled = true;
         current_card = null;
     }); 
+    $('body').on('click', '.close-instructor-message', function(){
+        $('.instructor-message-outer').css('display', 'none');
+    });
 });

@@ -805,3 +805,118 @@ body{
     font-size: 17px;
     font-weight: 400;
 }
+.post-message-outer{
+    display:none;
+    position: fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100vh;
+    background-color:rgb(25 25 25 / 48%);
+    z-index:10000
+}
+.team-message-outer{
+    width:550px;
+    border-radius:20px;
+    background-color:white;
+    margin:0 auto;
+    position:relative;
+    top:150;
+    z-index:1000;
+}
+.team-message-header{
+    padding:16px;
+    display:grid;
+    grid-template-columns: auto auto;
+    /*border-bottom:1px solid rgb(228, 228, 228);*/
+    border-bottom:1px solid rgb(226, 226, 226);
+    padding-left:20px;
+    padding-right:20px;
+}
+.close-post-message{
+    width:15px;
+    height:15px;
+    background-size:cover;
+    background-image:url(/static/img/close-modal.svg);
+}
+.close-post-message:hover{
+    cursor:pointer;
+}
+.message-compose-main{
+    padding-left:20px;
+    padding-right:20px;
+    padding-top:10px;
+    padding-bottom:16px;
+}
+.message-compose-outer{
+    display:grid;
+    grid-template-columns: 45px calc(100% - 45px);
+    column-gap: 20px;
+}
+.message-poster-avatar{
+    width: 45px;
+    height: 45px;
+    border-radius:50%;
+}
+.message-manage-outer{
+    width:calc(100% - 20px);
+}
+.message-compose-field{
+    margin-top:10px;
+    width:100%;
+    height:150px;
+    font-size:20px;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 400;
+    color:rgb(40, 40, 40);
+}
+.message-compose-field:focus{
+    outline:none;
+}
+.message-post-divider{
+    height:1px;
+    background-color:rgb(226, 226, 226);
+}
+.post-message-footer{
+    display: grid;
+    grid-template-columns: auto auto;
+    padding:10px;
+
+}
+.post-message-button-col{
+    display:flex;
+    justify-content: flex-end;
+}
+.post-message-button{
+    background-color: rgb(29, 161, 242);
+    border-radius: 30px;
+    color: white;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    text-align: center;
+    padding: 14px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+.post-message-button:hover{
+    cursor: pointer;
+    background-color: rgb(24, 142, 215);
+    transition: 0.4s;
+}
+.message-body-placeholder{
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight:400;
+    color:rgb(133 133 133);
+}
+.message-colon{
+    font-family: 'Source Sans Pro', sans-serif;
+    color:rgb(40 40 40);
+
+}
+.message-compose-span{
+
+}
+.message-compose-span:focus{
+    outline:none;
+}

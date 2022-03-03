@@ -15,6 +15,7 @@ Plexus Pusher Handler ID descriptions:
     3: alerts instructor/game owner that a new reaction has been made
     4: instructor and player round/game result update
     5: stops game
+    6: "info bomb"/instructor message to a side
 """
 
 class AllGames:
@@ -254,6 +255,12 @@ class GameRun:
             cl.commit()
             pusher_client.trigger('game-events', f'game-events-{_payload["id"]}', {'handler':5, 'payload':{}})
         
+        return {'success':True}
+
+    @classmethod
+    def game_instructor_message(cls, _payload:dict) -> dict:
+        print('payload in game_instructor_message', _payload)
+        pusher_client.trigger('game-events', f'game-events-{_payload["id"]}', {'handler':6, 'payload':{'message':_payload['message'], 'actor':_payload['actor']}})
         return {'success':True}
 
     @classmethod
