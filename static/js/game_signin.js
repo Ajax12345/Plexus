@@ -8,6 +8,7 @@ $(document).ready(function(){
             if ($(i).val().length === 0){
                 $(i).addClass('enter-game-field-error');
                 $('.enter-game').html(`Enter Game`)
+                signing_in = false;
                 return;
             }
             _payload[$(i).data('field')] = $(i).val();

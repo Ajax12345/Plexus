@@ -16,6 +16,7 @@ Plexus Pusher Handler ID descriptions:
     4: instructor and player round/game result update
     5: stops game
     6: "info bomb"/instructor message to a side
+    7: player removal notification
 """
 
 class AllGames:
@@ -310,6 +311,126 @@ class GameRun:
     @classmethod
     def make_tense(cls, _name:str) -> str:
         return 'makes' if cls.is_singular(_name) else 'make'
+
+    @classmethod
+    def remove_player(cls, _payload:dict) -> dict:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl: 
+            cl.execute('delete from roles where id=%s', [int(_payload['player_id'])])
+            cl.commit()
+            pusher_client.trigger('game-events', f'game-events-{_payload["id"]}', {'handler':7, 'payload':{'player_id':int(_payload['player_id']), 'side':int(_payload['side'])}})
+            cl.execute('''select (select count(*) from reactions r 
+                          where r.gid = %s and r.actor = %s and r.round = %s), 
+                          (select count(*) from roles r1 
+                           where r1.gid = %s and r1.actor = %s)''', [int(_payload['gid']), int(_payload['side']), int(_payload['round']), int(_payload['gid']), int(_payload['side'])])
+            
+            num_reactions, total_actors = cl.fetchone()
+            cl.execute('''
+                select group_concat(w.name) from roles r join waitingroom w on r.id = w.id 
+                where r.gid = %s and r.actor = %s and 
+                    r.id not in (select r1.id from reactions r1 where r1.gid = %s and r1.actor = %s and r1.round = %s)
+            ''', [int(_payload['gid']), int(_payload['side']), int(_payload['gid']), int(_payload['side']), int(_payload['round'])])
+            if num_reactions != total_actors:
+                #pusher_client.trigger('game-events', f'game-events-{_payload["id"]}', {'handler':3, 'payload':{'name':_payload['player_name'], 'reaction_name':'(Removed by instructor)', 'num_reactions':num_reactions, 'total_actors':total_actors, 'not_moved':cl.fetchone()[0], 'side':int(_payload['side'])}})
+                return {}
+
+            cl.execute('''
+                -- note: not entirely my fault that this is so messy, pythonanywhere only supports mysql version 5.7, thus, no ctes allowed
+                select distinct c.a, c.r, null from (
+                    select f1.a a, f1.r r, max(f1.f) agg_p 
+                    from (select r.actor a, r.reaction r, count(*) f 
+                        from reactions r 
+                        where r.gid = %s and r.round = %s group by r.actor, r.reaction) f1 
+                    where f1.f = (select max(f2.f) from (select r.actor a, r.reaction r, count(*) f 
+                                    from reactions r where r.gid = %s and r.round = %s group by r.actor, r.reaction) f2 
+                                    where f2.a = f1.a) group by f1.a, f1.r) c
+                union all
+                select null, (select count(*) from (select distinct r.gid, r.actor from reactions r where r.gid = %s and r.round = %s) round_results) = (select json_length(m.actors) from gameplays gpls join games g on gpls.gid = g.id join matrices m on m.id = g.matrix where gpls.id = %s), null
+                union all
+                select m.actors, m.payoffs, m.reactions from gameplays gpls join games g on gpls.gid = g.id join matrices m on m.id = g.matrix where gpls.id = %s
+            ''', [int(_payload['gid']), int(_payload['round']), int(_payload['gid']), int(_payload['round']), int(_payload['gid']), int(_payload['round']), int(_payload['gid']), int(_payload['gid'])])
+            *reactions, [_, status, _], [_actors, _payoffs, _reactions] = cl
+            actors, payoffs, rcts = json.loads(_actors), json.loads(_payoffs), {int(a):{int(j['id']):j['reaction'] for j in b} for a, b in json.loads(_reactions).items()}
+            print(reactions, status, actors, payoffs)
+            r_d, r_r1 = {int(a):int(b) for a, b, _ in reactions}, {int(a):rcts[int(a)][int(b)] for a, b, _ in reactions}
+            parent_response = {
+                'a':int(_payload['side']),
+                'a_move':(a_move:=actors[str(_payload['side'])]['name']),
+                'a_past_to_be_tense':cls.past_to_be(a_move),
+                'reaction':r_r1[int(_payload['side'])],
+                **dict(zip(['a1', 'a2'], (a_t:=[b['name'] for b in actors.values()]))),
+                'round_int':int(_payload['round']),
+                'round_text':cls.round_text(int(_payload['round'])).capitalize(),
+                'round_finished':bool(int(status)),
+                'actor_move_next':(n_actor:=[(a, b['name']) for a, b in actors.items() if int(a) != int(_payload['side'])][0])[-1],
+                'actor_move_next_id':n_actor[0],
+                'actor_move_next_make_tense':cls.make_tense(n_actor[-1]),
+                **{f'a{i}_past_to_be_tense':cls.past_to_be(a) for i, a in enumerate(a_t, 1)}
+            }
+            if not int(status):
+                pusher_client.trigger('game-events', f'game-events-{_payload["id"]}', {'handler':4, 'payload':parent_response})
+                return parent_response
+
+            print('r_d and r_r1', r_d, r_r1)
+            payout = [i['payouts'] for i in payoffs if all(int(i['reactions'][str(a)]['id']) == int(b) for a, b in r_d.items())]
+            print('payout1 ', payout)
+            payout = payout[0]
+            print('new payout', payout)
+            cl.executemany('insert into rounds values (%s, %s, %s, %s, %s)', [[int(_payload['gid']), int(_payload['round']), int(a), int(b), int(payout[str(a)])] for a, b in r_d.items()])
+            cl.commit()
+            #order by pnts desc
+            cl.execute('''
+                (select t1.* from (select r.actor, sum(r.payout) pnts from rounds r where r.gid = %s group by r.actor) t1 order by t1.pnts desc)
+                ''', [int(_payload['gid'])])
+            [w_a, w_s], [l_a, l_s] = cl
+            print('winners and losers', [w_a, w_s], [l_a, l_s])
+            cl.execute('''
+                select t2.* from (select r.actor, sum(r.payout) pnts from rounds r where r.gid = %s and r.round = %s group by r.actor) t2 order by t2.pnts desc
+            ''', [int(_payload['gid']), int(_payload['round'])-1])
+            [w_a1, w_s1], [l_a1, l_s1] = (last_round if (last_round:=list(cl)) else [[None, None]]*2)
+            print('winners and losers last round',[w_a1, w_s1], [l_a1, l_s1])
+            running_scores, a_arr, transition_state = {w_a:w_s, l_a:l_s}, list(actors), ''
+            if w_a1 is not None:
+                if w_a == w_a1:
+                    transition_state = 'still '
+                else:
+                    transition_state = 'now '
+            print('detected transition', transition_state)
+            full_response = {
+                **parent_response,
+                **{f'a{i}_points':int(payout[a]) for i, a in enumerate(actors, 1)},
+                **{f'a{i}_reaction':r_r1[int(a)] for i, a in enumerate(actors, 1)},
+                **{f'a{i}_total_score':running_scores[int(a)] for i, a in enumerate(actors, 1)},
+                'actor_running_winner':(a_rw:=actors[str(w_a)]['name']),
+                'actor_running_winner_id':int(w_a),
+                'actor_running_winner_score':int(w_s),
+                'actor_running_loser':actors[str(l_a)]['name'],
+                'actor_running_loser_id':int(l_a),
+                'actor_running_loser_score':int(l_s),
+                'round_winner':(round_winner:=(actors[(ra_w:=(a_arr[0] if int(payout[a_arr[0]]) > int(payout[a_arr[1]]) else a_arr[1]))]['name'])),
+                'round_winner_id':int(ra_w),
+                'round_winner_points':(rw_points:=int(payout[ra_w])),
+                'round_winner_reaction':r_r1[int(ra_w)],
+                'round_loser':(round_loser:=(actors[(ra_l:=(a_arr[0] if int(payout[a_arr[1]]) > int(payout[a_arr[0]]) else a_arr[1]))]['name'])),
+                'round_loser_id':int(ra_l),
+                'round_loser_points':(rl_points:=int(payout[ra_l])),
+                'round_loser_reaction':r_r1[int(ra_l)],
+                'round_transition_state':transition_state,
+                'round_winner_point_desc_text':f'point{"s" if rw_points != 1 else ""}',
+                'round_loser_point_desc_text':f'point{"s" if rl_points != 1 else ""}',
+                'lead_text_winner':'leads' if cls.is_singular(a_rw) else "lead",
+                'round_winner_past_to_be_tense':cls.past_to_be(round_winner),
+                'round_loser_past_to_be_tense':cls.past_to_be(round_loser),
+                'round_winner_possessive':cls.possessive_tense(round_winner),
+                'actor_running_winner_possessive':cls.possessive_tense(a_rw)
+            }
+            cl.execute('select rounds from games where id = %s', [int(_payload['id'])])
+            if int(_payload['round']) == int(cl.fetchone()[0]):
+                print('game ends here', int(_payload['round']), int(_payload['round'])+1)
+                cl.execute('update gameplays set end = now() where id = %s', [int(_payload['gid'])])
+                cl.commit()
+
+            pusher_client.trigger('game-events', f'game-events-{_payload["id"]}', {'handler':4, 'payload':full_response})
+            return full_response
 
     @classmethod
     def submit_reaction(cls, _payload:dict) -> dict:

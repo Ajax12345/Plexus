@@ -79,6 +79,8 @@ $(document).ready(function(){
     function start_game(payload){
         console.log('in start game handler')
         roles = payload.roles;
+        console.log('roles in start_game')
+        console.log(roles);
         gameplay_payload.id = payload.gpid;
         $('.waitlist-background').css('display', 'none')
         setup_play_stage()
@@ -107,7 +109,10 @@ $(document).ready(function(){
     function game_instructor_message_handler(payload){
         //pass
     }
-    var response_handlers = {1:new_waiting_room_user, 2:start_game, 3:new_reaction_made, 4:round_result_handler, 5:stop_game_handler, 6:game_instructor_message_handler};
+    function remove_player_handler(payload){
+
+    }
+    var response_handlers = {1:new_waiting_room_user, 2:start_game, 3:new_reaction_made, 4:round_result_handler, 5:stop_game_handler, 6:game_instructor_message_handler, 7:remove_player_handler};
     function setup_pusher_handlers(){
         var channel = pusher.subscribe('game-events');
         channel.bind(`game-events-${game_payload.id}`, function(data) {
@@ -354,8 +359,21 @@ $(document).ready(function(){
         $('.round-by-round-modal').css('display', 'none');
     });
     function remove_players(){
-        alert('in remove players')
-
+        $('.display-all-players').css('display', 'block');
+        $('.player-roles-container').html('');
+        for (var i of Object.keys(roles)){
+            for (var role of roles[i]){
+                $('.player-roles-container').append(`
+                    <div class='player-role-outer' data-uid='${role.id}'>
+                        <div class='player-role-name'>${role.name}</div>
+                        <div class='side-hashtag'>#${matrix_payload.actors[parseInt(i)].name}</div>
+                        <div class='remove-player-button-col'>
+                            <div class='remove-player-button' data-uid='${role.id}' data-aid='${i}' data-name='${role.name}'>Remove</div>
+                        </div>
+                    </div>
+                `)
+            }
+        }
     }
     function pause_game(){
         alert('in pause game')
@@ -409,5 +427,26 @@ $(document).ready(function(){
     $('body').on('click', '.close-post-message', function(){
         message_side = null;
         $('.post-message-outer').css('display', 'none');
+    });
+    $('body').on('click', '.close-player-roles', function(){
+        $('.display-all-players').css('display', 'none');
+    });
+    $('body').on('click', '.remove-player-button', function(){
+        var uid = parseInt($(this).data('uid'));
+        var side = parseInt($(this).data('aid'))
+        var name = $(this).data('name')
+        $(`.player-role-outer[data-uid="${uid}"]`).remove();
+        roles[side] = roles[side].filter(function(x){return parseInt(x.id) != uid});
+        $.ajax({
+            url: "/remove-player",
+            type: "post",
+            data: {payload: JSON.stringify({player_id:uid, player_name:name, id:game_payload.id, gid:gameplay_payload.id, side:side, round:running_round})},
+            success: function(response) {
+
+            },
+            error: function(xhr) {
+                //Do Something to handle error
+            }
+        });
     });
 });
