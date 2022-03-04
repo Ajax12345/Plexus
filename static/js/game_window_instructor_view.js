@@ -14,6 +14,15 @@ $(document).ready(function(){
     var round_by_round_results = [];
     var player_role = null;
     var message_side = null;
+    var allow_page_exit = false;
+    window.onbeforeunload = on_exit_popup;
+
+    function on_exit_popup() {
+        if (!allow_page_exit){
+            return 'Are you sure you want to leave the game?';
+        }
+    }
+    
     class Template{
         constructor(template){
             this.template = template;

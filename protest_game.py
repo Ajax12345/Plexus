@@ -173,6 +173,12 @@ class Game:
             cl.execute('select exists (select 1 from games where id = %s and creator = %s) result', [int(_id), int(_user)])
             return cl.fetchone()['result']
 
+    @classmethod
+    def get_survey(cls, _payload:dict) -> bool:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict = True) as cl:
+            cl.execute('select * from surveys where gid = %s', [int(_payload['id'])])
+            return {'result':bool(r:=cl.fetchone()), 'link':None if not r else r['survey_link']}
+
 
 class GameRun:
     singularity = {

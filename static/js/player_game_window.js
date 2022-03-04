@@ -321,7 +321,28 @@ $(document).ready(function(){
                 <div class="header-section-text">What you need to know</div>
                 <div class="what-you-need-to-know">-The ${matrix_payload.actors[1].name} ${past_tense_to_be(matrix_payload.actors[1].name)} mostly ${most_common_reaction(reaction_counts[1])} and the ${matrix_payload.actors[2].name} ${past_tense_to_be(matrix_payload.actors[2].name)} mostly ${most_common_reaction(reaction_counts[2])}.</div>
             `)
+            
+            setTimeout(function(){
+                allow_page_exit = true
+                display_feedback_survey();
+            }, 2000)
         }
+    }
+    function display_feedback_survey(){
+        $.ajax({
+            url: "/get-survey",
+            type: "post",
+            data: {payload: JSON.stringify({id:game_payload.id})},
+            success: function(response) {
+                if (response.result){
+                    $('.take-survey-prompt').html(`Please take our <a href='${response.link}' style='color:rgb(27, 149, 224)'>quick survey</a>. Thank you!`)
+                    $('.take-survey-outer').css('display', 'block');
+                }
+            },
+            error: function(xhr) {
+                //Do Something to handle error
+            }
+        });
     }
     function submit_side_reactions(reactions, side){
         $.ajax({

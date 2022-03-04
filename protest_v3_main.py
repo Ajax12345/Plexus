@@ -285,6 +285,10 @@ def game_instructor_message():
 def remove_player():
     return flask.jsonify(protest_game.GameRun.remove_player(json.loads(flask.request.form['payload'])))
 
+@app.route('/get-survey', methods=['POST'])
+def get_survey():
+    return flask.jsonify(protest_game.Game.get_survey(json.loads(flask.request.form['payload'])))
+
 @app.after_request
 def add_header(r):
     """
