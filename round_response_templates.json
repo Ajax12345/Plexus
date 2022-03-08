@@ -57,5 +57,21 @@
         "player_loses":[
             {"text":"Sorry, Your Team Lost."}
         ]
-    }
+    },
+    "round_move_prompt":{
+        "prompt":[
+            {"text":"The {a_move} {a_past_to_be_tense} {reaction}."}
+        ]
+    },
+    "game_announcement_title":"Protest Set to Occur Between {a1} and {a2}.",
+    "game_announcement_body":"{a1} and {a2} will face off in a pivotal confrontation.",
+    "what_you_need_to_know":[
+        "In a moment, you will be assigned to a team, either <span class='side-hashtag'>#{a1}</span> or <span class='side-hashtag'>#{a2}</span>.",
+        "This game is {round_num} rounds. In each round, you and your teammates will choose a reaction as a response to your opponent's reaction.",
+        "Based on the reactions of both your team and your opponent, points will be awarded to both sides."
+
+    ],
+    "what_you_need_to_know_end":[
+        "The {a1} {a1_past_to_be_tense} mostly {a1_most_common} and the {a2} {a2_past_to_be_tense} mostly {a2_most_common}."
+    ]
 }

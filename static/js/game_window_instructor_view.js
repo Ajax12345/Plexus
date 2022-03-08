@@ -34,6 +34,9 @@ $(document).ready(function(){
         }
         format(params){
             var self = this;
+            if ((typeof self.template) === 'string'){
+                return self.render_text(self.template, params)
+            }
             return Object.fromEntries(Object.keys(self.template).map(function(x){return [x, self.render_text(self.template[x], params)]}))
         }
     }
@@ -50,12 +53,21 @@ $(document).ready(function(){
             self.ind++;
             return new Template(self.options[self.ind-1])
         }
+        *[Symbol.iterator](){
+            var self = this;
+            for (var i of self.options){
+                yield new Template(i);
+            }
+        }
     }
     class ResponseTemplate{
         static templatify(template){
             for (var i of Object.keys(template)){
                 if (Array.isArray(template[i])){
                     template[i] = new TemplateCycle(template[i]);
+                }
+                else if ((typeof template[i]) === 'string'){
+                    template[i] = new Template(template[i])
                 }
                 else{
                     ResponseTemplate.templatify(template[i])
@@ -357,8 +369,12 @@ $(document).ready(function(){
             $('#message-container2').remove();
             $("#section-block2").html(`
                 <div class="header-section-text">What you need to know</div>
-                <div class="what-you-need-to-know">-The ${matrix_payload.actors[1].name} ${past_tense_to_be(matrix_payload.actors[1].name)} mostly ${most_common_reaction(reaction_counts[1])} and the ${matrix_payload.actors[2].name} ${past_tense_to_be(matrix_payload.actors[2].name)} mostly ${most_common_reaction(reaction_counts[2])}.</div>
+                <!--<div class="what-you-need-to-know">-The ${matrix_payload.actors[1].name} ${past_tense_to_be(matrix_payload.actors[1].name)} mostly ${most_common_reaction(reaction_counts[1])} and the ${matrix_payload.actors[2].name} ${past_tense_to_be(matrix_payload.actors[2].name)} mostly ${most_common_reaction(reaction_counts[2])}.</div>-->
+                <div class='what-you-need-to-know-margin'></div>
             `)
+            for (var i of response_template.what_you_need_to_know_end){
+                $(`<div class="what-you-need-to-know">-${i.format({a1:matrix_payload.actors[1].name, a1_past_to_be_tense:past_tense_to_be(matrix_payload.actors[1].name), a1_most_common:most_common_reaction(reaction_counts[1]), a2:matrix_payload.actors[2].name, a2_past_to_be_tense:past_tense_to_be(matrix_payload.actors[2].name), a2_most_common:most_common_reaction(reaction_counts[2])})}</div>`).insertBefore('.what-you-need-to-know-margin')
+            }
         }
     }
     $('body').on('click', '.round-by-round-toggle', function(){

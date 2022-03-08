@@ -33,6 +33,9 @@ $(document).ready(function(){
         }
         format(params){
             var self = this;
+            if ((typeof self.template) === 'string'){
+                return self.render_text(self.template, params)
+            }
             return Object.fromEntries(Object.keys(self.template).map(function(x){return [x, self.render_text(self.template[x], params)]}))
         }
     }
@@ -49,12 +52,21 @@ $(document).ready(function(){
             self.ind++;
             return new Template(self.options[self.ind-1])
         }
+        *[Symbol.iterator](){
+            var self = this;
+            for (var i of self.options){
+                yield new Template(i);
+            }
+        }
     }
     class ResponseTemplate{
         static templatify(template){
             for (var i of Object.keys(template)){
                 if (Array.isArray(template[i])){
                     template[i] = new TemplateCycle(template[i]);
+                }
+                else if ((typeof template[i]) === 'string'){
+                    template[i] = new Template(template[i])
                 }
                 else{
                     ResponseTemplate.templatify(template[i])
@@ -274,7 +286,7 @@ $(document).ready(function(){
             }
             if (response.actor_move_next_id === player_role){
                 setTimeout(function(){
-                    player_side_move({actor:player_role, body:`Team <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: The ${response.a_move} ${response.a_past_to_be_tense} ${response.reaction}. Make your move now!`});
+                    player_side_move({actor:player_role, body:`Team <span class="side-hashtag">#${matrix_payload.actors[player_role].name}</span>: ${response_template.round_move_prompt.prompt.next().format({...response}).text} Make your move now!`});
                     setTimeout(function(){
                         if (running_round===1 || running_round%3 === 0){
                             display_strategy_hint();
@@ -319,8 +331,12 @@ $(document).ready(function(){
             $('#message-container2').remove();
             $("#section-block2").html(`
                 <div class="header-section-text">What you need to know</div>
-                <div class="what-you-need-to-know">-The ${matrix_payload.actors[1].name} ${past_tense_to_be(matrix_payload.actors[1].name)} mostly ${most_common_reaction(reaction_counts[1])} and the ${matrix_payload.actors[2].name} ${past_tense_to_be(matrix_payload.actors[2].name)} mostly ${most_common_reaction(reaction_counts[2])}.</div>
+                <!--<div class="what-you-need-to-know">-The ${matrix_payload.actors[1].name} ${past_tense_to_be(matrix_payload.actors[1].name)} mostly ${most_common_reaction(reaction_counts[1])} and the ${matrix_payload.actors[2].name} ${past_tense_to_be(matrix_payload.actors[2].name)} mostly ${most_common_reaction(reaction_counts[2])}.</div>-->
+                <div class='what-you-need-to-know-margin'></div>
             `)
+            for (var i of response_template.what_you_need_to_know_end){
+                $(`<div class="what-you-need-to-know">-${i.format({a1:matrix_payload.actors[1].name, a1_past_to_be_tense:past_tense_to_be(matrix_payload.actors[1].name), a1_most_common:most_common_reaction(reaction_counts[1]), a2:matrix_payload.actors[2].name, a2_past_to_be_tense:past_tense_to_be(matrix_payload.actors[2].name), a2_most_common:most_common_reaction(reaction_counts[2])})}</div>`).insertBefore('.what-you-need-to-know-margin')
+            }
             
             setTimeout(function(){
                 allow_page_exit = true
@@ -508,10 +524,17 @@ $(document).ready(function(){
     function setup_start_screen(next_step = function(){}){
         $('.user-name-about').html(user_payload.name);
         $('.user-handle-about').html('@'+user_payload.name.replace(' ', '_').toLowerCase());
-        $('.game-announcement-title').html(`Protest Set to Occur Between ${matrix_payload.actors[1].name} and ${matrix_payload.actors[2].name}.`);
-        $('.game-announcement-body').html(`${matrix_payload.actors[1].name} and ${matrix_payload.actors[2].name} will face off in a pivotal confrontation.`)
+        $('.game-announcement-title').html(response_template.game_announcement_title.format({a1:matrix_payload.actors[1].name, a2:matrix_payload.actors[2].name})); //$('.game-announcement-title').html(`Protest Set to Occur Between ${matrix_payload.actors[1].name} and ${matrix_payload.actors[2].name}.`);
+        $('.game-announcement-body').html(response_template.game_announcement_body.format({a1:matrix_payload.actors[1].name, a2:matrix_payload.actors[2].name}))//$('.game-announcement-body').html(`${matrix_payload.actors[1].name} and ${matrix_payload.actors[2].name} will face off in a pivotal confrontation.`)
+        /*
         $('.what-you-need-to-know:nth-of-type(2)').html(`-In a moment, you will be assigned to a team, either <span class="side-hashtag">#${matrix_payload.actors[1].name}</span> or <span class="side-hashtag">#${matrix_payload.actors[2].name}</span>`)
         $('.what-you-need-to-know:nth-of-type(3)').html(`-This game is ${game_payload.rounds} round${game_payload.rounds === 1 ? "" : "s"}. In each round, you and your teammates will choose a reaction as a response to your opponent's reaction`)
+        */
+        console.log('testing what you need to know')
+        console.log(response_template.what_you_need_to_know)
+        for (var i of response_template.what_you_need_to_know){
+            $(`<div class='what-you-need-to-know'>-${i.format({a1:matrix_payload.actors[1].name, a2:matrix_payload.actors[2].name, round_num:game_payload.rounds})}</div>`).insertBefore('.what-you-need-to-know-margin')
+        }
         $('.game-content-modal').css('display', 'block');
         /*new addition*/
         $('.side-score-outer:nth-of-type(1) .side-score-name').html(matrix_payload.actors[1].name)
