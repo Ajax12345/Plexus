@@ -1,0 +1,83 @@
+{"round_by_round":{
+    "start":[
+        {"title":"The Clash has Begun. The {first_move_actor} Will Make Their Move.",
+        "description":"The {first_move_actor} will make the first move. The {second_move_actor} {await_tense} their choice."},
+        {"title":"The Clash is Underway. The {first_move_actor} {present_tense_to_be} Making Their Move.",
+        "description":"The {first_move_actor} will make the first move. The {second_move_actor} {await_tense} their choice."}
+    ],
+    "round_results":[
+        {"title":"The {round_winner} Win the {round_text} Round, Gaining {round_winner_points} {round_winner_point_desc_text}. The {round_loser} Gain {round_loser_points} {round_loser_point_desc_text}.",
+        "description":"In round {round_int}, the {round_winner} decided to {round_winner_reaction}, while the {round_loser} decided to {round_loser_reaction}. {round_score_standing_text}."},
+        {"title":"The {round_winner} {round_winner_possessive} Won Round {round_int}, {round_score_standing_text}.",
+        "description":"The {round_winner} Reaction is {round_winner_reaction} In Round {round_int}, the {actor_move_next} Move Next."},
+        {"title":"Victory for the {round_winner} in Round {round_int}.",
+        "description":"The {round_winner} decided to {round_winner_reaction}, and the {round_loser} chose to {round_loser_reaction}. {round_score_standing_text}."}
+    ],
+    "round_results_tie":[
+        {"title":"{a1} and {a2} Tie in Round {round_int}. {round_score_standing_text}.",
+        "description":"{a1} decided to {a1_reaction} and {a2} decided to {a2_reaction}. The {actor_move_next} move next."},
+        {"title":"{a1} and {a2} Both Score {a1_points} {round_winner_point_desc_text} in {round_text} Round",
+        "description":"{a1} decided to {a1_reaction} and {a2} chose to {a2_reaction}. {round_score_standing_text}."}
+    ]
+    },
+    "actor_response":[
+        {"title":"The {a_move} decided to {reaction}. The {actor_move_next} move next.",
+        "description":"In round {round_int}, the {a_move} chose to {reaction}. Now, the {actor_move_next} make their move."}
+    ],
+    "round_score_standing_text":{
+        "tie":[
+            {"text":"{a1} tied with {a2}, {a1_total_score} to {a2_total_score}"},
+            {"text":"{a1} {round_transition_state}tied with {a2}, {a1_total_score} to {a2_total_score}"},
+            {"text":"{a1} and {a2} tied, {a1_total_score} to {a2_total_score}"},
+            {"text":"{a1} and {a2} {round_transition_state}tied, {a1_total_score} to {a2_total_score}"},
+            {"text":"Score is {round_transition_state}{a1_total_score} to {a2_total_score} {actor_running_winner}"},
+            {"text":"Current Score Stands {a1_total_score} to {a2_total_score} {actor_running_winner}"}
+        ],
+        "non_tie":[
+            {"text":"The {actor_running_winner} {lead_text_winner} the {actor_running_loser}, {actor_running_winner_score} to {actor_running_loser_score}"},
+            {"text":"The {actor_running_winner} {round_transition_state}{lead_text_winner} {actor_running_loser}, {actor_running_winner_score} to {actor_running_loser_score}"},
+            {"text":"Score is {round_transition_state}{a1_total_score} to {a2_total_score} {actor_running_winner}"},
+            {"text":"Current Score Stands {a1_total_score} to {a2_total_score} {actor_running_winner}"}
+        ]
+    },
+    "game_over_responses":{
+        "non_tie":[
+            {"title":"{game_personalize_message} The {actor_running_winner} {actor_running_winner_possessive} Won the Clash.",
+            "description":"The {actor_running_winner} defeated the {actor_running_loser}, {actor_running_winner_score} to {actor_running_loser_score}."}
+        ],
+        "tie":[
+            {"title":"The Clash Has Ended in a Tie.",
+            "description":"Both the {a1} and the {a2} have finished the clash with {a1_total_score} {round_winner_point_desc_text}."}
+        ]
+    },
+    "game_over_personalize":{
+        "player_wins":[
+            {"text":"You Won!"}
+        ],
+        "player_loses":[
+            {"text":"Sorry, Your Team Lost."}
+        ]
+    },
+    "round_move_prompt":{
+        "prompt":[
+            {"text":"The {a_move} decided to {reaction}."}
+        ]
+    },
+    "optimal_moves":{
+        "hint":"Hint: you will have a scoring advantage when you decide to {full_options}",
+        "reminder":"Remember, you have a scoring advantage when you decide to {full_options}",
+        "reaction":"{your_reaction} when the #{opposing_side} decides to {opponent_reaction}"
+
+    },
+    "game_announcement_title":"Police are Set to Clear a Homeless Encampment in Boston.",
+    "game_announcement_body":"By order of the mayor, police will begin removing the homeless from Massachusetts Avenue.",
+    "what_you_need_to_know":[
+        "In a moment, you will be assigned to a side, either <span class='side-hashtag'>#{a1}</span> or <span class='side-hashtag'>#{a2}</span>.",
+        "This game is {round_num} rounds. In each round, you and your teammates will choose a reaction as a response to your opponent's reaction.",
+        "Based on the reactions of both your team and your opponent, points will be awarded to both sides."
+
+    ],
+    "what_you_need_to_know_end":[
+        "The {a1} mostly chose to {a1_most_common}' and the {a2} mostly chose to {a2_most_common}."
+    ]
+}

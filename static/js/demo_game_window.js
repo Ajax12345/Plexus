@@ -169,8 +169,11 @@ $(document).ready(function(){
             }
             if (optimal_payouts.length > 0){
                 given_strategy_hint = true;
-                var full_strings = optimal_payouts.map(function(x){return `${x.reactions[player_role].reaction} when the #${matrix_payload.actors[opponent].name.toLowerCase()} ${present_tense_to_be(matrix_payload.actors[opponent].name)} ${x.reactions[opponent].reaction}`})
-                post_message({poster:10, name:"Plexus", handle:'plexus', body:find_handles(`Hint: you will have a scoring advantage when you are ${full_strings.length < 3 ? full_strings.join(' and ') : full_strings.slice(0, full_strings.length - 1).join(' , ')+' and '+full_strings[full_strings.length-1]}.`), is_player:0, reply:null, special_class:'message-pinned-stream'})
+                //var full_strings = optimal_payouts.map(function(x){return `${x.reactions[player_role].reaction} when the #${matrix_payload.actors[opponent].name.toLowerCase()} ${present_tense_to_be(matrix_payload.actors[opponent].name)} ${x.reactions[opponent].reaction}`})
+                //post_message({poster:10, name:"Plexus", handle:'plexus', body:find_handles(`Hint: you will have a scoring advantage when you are ${full_strings.length < 3 ? full_strings.join(' and ') : full_strings.slice(0, full_strings.length - 1).join(' , ')+' and '+full_strings[full_strings.length-1]}.`), is_player:0, reply:null, special_class:'message-pinned-stream'})
+                var full_strings = optimal_payouts.map(function(x){return response_template.optimal_moves.reaction.format({your_reaction:x.reactions[player_role].reaction, opposing_side:matrix_payload.actors[opponent].name.toLowerCase(), present_tense_to_be:present_tense_to_be(matrix_payload.actors[opponent].name), opponent_reaction:x.reactions[opponent].reaction})})
+                post_message({poster:10, name:"Plexus", handle:'plexus', body:find_handles(response_template.optimal_moves.hint.format({full_options:full_strings.length < 3 ? full_strings.join(' and ') : full_strings.slice(0, full_strings.length - 1).join(' , ')+' and '+full_strings[full_strings.length-1]})), is_player:0, reply:null, special_class:'message-pinned-stream'})
+            
             }
         }
     }
@@ -181,8 +184,10 @@ $(document).ready(function(){
         }
         if (optimal_payouts.length > 0){
             given_strategy_hint = true;
-            var full_strings = optimal_payouts.map(function(x){return `${x.reactions[player_role].reaction} when the #${matrix_payload.actors[opponent].name.toLowerCase()} ${present_tense_to_be(matrix_payload.actors[opponent].name)} ${x.reactions[opponent].reaction}`})
-            post_message({poster:10, name:"Plexus", handle:'plexus', body:find_handles(`Remember, you have a scoring advantage when you are ${full_strings.length < 3 ? full_strings.join(' and ') : full_strings.slice(0, full_strings.length - 1).join(' , ')+' and '+full_strings[full_strings.length-1]}.`), is_player:0, reply:null, special_class:'message-pinned-stream'})
+            //var full_strings = optimal_payouts.map(function(x){return `${x.reactions[player_role].reaction} when the #${matrix_payload.actors[opponent].name.toLowerCase()} ${present_tense_to_be(matrix_payload.actors[opponent].name)} ${x.reactions[opponent].reaction}`})
+            var full_strings = optimal_payouts.map(function(x){return response_template.optimal_moves.reaction.format({your_reaction:x.reactions[player_role].reaction, opposing_side:matrix_payload.actors[opponent].name.toLowerCase(), present_tense_to_be:present_tense_to_be(matrix_payload.actors[opponent].name), opponent_reaction:x.reactions[opponent].reaction})})
+            //post_message({poster:10, name:"Plexus", handle:'plexus', body:find_handles(`Remember, you have a scoring advantage when you are ${full_strings.length < 3 ? full_strings.join(' and ') : full_strings.slice(0, full_strings.length - 1).join(' , ')+' and '+full_strings[full_strings.length-1]}.`), is_player:0, reply:null, special_class:'message-pinned-stream'})
+            post_message({poster:10, name:"Plexus", handle:'plexus', body:find_handles(response_template.optimal_moves.reminder.format({full_options:full_strings.length < 3 ? full_strings.join(' and ') : full_strings.slice(0, full_strings.length - 1).join(' , ')+' and '+full_strings[full_strings.length-1]})), is_player:0, reply:null, special_class:'message-pinned-stream'})
         }
     }
     function setup_play_stage(){
@@ -681,7 +686,7 @@ $(document).ready(function(){
                 response_template = payload.response_template;
                 about_slide = payload.about_slide;
                 ResponseTemplate.templatify(response_template);
-                content_payload.content.unshift(about_slide)
+                //content_payload.content.unshift(about_slide)
                 setup_start_screen(function(){
                     $('.game-loading-state-display').css('display', 'none');
                 

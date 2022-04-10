@@ -1,0 +1,3 @@
+response_template_1.json: the default template
+response_template_2.json: template for homeless vs police game
+response_template_2.json: template for Coke vs. Pepsi and price changing

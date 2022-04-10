@@ -1,24 +1,24 @@
 {"round_by_round":{
-        "start":[
-            {"title":"The Protest has Begun. The {first_move_actor} Will Make Their Move.",
-            "description":"The {first_move_actor} will make the first move. The {second_move_actor} {await_tense} their choice."},
-            {"title":"The Protest is Underway. The {first_move_actor} {present_tense_to_be} Making Their Move.",
-            "description":"The {first_move_actor} will make the first move. The {second_move_actor} {await_tense} their choice."}
-        ],
-        "round_results":[
-            {"title":"The {round_winner} Win the {round_text} Round, Gaining {round_winner_points} {round_winner_point_desc_text}. The {round_loser} Gain {round_loser_points} {round_loser_point_desc_text}.",
-            "description":"In round {round_int}, the {round_winner} {round_winner_past_to_be_tense} {round_winner_reaction}, while the {round_loser} {round_loser_past_to_be_tense} {round_loser_reaction}. {round_score_standing_text}."},
-            {"title":"The {round_winner} {round_winner_possessive} Won Round {round_int}, {round_score_standing_text}.",
-            "description":"The {round_winner} Reaction is {round_winner_reaction} In Round {round_int}, the {actor_move_next} Move Next."},
-            {"title":"Victory for the {round_winner} in Round {round_int}.",
-            "description":"The {round_winner} reaction {round_winner_past_to_be_tense} {round_winner_reaction}, and the {round_loser} {round_loser_past_to_be_tense} {round_loser_reaction}. {round_score_standing_text}."}
-        ],
-        "round_results_tie":[
-            {"title":"{a1} and {a2} Tie in Round {round_int}. {round_score_standing_text}.",
-            "description":"{a1} {a1_past_to_be_tense} {a1_reaction} and {a2} {a2_past_to_be_tense} {a2_reaction}. The {actor_move_next} move next."},
-            {"title":"{a1} and {a2} Both Score {a1_points} {round_winner_point_desc_text} in {round_text} Round",
-            "description":"{a1} {a1_past_to_be_tense} {a1_reaction} and {a2} {a2_past_to_be_tense} {a2_reaction}. {round_score_standing_text}."}
-        ]
+    "start":[
+        {"title":"The Protest has Begun. The {first_move_actor} Will Make Their Move.",
+        "description":"The {first_move_actor} will make the first move. The {second_move_actor} {await_tense} their choice."},
+        {"title":"The Protest is Underway. The {first_move_actor} {present_tense_to_be} Making Their Move.",
+        "description":"The {first_move_actor} will make the first move. The {second_move_actor} {await_tense} their choice."}
+    ],
+    "round_results":[
+        {"title":"The {round_winner} Win the {round_text} Round, Gaining {round_winner_points} {round_winner_point_desc_text}. The {round_loser} Gain {round_loser_points} {round_loser_point_desc_text}.",
+        "description":"In round {round_int}, the {round_winner} {round_winner_past_to_be_tense} {round_winner_reaction}, while the {round_loser} {round_loser_past_to_be_tense} {round_loser_reaction}. {round_score_standing_text}."},
+        {"title":"The {round_winner} {round_winner_possessive} Won Round {round_int}, {round_score_standing_text}.",
+        "description":"The {round_winner} Reaction is {round_winner_reaction} In Round {round_int}, the {actor_move_next} Move Next."},
+        {"title":"Victory for the {round_winner} in Round {round_int}.",
+        "description":"The {round_winner} reaction {round_winner_past_to_be_tense} {round_winner_reaction}, and the {round_loser} {round_loser_past_to_be_tense} {round_loser_reaction}. {round_score_standing_text}."}
+    ],
+    "round_results_tie":[
+        {"title":"{a1} and {a2} Tie in Round {round_int}. {round_score_standing_text}.",
+        "description":"{a1} {a1_past_to_be_tense} {a1_reaction} and {a2} {a2_past_to_be_tense} {a2_reaction}. The {actor_move_next} move next."},
+        {"title":"{a1} and {a2} Both Score {a1_points} {round_winner_point_desc_text} in {round_text} Round",
+        "description":"{a1} {a1_past_to_be_tense} {a1_reaction} and {a2} {a2_past_to_be_tense} {a2_reaction}. {round_score_standing_text}."}
+    ]
     },
     "actor_response":[
         {"title":"The {a_move} {a_past_to_be_tense} {reaction}. The {actor_move_next} move next.",

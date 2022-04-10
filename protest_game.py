@@ -118,8 +118,10 @@ class Game:
             full_payload['gameplay'] = {'id':None if (v:=cl.fetchone()) is None else v['id']}
             cl.execute('select id, name, email from waitingroom where status = 0 and gid = %s', [int(_payload['gid'])])
             waitingroom = list(cl)
+            cl.execute('select t.template_id from custom_templates t where t.id = %s', [int(_payload['gid'])])
+            template_id = 1 if (tid:=cl.fetchone()) is None else tid['template_id']
 
-        with open('round_response_templates.json') as f:
+        with open(f'response_templates/response_template_{template_id}.json') as f:
             return {**{a:{j:loaders.get((a, j), lambda x:x)(k) if j not in ['added', 'jdate'] else str(k) for j, k in b.items()} for a, b in full_payload.items()}, 'waitingroom':waitingroom, 'response_template':json.load(f)}
 
     @classmethod
@@ -136,8 +138,10 @@ class Game:
             full_payload['content'] = cl.fetchone()
             cl.execute('select id from gameplays where end is null and demo != 1 and gid=%s', [int(_payload['gid'])])
             full_payload['gameplay'] = {'id':None if (v:=cl.fetchone()) is None else v['id']}
+            cl.execute('select t.template_id from custom_templates t where t.id = %s', [int(_payload['gid'])])
+            template_id = 1 if (tid:=cl.fetchone()) is None else tid['template_id']
 
-        with open('round_response_templates.json') as f:
+        with open(f'response_templates/response_template_{template_id}.json') as f:
             return {**{a:{j:loaders.get((a, j), lambda x:x)(k) if j not in ['added', 'jdate'] else str(k) for j, k in b.items()} for a, b in full_payload.items()}, 'response_template':json.load(f)}
 
     @classmethod
@@ -157,8 +161,10 @@ class Game:
             cl.execute('insert into gameplays values (%s, %s, now(), null, 1)', [(gpid:=(1 if (cid:=cl.fetchone()['gpid']) is None else int(cid)+1)), int(_payload['gid'])])
             cl.commit()
             full_payload['gameplay'] = {'id':gpid}
+            cl.execute('select t.template_id from custom_templates t where t.id = %s', [int(_payload['gid'])])
+            template_id = 1 if (tid:=cl.fetchone()) is None else tid['template_id']
 
-        with open('round_response_templates.json') as f, open('demo_1_about_slide.json') as f2:
+        with open(f'response_templates/response_template_{template_id}.json') as f, open('demo_1_about_slide.json') as f2:
             return {**{a:{j:loaders.get((a, j), lambda x:x)(k) if j != 'added' else str(k) for j, k in b.items()} for a, b in full_payload.items()}, 'response_template':json.load(f), 'about_slide':json.load(f2)}
 
     @classmethod
