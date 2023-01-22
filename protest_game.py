@@ -1,5 +1,5 @@
 import typing, json, protest_db
-import time, random, pusher
+import time, random, pusher, re
 
 pusher_client = pusher.Pusher(
   app_id='814342',
@@ -185,6 +185,36 @@ class Game:
             cl.execute('select * from surveys where gid = %s', [int(_payload['id'])])
             return {'result':bool(r:=cl.fetchone()), 'link':None if not r else r['survey_link']}
 
+    @classmethod
+    def game_results_round_by_round(cls, _id:int, gid:typing.Union[int, None] = None) -> typing.Any:
+        with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db', as_dict = True) as cl:
+            if gid is None:
+                cl.execute('select max(g.id) mgid from gameplays g where g.gid = %s and end is not null and demo = 0', [int(_id)])
+                if (c_r:=cl.fetchone()) is None:
+                    return "<error, no games>"
+
+                gid = c_r['mgid']
+
+            cl.execute(f"""
+            select rnds.round, full_reactions.actor_name, full_reactions.freqs, json_extract(m.reactions, concat('$."', rnds.actor, '"[', (rnds.reaction-1)%2, '].reaction')) final_reaction, rnds.payout 
+            from rounds rnds 
+            join 
+                (select rts1.round, rts1.actor, rts1.actor_name, group_concat(concat(rts1.reaction_name, " => ", rts1.r_freq)) freqs 
+                from (select rts.round, rts.actor, rts.reaction, rts.actor_name, rts.reaction_name, count(*) r_freq 
+                      from (select r.*, json_extract(m.actors, concat('$."', r.actor, '".name')) actor_name, json_extract(m.reactions, concat('$."', r.actor, '"[', (r.reaction-1)%2, '].reaction')) reaction_name from reactions r 
+                            join gameplays gp on r.gid = gp.id join games g on g.id = gp.gid 
+                            join matrices m on m.id = g.matrix where r.gid = {gid}) rts
+                       group by rts.round, rts.actor, rts.reaction, rts.actor_name, rts.reaction_name) rts1 
+                group by rts1.round, rts1.actor, rts1.actor_name) full_reactions 
+            on rnds.round = full_reactions.round and rnds.actor = full_reactions.actor 
+            join gameplays gmpls on gmpls.id = rnds.gid 
+            join games gms on gms.id = gmpls.gid 
+            join matrices m on m.id = gms.matrix 
+            where rnds.gid = {gid};
+            """)
+            v = list(cl)
+            vals = [[i['round'], re.sub('"', '', i['actor_name']), '; '.join(re.sub('"', '', i['freqs']).split(',')), re.sub('"', '', i['final_reaction']), i['payout'], sum(b['payout'] for a, b in enumerate(v[:j+1]) if j%2 == a%2)] for j, i in enumerate(v)]
+            return '\n'.join([','.join(map(str, i)) for i in [['round', 'side', 'chosen moves (move => number of selections)', 'chosen selection', 'payout', 'running score']]+vals])
 
 class GameRun:
     singularity = {
@@ -252,7 +282,7 @@ class GameRun:
             cl.commit()
             cl.execute('select m.actors a from games g join matrices m on g.matrix = m.id where g.id = %s', [int(_payload['gid'])])
             actors, p = json.loads(cl.fetchone()['a']), iter(players)
-            roles = {int(a):list(filter(None, [next(p, None) for _ in range(len(players)//len(actors))])) for a in actors}
+            roles = {int(a):list(filter(None, [next(p, None) for _ in range((len(players)+(len(players)%2))//len(actors))])) for a in actors}
             #assert len(set([len(b) for b in roles.values()])) == 1
             print('all roles here in creation', roles)
             cl.executemany('insert into roles values (%s, %s, %s)', [[int(j['id']), gpid, a] for a, b in roles.items() for j in b])

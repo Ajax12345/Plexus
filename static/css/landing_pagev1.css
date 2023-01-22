@@ -39,16 +39,15 @@ body{
     line-height: 1.6;
 }
 .demo-games{
-    width:900px;
     margin:0 auto;
     display: grid;
-    grid-template-columns: repeat(3, 280px);
+    grid-template-columns: repeat(3, 340px);
     column-gap:30px;
     row-gap: 30px;
 }
 .demo-game{
     width:280px;
-    height:380px;
+    height:440px;
     background-color:white;
     border-radius:20px;
     padding:30px;
@@ -59,7 +58,7 @@ body{
 .game-title{
     font-family: 'Source Sans Pro', sans-serif;
     font-weight: 600;
-    font-size:25px;
+    font-size:20px;
     color: rgb(40 40 40);
 }
 .game-description{
@@ -174,7 +173,7 @@ body{
     display: grid;
     grid-template-columns: calc(100% - 150px) 150px;
     align-items: center;
-    
+
 }
 .join-waitlist-button{
     width:150px;
@@ -401,4 +400,16 @@ body{
     .container-inner{
         width:70%;
     }
+}
+.plexus-logo{
+    width:40px;
+    height:40px;
+    background-image: url(/static/img/rubik_3.png);
+    background-size:cover;
+}
+.header-logo-component{
+    display: grid;
+    grid-template-columns: min-content auto;
+    column-gap: 10px;
+    align-items: center;
 }

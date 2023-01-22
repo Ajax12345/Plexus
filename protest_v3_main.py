@@ -134,6 +134,10 @@ def game_dashboard(id):
     print(game['game'].__dict__)
     return flask.render_template('game_dashboard.html', user = protest_users.User.get_user(flask.session['id']), game=game['game'])
 
+@app.route('/game/<id>/last-game-results', methods=['GET'])
+def last_game_results(id):
+    return flask.Response(protest_game.Game.game_results_round_by_round(int(id)), mimetype="text/csv", headers={"Content-disposition":"attachment; filename=game_data.csv"})
+
 @app.route('/update-game', methods=['POST'])
 def update_game():
     return flask.jsonify(protest_game.Game.update_game(int(flask.session['id']), json.loads(flask.request.form['payload'])))

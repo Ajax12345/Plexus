@@ -648,6 +648,7 @@ body{
     color: rgb(144 142 142);
     font-size: 17px;
     font-weight: 400;
+    white-space: pre-wrap;
 }
 .content-slide-body > a{
     color: rgb(62 103 224);

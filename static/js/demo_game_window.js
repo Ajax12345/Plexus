@@ -494,6 +494,7 @@ $(document).ready(function(){
             var b = content_payload.content.filter(function(x){return parseInt(x.id) === sid})[0]
             $('.content-slide-title').html(b.title);
             $('.content-slide-body').html(render_content_block(b))
+            document.querySelector('.content-slide-display-outer').scroll({top:0})
         }
     });
     function next_content_block(sid){
@@ -536,6 +537,7 @@ $(document).ready(function(){
                 $(`.content-slide-marker[data-sid="${slide.id}"]`).addClass('content-marker-chosen'); 
                 $('.content-slide-title').html(slide.title);
                 $('.content-slide-body').html(render_content_block(slide))
+                document.querySelector('.content-slide-display-outer').scroll({top:0})
             }
             if (previous_slide(parseInt(slide.id)) === null){
                 $('.content-back-toggle').addClass('content-toggle-disabled')
@@ -557,6 +559,7 @@ $(document).ready(function(){
                 $(`.content-slide-marker[data-sid="${content_payload.content[n_ind].id}"]`).addClass('content-marker-chosen'); 
                 $('.content-slide-title').html(content_payload.content[n_ind].title);
                 $('.content-slide-body').html(render_content_block(content_payload.content[n_ind]))
+                document.querySelector('.content-slide-display-outer').scroll({top:0})
                 if (next_content_block(content_payload.content[n_ind].id).length === 0){
                     if (!closed_content){
                         $('.content-next-toggle').html('Start game');
@@ -598,6 +601,12 @@ $(document).ready(function(){
     var current_card = null;
     var walkthrough_disabled = false;
     var closed_walkthrough = false;
+    function new_paragraph_markup(block_text){
+        return block_text.split('{NEW_PARA}').map(function(x){return `&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;${x}`}).join('<br>')
+    }
+    function render_content_markup(block_text){
+        return new_paragraph_markup(block_text)
+    }
     function render_content_block(block){
         var last_ind = 0;
         var build_string = '';
@@ -607,7 +616,7 @@ $(document).ready(function(){
             last_ind = _end;
         }
         build_string += block.text.substring(last_ind);
-        return build_string
+        return render_content_markup(build_string)
     }
     function load_content_modal(){
         console.log(content_payload)
@@ -625,6 +634,7 @@ $(document).ready(function(){
         }
         $('.content-slide-title').html(content_payload.content[0].title);
         $('.content-slide-body').html(render_content_block(content_payload.content[0]))
+        document.querySelector('.content-slide-display-outer').scroll({top:0})
     }
     function setup_start_screen(next_step = function(){}){
         $('.user-name-about').html(user_payload.name);

@@ -69,8 +69,8 @@
         "reaction":"{your_reaction} when the #{opposing_side} decides to {opponent_reaction}"
 
     },
-    "game_announcement_title":"Police are Set to Clear a Homeless Encampment in Boston.",
-    "game_announcement_body":"By order of the mayor, police will begin removing the homeless from Massachusetts Avenue.",
+    "game_announcement_title":"Boston Introduces Measures to Solve Homeless Crisis",
+    "game_announcement_body":"The city has announced plans to tackle rise in homeless population.",
     "what_you_need_to_know":[
         "In a moment, you will be assigned to a side, either <span class='side-hashtag'>#{a1}</span> or <span class='side-hashtag'>#{a2}</span>.",
         "This game is {round_num} rounds. In each round, you and your teammates will choose a reaction as a response to your opponent's reaction.",
@@ -78,6 +78,10 @@
 
     ],
     "what_you_need_to_know_end":[
-        "The {a1} mostly chose to {a1_most_common}' and the {a2} mostly chose to {a2_most_common}."
+        "The {a1} mostly chose to {a1_most_common}' and the {a2} mostly chose to {a2_most_common}.",
+        "When you were considering what you should do as either law enforcement or the homeless, how did you make that decision?",
+        "In the course of playing this game, did you think about the issue of policing and homelessness in a different way?  If so, how were you thinking about it, and what do you think caused that difference?  If not, what was your thinking during the game, and why not?",
+        "Which group do you think had it harder in the game, the police or the homeless, and why?  Do you think the same group has trouble making decisions in real life scenarios involving policing and homelessness, or is it a different group?  Why or why not?",
+        "How do you think this game relates to the choices that law enforcement and homeless people have to make on a regular basis?"
     ]
 }
