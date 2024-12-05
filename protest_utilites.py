@@ -21,7 +21,7 @@ def get_template_params(d):
         yield from [j for b in d.values() for j in get_template_params(b)]
 
 def add_to_waitlist(payload:dict) -> dict:
-    with protest_db.DbClient(host='localhost', user='root', password='Gobronxbombers2', database='protest_db') as cl:
+    with protest_db.DbClient(host='localhost', user='root', password='****', database='protest_db') as cl:
         cl.execute("insert into waitlist values (%s, now())", [payload['email']])
         cl.commit()
         
